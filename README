@@ -1,0 +1,1 @@
+In contrast to ncclient which uses threads and handles the bidirectional complexity internally this is a blocking non-bidirectiona implementation (meaning a single netconf connection can be used only for notification reception or one at a time RPC control). This usage limitation allows the netconf-io to be much simpler.
