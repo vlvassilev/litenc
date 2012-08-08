@@ -8,11 +8,29 @@ class netconf:
         self.sock = None
 
     def connect(self, arg):
+        #arg="server=192.168.209.31 port=830 user=root password=hadm1_123"
         print "connecting: " + arg
+        args = arg.split(" ");
         user="root"
         password="hadm1_123"
         server="192.168.209.31"
         port=830
+
+        for i in range(0,len(args)):
+            current_pair = args[i].split("=")
+            if current_pair[0] == "user":
+                user=current_pair[1]
+                print "user is " + user
+            if current_pair[0] == "password":
+                password=current_pair[1]
+                print "password is " + password
+            if current_pair[0] == "server":
+                server=current_pair[1]
+                print "server is " + server
+            if current_pair[0] == "port":
+                port=int(current_pair[1])
+                print "port is " + str(port)
+
         # now connect
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -50,8 +68,6 @@ class netconf:
 
         self.chan.set_name("netconf")
         self.chan.invoke_subsystem("netconf")
-        print '*** Here we go!'
-        print
         return 0
 
     def rpc(self, xml):

@@ -14,6 +14,7 @@ print reply_xml
    <filter type="xpath" select="/"/>\
  </get>\
 </rpc>')
+
 print reply_xml
 
 my_netconf.terminate()
