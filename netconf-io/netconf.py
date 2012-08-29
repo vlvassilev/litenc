@@ -144,20 +144,25 @@ def netconf_load_config(my_netconf, config):
         return -1
     reply_dom = parseString(reply_xml)
     assert reply_dom.documentElement.tagName == "rpc-reply"
-    isok = reply_dom.getElementsByTagName("okey")
-    if isok == None:
+    iserror = reply_dom.getElementsByTagName("rpc-error")
+    if len(iserror) != 0:
+        print config
+        print reply_xml
         return -1
     
     (ret, reply_xml) = my_netconf.rpc('<rpc message-id="1" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\
     <commit/>\
     </rpc>')
     if ret != 0:
+        print config
+        print reply_xml
         return -1
     reply_dom = parseString(reply_xml)
     assert reply_dom.documentElement.tagName == "rpc-reply"
-    isok = reply_dom.getElementsByTagName("okey")
-    if isok == None:
+    iserror = reply_dom.getElementsByTagName("rpc-error")
+    if len(iserror) != 0:
         return -1
+
     return 0
 
 def getText(nodelist):
