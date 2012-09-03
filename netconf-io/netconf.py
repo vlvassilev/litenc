@@ -185,13 +185,53 @@ def netconf_xget_leaf_value(my_netconf, xpath):
     reply_dom = parseString(reply_xml)
     assert reply_dom.documentElement.tagName == "rpc-reply"
     isdata = reply_dom.getElementsByTagName("data")
-    if isdata == None:
+    if isdata == None  or len(isdata) == 0:
         return -1
     xpath_split = xpath.split("/")
     value_name = xpath_split[-1]
     value_dom = reply_dom.getElementsByTagName(value_name)[0]
 
     return (0,getText(value_dom.childNodes))
+
+def netconf_xget_config_container_value(my_netconf, xpath):
+    get_rpc='<rpc message-id="101"\
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\
+  <get-config>\
+    <source>\
+      <running/>\
+    </source>\
+    <filter type="xpath" select=\"%s\"/>\
+  </get-config>\
+ </rpc>' % xpath
+    (ret, reply_xml) = my_netconf.rpc(get_rpc)
+    if ret != 0:
+        return -1
+    reply_dom = parseString(reply_xml)
+    assert reply_dom.documentElement.tagName == "rpc-reply"
+    isdata = reply_dom.getElementsByTagName("data")
+    if isdata == None or len(isdata) == 0:
+        return -1
+
+    isdata[0].tagName = "config"
+    return (0,isdata[0].toxml())
+
+def netconf_xget_container_value(my_netconf, xpath):
+    get_rpc='<rpc message-id="101"\
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\
+  <get>\
+    <filter type="xpath" select=\"%s\"/>\
+  </get>\
+ </rpc>' % xpath
+    (ret, reply_xml) = my_netconf.rpc(get_rpc)
+    if ret != 0:
+        return -1
+    reply_dom = parseString(reply_xml)
+    assert reply_dom.documentElement.tagName == "rpc-reply"
+    isdata = reply_dom.getElementsByTagName("data")
+    if isdata == None or len(isdata) == 0:
+        return -1
+    isdata[0].tagName = "status"
+    return (0,isdata[0].toxml())
 
 
 def netconf_terminate(my_netconf):
