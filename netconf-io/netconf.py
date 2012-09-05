@@ -1,5 +1,6 @@
 import paramiko
 import socket
+import traceback
 
 class netconf:
     def __init__(self):
@@ -34,11 +35,14 @@ class netconf:
         # now connect
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.settimeout(30)
             self.sock.connect((server, port))
         except Exception, e:
             print '*** Connect failed: ' + str(e)
             traceback.print_exc()
             return -1
+
+        self.sock.settimeout(None)
 
         try:
             self.t = paramiko.Transport(self.sock)
