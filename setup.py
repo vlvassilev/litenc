@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-setup(name='netconf-io',
+setup(name='netconf',
       version='0.0.1',
       description="Python implementation of netconf-io",
       author="Vladimir Vassilev",
