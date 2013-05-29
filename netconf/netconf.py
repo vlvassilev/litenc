@@ -7,6 +7,7 @@ class netconf:
         self.t = None
         self.chan = None
         self.sock = None
+        self.receive_total_data = ""
 
     def connect(self, arg):
         #arg="server=192.168.209.31 port=830 user=root password=hadm1_123"
@@ -104,6 +105,26 @@ class netconf:
             if xml_len >= 0:
                 reply_xml = total_data[:xml_len]
                 break
+
+        return (0,reply_xml)
+
+    def receive(self):
+#        print "receiving ..." + self.receive_total_data
+
+        while True:
+            xml_len = self.receive_total_data.find("]]>]]>")
+            if xml_len >= 0:
+                reply_xml = self.receive_total_data[:xml_len]
+                self.receive_total_data = self.receive_total_data[xml_len+len("]]>]]>"):]
+                break
+
+            data = self.chan.recv(4096)
+            if data:
+                #print "got: " + str(data)
+                self.receive_total_data = self.receive_total_data + str(data)
+            else:
+                return -1
+
 
         return (0,reply_xml)
 
