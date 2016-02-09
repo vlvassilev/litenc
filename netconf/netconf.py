@@ -83,12 +83,12 @@ class netconf:
                 n = self.chan.send(data)
                 #print "sent " + str(n)
                 if n <= 0:
-                    return -1
+                    return (-1,[])
                 data = data[n:]
         except Exception, e:
             print '*** Caught exception: ' + str(e.__class__) + ': ' + str(e)
             traceback.print_exc()
-            return -1
+            return (-1,[])
 
         #receive reply
         #print "receiving ..."
@@ -99,7 +99,7 @@ class netconf:
                 #print "got: " + str(data)
                 total_data = total_data + str(data)
             else:
-                return -1
+                return (-1,[])
 
             xml_len = total_data.find("]]>]]>")
             if xml_len >= 0:
@@ -123,7 +123,7 @@ class netconf:
                 #print "got: " + str(data)
                 self.receive_total_data = self.receive_total_data + str(data)
             else:
-                return -1
+                return (-1,[])
 
 
         return (0,reply_xml)
@@ -166,14 +166,14 @@ def netconf_load_config(my_netconf, config):
 
     (ret, reply_xml) = my_netconf.rpc(edit_config_rpc)
     if ret != 0:
-        return -1
+        return (ret, reply_xml)
     reply_dom = parseString(reply_xml)
     assert reply_dom.documentElement.tagName == "rpc-reply"
     iserror = reply_dom.getElementsByTagName("rpc-error")
     if len(iserror) != 0:
         print config
         print reply_xml
-        return -1
+        return (ret, reply_xml)
     
     (ret, reply_xml) = my_netconf.rpc('<rpc message-id="1" xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">\
     <commit/>\
@@ -181,12 +181,12 @@ def netconf_load_config(my_netconf, config):
     if ret != 0:
         print config
         print reply_xml
-        return -1
+        return (ret, reply_xml)
     reply_dom = parseString(reply_xml)
     assert reply_dom.documentElement.tagName == "rpc-reply"
     iserror = reply_dom.getElementsByTagName("rpc-error")
     if len(iserror) != 0:
-        return -1
+        return (len(iserror), reply_xml)
 
     return 0
 

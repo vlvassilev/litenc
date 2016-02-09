@@ -1,7 +1,7 @@
 import netconf
 
 my_netconf = netconf.netconf()
-my_netconf.connect("server=192.168.209.31 port=830 user=root password=hadm1_123")
+my_netconf.connect("server=192.168.209.154 port=830 user=root password=hadm1_123")
 (ret, reply_xml) = my_netconf.rpc("<hello>\
  <capabilities>\
    <capability>urn:ietf:params:netconf:base:1.0</capability>\
