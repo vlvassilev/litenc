@@ -1,0 +1,5 @@
+python-netconf-io (1.0.0-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Tue, 29 Mar 2016 15:46:46 +0200
