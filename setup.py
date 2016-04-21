@@ -10,4 +10,5 @@ setup(name='netconf',
       license="Apache License 2.0",
       platforms=["Posix; OS X; Windows"],
       #classifiers=[]
+      scripts=['scripts/netconf_get_config', 'scripts/netconf_get_leaf', 'scripts/netconf_load_config']
       )

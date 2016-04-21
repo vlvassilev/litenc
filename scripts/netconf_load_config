@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import sys, os
 from netconf import netconf_connect, netconf_load_config, netconf_terminate, netconf_xget_leaf_value, netconf_xget_config_container_value, netconf_xget_container_value
 import time
