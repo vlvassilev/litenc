@@ -1,13 +1,12 @@
 #!/usr/bin/python
 import sys, os
-from netconf import netconf_connect, netconf_load_config, netconf_terminate, netconf_xget_leaf_value, netconf_xget_config_container_value, netconf_xget_container_value
+from netconf.helpers import netconf_connect, netconf_load_config, netconf_terminate, netconf_xget_leaf_value, netconf_xget_config_container_value, netconf_xget_container_value
 import time
 
 def main():
-    gatewayip="192.168.209.1"
     port=830
     user="root"
-    password="hadm1_123"
+    password="mypass_123"
 
     if len(sys.argv)!=3:
         print "Usage: netconf_load_config.py <host> <config.xml>"
