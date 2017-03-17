@@ -12,14 +12,15 @@ class netconf:
 
     def connect(self, arg):
         #arg="server=localhost port=830 user=root password=mysecret123"
-        #print "connecting: " + arg
+        print "connecting: " + arg
         args = arg.split(" ");
         user=os.environ.get('USERNAME')
-        password="mysecret123"
+        password=None
         server="localhost"
         port=830
         private_key=os.environ['HOME']+"/.ssh/id_rsa"
         public_key=os.environ['HOME']+"/.ssh/id_rsa.pub"
+        timeout=30
 
         for i in range(0,len(args)):
             current_pair = args[i].split("=")
@@ -39,19 +40,22 @@ class netconf:
                 private_key=int(current_pair[1])
             if current_pair[0] == "public-key":
                 public_key=int(current_pair[1])
+            if current_pair[0] == "timeout":
+                timeout=int(current_pair[1])
 
+	#print "hello" + server
         # now connect
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.sock.settimeout(30)
+            self.sock.settimeout(timeout)
             self.sock.connect((server, port))
         except Exception, e:
             print '*** Connect failed: ' + str(e)
             traceback.print_exc()
             return -1
 
-        self.sock.settimeout(None)
-#	paramiko.util.log_to_file("filename.log")
+        #self.sock.settimeout(None)
+	#paramiko.util.log_to_file("filename.log")
         try:
             self.t = paramiko.Transport(self.sock)
             try:
@@ -67,9 +71,9 @@ class netconf:
         # TODO: check server's host key -- this is important.
         key = self.t.get_remote_server_key()
 
-        self.t.auth_publickey(user, paramiko.RSAKey.from_private_key_file(private_key))
-
-        if not self.t.is_authenticated():
+        if(password==None):
+            self.t.auth_publickey(user, paramiko.RSAKey.from_private_key_file(private_key))
+        else:
             self.t.auth_password(user, password)
 
         if not self.t.is_authenticated():
@@ -79,6 +83,7 @@ class netconf:
 
         self.chan = self.t.open_session()
 
+        self.chan.settimeout(timeout)
         self.chan.set_name("netconf")
         self.chan.invoke_subsystem("netconf")
         return 0
@@ -109,7 +114,11 @@ class netconf:
                 self.receive_total_data = self.receive_total_data[xml_len+len("]]>]]>"):]
                 break
 
-            data = self.chan.recv(4096)
+            try:
+
+                data = self.chan.recv(4096)
+            except socket.timeout:
+                return (1,[])
             if data:
                 #print "got: " + str(data)
                 self.receive_total_data = self.receive_total_data + str(data)
