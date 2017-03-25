@@ -125,11 +125,10 @@ class netconf:
             else:
                 return (-1,[])
 
-
         return (0,reply_xml)
 
-    def rpc(self, xml):
-        ret=self.send(xml)
+    def rpc(self, xml, message_id=1):
+        ret=self.send('''<rpc xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="'''+str(message_id)+'''">'''+xml+"</rpc>")
         if(ret!=0):
             return (ret,[])
 	(ret,reply_xml)=self.receive()
