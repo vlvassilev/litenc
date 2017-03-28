@@ -1,45 +1,38 @@
 #!/usr/bin/python
 import sys, os
-from netconf.helpers import netconf_connect, netconf_load_config, netconf_terminate, netconf_xget_leaf_value, netconf_xget_config_container_value, netconf_xget_container_value
+import litenc
 import time
 
 def main():
-    port=830
-    user="vladimir"
-    password="mypass_123"
 
-    if len(sys.argv)!=2 and len(sys.argv)!=3 and len(sys.argv)!=4:
-        print "Usage: netconf_get_config.py host [xpath]"
-        return -1
-    host=sys.argv[1]
-    if len(sys.argv)>=3:
-        xpath=sys.argv[2]
-    else:
-        xpath="/"
+	conn = litenc.litenc()
+	server="localhost"
+        user=os.getenv('USER')
+	ret = conn.connect(user=user, server=server, port=830, password=None)
+	if ret != 0:
+		print "[FAILED] Connecting to server=%(server)s:" % {'server':server}
+		return(-1)
+	print "[OK] Connecting to server=%(server)s:" % {'server':server}
+	ret = conn.send("""
+<hello>
+ <capabilities>
+  <capability>urn:ietf:params:netconf:base:1.0</capability>\
+ </capabilities>\
+</hello>
+""")
+	if ret != 0:
+		print("[FAILED] Sending <hello>")
+		return(-1)
+	(ret, reply_xml)=conn.receive()
+	if ret != 0:
+		print("[FAILED] Receiving <hello>")
+		return(-1)
 
-    netconf_host = netconf_connect(host, port, user, password)
-    if netconf_host == None:
-        print "[FAILED] Connecting to ip=%(ip)s:" % {'ip':host}
-        return(-1)
+	print "[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml}
 
-    if len(sys.argv)==4 and sys.argv[3] == "status":
-        (ret, config_container_value) = netconf_xget_container_value(netconf_host, xpath)
-        if ret==0:
-            print "  "+str(config_container_value)
-        else:
-            print "FAILED"
-            return(-1)
-    else:
-        (ret, config_container_value) = netconf_xget_config_container_value(netconf_host, xpath)
-        if ret==0:
-            print "  "+str(config_container_value)
-        else:
-            print "FAILED"
-            return(-1)
 
-    netconf_terminate(netconf_host)
-
-    return 0
+	print("Connected ...")
+	litenc.terminate()
+	return 0
 
 exit(main())
-

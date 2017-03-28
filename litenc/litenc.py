@@ -3,48 +3,14 @@ import socket
 import traceback
 import os
 
-class netconf:
+class litenc:
     def __init__(self):
         self.t = None
         self.chan = None
         self.sock = None
         self.receive_total_data = ""
 
-    def connect(self, arg):
-        #arg="server=localhost port=830 user=root password=mysecret123"
-        print "connecting: " + arg
-        args = arg.split(" ");
-        user=os.environ.get('USERNAME')
-        password=None
-        server="localhost"
-        port=830
-        private_key=os.environ['HOME']+"/.ssh/id_rsa"
-        public_key=os.environ['HOME']+"/.ssh/id_rsa.pub"
-        timeout=30
-
-        for i in range(0,len(args)):
-            current_pair = args[i].split("=")
-            if current_pair[0] == "user":
-                user=current_pair[1]
-                #print "user is " + user
-            if current_pair[0] == "password":
-                password=current_pair[1]
-                #print "password is " + password
-            if current_pair[0] == "server":
-                server=current_pair[1]
-                #print "server is " + server
-            if current_pair[0] == "port":
-                port=int(current_pair[1])
-                #print "port is " + str(port)
-            if current_pair[0] == "private-key":
-                private_key=int(current_pair[1])
-            if current_pair[0] == "public-key":
-                public_key=int(current_pair[1])
-            if current_pair[0] == "timeout":
-                timeout=int(current_pair[1])
-
-	#print "hello" + server
-        # now connect
+    def connect(self, user=os.getenv('USER'), server="localhost", port=830, password=None, private_key=os.environ['HOME']+"/.ssh/id_rsa", public_key=os.environ['HOME']+"/.ssh/id_rsa.pub", timeout=30):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.settimeout(timeout)
