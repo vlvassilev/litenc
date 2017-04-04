@@ -1,0 +1,85 @@
+#!/usr/bin/python
+import sys, os
+import litenc
+import time
+import argparse
+
+def eprint(*args):
+	sys.stderr.write(' '.join(map(str,args)) + '\n')
+
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--server", help="Netconf server address e.g. localhost")
+	parser.add_argument("--port", help="Netconf server port - default=830")
+	parser.add_argument("--user", help="Netconf user - default=os.getenv(\"USER\")")
+	parser.add_argument("--password", help="Netconf password - key authentication attempted when no password is specified")
+	parser.add_argument("--private-key", help="Netconf private key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa")
+	parser.add_argument("--public-key", help="Netconf public  key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa.pub")
+	args = parser.parse_args()
+
+	conn = litenc.litenc()
+	if(args.server==None):
+		server="localhost"
+	else:
+		server=args.server
+
+	if(args.user==None):
+		user=os.getenv('USER')
+	else:
+		user=args.user
+
+	if(args.port==None):
+		port=830
+	else:
+		port=args.port
+
+	password=args.password
+
+	if password==None:
+		if args.public_key==None:
+			public_key=os.getenv("HOME")+"/.ssh/id_rsa.pub"
+		else:
+			public_key=args.public_key
+
+
+		if args.private_key==None:
+			private_key=os.getenv("HOME")+"/.ssh/id_rsa"
+		else:
+			private_key=args.private_key
+	else:
+		assert(args.public_key==None)
+		assert(args.private_key==None)
+		private_key=None
+		public_key=None
+
+	ret = conn.connect(user=user, server=server, port=port, password=password, private_key=private_key, public_key=public_key)
+	if ret != 0:
+		eprint("[FAILED] Connecting to server=%(server)s:\n" % {'server':server})
+		return(-1)
+	eprint("[OK] Connecting to server=%(server)s:" % {'server':server})
+	ret = conn.send("""
+<hello>
+ <capabilities>
+  <capability>urn:ietf:params:netconf:base:1.0</capability>\
+ </capabilities>\
+</hello>
+""")
+	if ret != 0:
+		eprint("[FAILED] Sending <hello>")
+		return(-1)
+	(ret, reply_xml)=conn.receive()
+	if ret != 0:
+		eprint("[FAILED] Receiving <hello>")
+		return(-1)
+
+	eprint("[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml})
+
+	(res,reply_str)=conn.rpc("<get/>")
+	if(res!=0):
+		eprint("[FAILED] Receiving <get> reply")
+	else:
+		print(reply_str)
+	conn.terminate()
+	return 0
+
+exit(main())
