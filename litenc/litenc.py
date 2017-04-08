@@ -55,12 +55,10 @@ class litenc:
         return 0
 
     def send(self, xml):
-        #print "sending: " + xml
         try:
             data = xml + "]]>]]>"
             while data:
                 n = self.chan.send(data)
-                #print "sent " + str(n)
                 if n <= 0:
                     return -1
                 data = data[n:]
@@ -71,8 +69,6 @@ class litenc:
 	return 0
 
     def receive(self):
-#        print "receiving ..." + self.receive_total_data
-
         while True:
             xml_len = self.receive_total_data.find("]]>]]>")
             if xml_len >= 0:
@@ -86,7 +82,6 @@ class litenc:
             except socket.timeout:
                 return (1,[])
             if data:
-                #print "got: " + str(data)
                 self.receive_total_data = self.receive_total_data + str(data)
             else:
                 return (-1,[])
@@ -101,7 +96,6 @@ class litenc:
         return (ret,reply_xml)
 
     def terminate(self):
-        #print "terminating"
         self.chan.close()
         self.t.close()
 

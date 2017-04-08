@@ -1,5 +1,15 @@
-In contrast to ncclient which uses threads and handles the bidirectional complexity internally this is a blocking non-bidirectiona implementation (meaning a single netconf connection can be used only for notification reception or one at a time RPC control). This usage limitation allows the netconf-io to be much simpler.
+litenc - light netconf session framer API allowing the user full control without going through any XML validation of the PDUs. litenc can be easily extended with wrappers doing more based on the simple core functionality see litenc_lxml.
+
+
+The entire litenc API is composed of 4+1 functions:
+* connect
+* send
+* receive
+* terminate
+
+** rpc - is a sequence of send and receive calls. Handy when you do not need the full control provided by send and receive.
+
 
 For short example check:
 
-netconf-io/test.py
+scripts/netconf_get - script connecting to netconf server sending <get> RPC and printing to the standard output the reply XML.
