@@ -1,4 +1,4 @@
-Source: python-netconf-io
+Source: python-litenc
 Section: python
 Priority: optional
 Maintainer: Vladimir Vassilev <vladimir@transpacket.com>
@@ -6,9 +6,9 @@ Build-Depends: debhelper (>= 9),
                python,
                python-libxml2,
                python-paramiko
-Standards-Version: 3.9.5
+Standards-Version: 4.0.0
 
-Package: python-netconf-io
+Package: python-litenc
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
 Depends: python-libxml2,
@@ -17,7 +17,7 @@ Depends: python-libxml2,
          ${python:Depends}
 Recommends: ${python:Recommends}
 Description: Python library for NETCONF clients
- netconf-io is a Python library that facilitates client-side scripting
+ litenc is a Python library that facilitates client-side scripting
  and application development around the NETCONF protocol.
  .
  NETCONF (Network Configuration Protocol) provides mechanisms to install,
