@@ -1,0 +1,18 @@
+Source: python-tntapi
+Section: python
+Priority: optional
+Maintainer: Vladimir Vassilev <vladimir@transpacket.com>
+Build-Depends: debhelper (>= 9),
+               python
+Standards-Version: 4.0.0
+
+Package: python-tntapi
+Architecture: all
+Pre-Depends: dpkg (>= 1.15.6~)
+Depends: python-litenc,
+         ${misc:Depends},
+         ${python:Depends}
+Recommends: ${python:Recommends}
+Description: Python library providing simple application programming
+ interface for development of transactional network tools for
+ management of NETCONF enabled elements.
