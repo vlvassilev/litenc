@@ -14,6 +14,16 @@ config_transaction_timestamp_started = None
 config_transaction_timestamp_completed = None
 state_transaction_counter = 0
 
+yangcli_supported=False
+try:
+	import yangrpc
+	from yangcli import yangcli
+	print("yangcli supported.")
+	yangcli_supported=True
+except ImportError:
+	print("yangcli not supported.")
+
+
 def network_connect(network):
 
 	conns={}
@@ -39,6 +49,33 @@ def network_connect(network):
 		else:
 			print "OK"
 	return conns
+
+def network_connect_yangrpc(network):
+
+	yconns={}
+	assert(yangcli_supported==True)
+	network_id = network.xpath('network-id')
+	print("Connecting to YANG network: " + network_id[0].text)
+	nodes = network.xpath('node')
+	for node in nodes:
+		node_id = node.xpath('node-id')[0].text
+		server = node.xpath('netconf-connect-params/server')[0].text
+		user =node.xpath('netconf-connect-params/user')[0].text
+		if(1==len(node.xpath('netconf-connect-params/password'))):
+			password=node.xpath('netconf-connect-params/password')[0].text
+		else:
+			password=None
+		ncport = node.xpath('netconf-connect-params/ncport')[0].text
+
+		print "Connect to YANG device " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport}
+		yconns[node_id] = yangrpc.connect(server, int(ncport), user, password, os.getenv('HOME')+"/.ssh/id_rsa.pub", os.getenv('HOME')+"/.ssh/id_rsa", "--dump-session=nc-session-")
+
+		if yconns[node_id] == None:
+			print "FAILED connect"
+			return(None)
+		else:
+			print "OK"
+	return yconns
 
 def network_get_state(network, conns, filter=""):
 	global config_transaction_counter
