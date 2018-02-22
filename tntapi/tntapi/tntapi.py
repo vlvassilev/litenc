@@ -8,6 +8,7 @@ from collections import namedtuple
 #from tntapi_netconf_session_ncclient import netconf_session_ncclient
 from tntapi_netconf_session_litenc import netconf_session_litenc
 from tntapi_strip_namespaces import strip_namespaces
+from tntapi_print_state import print_state_ietf_interfaces_statistics_delta
 
 config_transaction_counter = 0
 config_transaction_timestamp_started = None
