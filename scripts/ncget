@@ -9,12 +9,14 @@ def eprint(*args):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--server", help="Netconf server address e.g. localhost")
-	parser.add_argument("--port", help="Netconf server port - default=830")
-	parser.add_argument("--user", help="Netconf user - default=os.getenv(\"USER\")")
-	parser.add_argument("--password", help="Netconf password - key authentication attempted when no password is specified")
-	parser.add_argument("--private-key", help="Netconf private key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa")
-	parser.add_argument("--public-key", help="Netconf public  key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa.pub")
+	parser.add_argument("--server", help="NETCONF server address e.g. localhost")
+	parser.add_argument("--port", help="NETCONF server port - default=830")
+	parser.add_argument("--user", help="NETCONF user - default=os.getenv(\"USER\")")
+	parser.add_argument("--password", help="NETCONF password - key authentication attempted when no password is specified")
+	parser.add_argument("--private-key", help="NETCONF private key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa")
+	parser.add_argument("--public-key", help="NETCONF public  key file path - default=os.getenv(\"HOME\")/.ssh/id_rsa.pub")
+	parser.add_argument("--xpath", help="Xpath specifying instance id e.g. /interfaces-state/interface[name='eth0']/statistics/out-octets")
+
 	args = parser.parse_args()
 
 	conn = litenc.litenc()
@@ -74,7 +76,11 @@ def main():
 
 	eprint("[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml})
 
-	(res,reply_str)=conn.rpc("<get/>")
+	if(args.xpath==None):
+		(res,reply_str)=conn.rpc("<get/>")
+	else:
+		(res,reply_str)=conn.rpc('''<get><filter type="xpath" select="%(xpath)s"/></get>''' % {'xpath':args.xpath})
+
 	if(res!=0):
 		eprint("[FAILED] Receiving <get> reply")
 	else:
