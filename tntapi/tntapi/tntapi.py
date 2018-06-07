@@ -24,6 +24,17 @@ try:
 except ImportError:
 	print("yangcli not supported.")
 
+def controller_connect(address, ncport, user, password, pub_key, priv_key, misc_args):
+	#TODO - connect to controller retrieve topology and emulate direct conns
+	network={}
+	conns={}
+	return network,conns
+
+def controller_connect_yangrpc(address, ncport, user, password, pub_key, priv_key, misc_args):
+	#TODO - connect to controller retrieve topology and emulate direct yangrpc conns
+	network={}
+	conns={}
+	return network,conns
 
 def network_connect(network):
 
