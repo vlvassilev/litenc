@@ -7,5 +7,5 @@ PYTHONS:=$(shell pyversions -vr)
 override_dh_auto_install:
 	set -e && for pyvers in $(PYTHONS); do \
                 python$$pyvers setup.py install --install-layout=deb \
-                        --root $(CURDIR)/debian/python-netconf-io ; \
+                        --root $(CURDIR)/debian/python-litenc ; \
         done
