@@ -1,5 +1,5 @@
-python-litenc (1.2-0) UNRELEASED; urgency=medium
+python-litenc (1.2-0) stable; urgency=medium
 
-  *
+  * Unofficial release
 
  -- Vladimir Vassilev <vladimir@transpacket.com>  Thu, 16 Aug 2018 17:16:15 +0200
