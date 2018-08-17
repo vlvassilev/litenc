@@ -1,8 +1,8 @@
-python-tntapi (1.2) UNRELEASED; urgency=medium
+python-tntapi (1.2) stable; urgency=medium
 
-  *
+  * Added support for yangrpc when available.
 
- -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 17 Aug 2018 01:28:05 +0200
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 17 Aug 2018 04:09:47 +0200
 
 python-tntapi (1.1) stable; urgency=medium
 
