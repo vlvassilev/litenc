@@ -9,7 +9,7 @@ Standards-Version: 4.0.0
 Package: python-tntapi
 Architecture: all
 Pre-Depends: dpkg (>= 1.15.6~)
-Depends: python-litenc,
+Depends: python-litenc, python-yuma (>=2.11),
          ${misc:Depends},
          ${python:Depends}
 Recommends: ${python:Recommends}
