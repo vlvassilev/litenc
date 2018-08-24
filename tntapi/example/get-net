@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+import lxml
+from lxml import etree
+import time
+import sys, os
+import argparse
+import tntapi
+
+def main():
+
+	of = open(sys.argv[2], "w")
+	tree=etree.parse(sys.argv[1])
+
+	tree = tntapi.strip_namespaces(tree)
+	network = tree.xpath('/config/networks/network')[0]
+	conns = tntapi.network_connect(network)
+
+	assert(conns != None)
+
+	filter="""<filter type="xpath" select="/"/>"""
+	state = tntapi.network_get_state(network, conns, filter=filter)
+
+	of.write(lxml.etree.tostring(state))
+	of.close()
+
+sys.exit(main())
+

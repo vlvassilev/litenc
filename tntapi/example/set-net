@@ -1,0 +1,38 @@
+#!/usr/bin/python
+
+import lxml
+from lxml import etree
+import time
+import sys, os
+import argparse
+import tntapi
+
+def main():
+
+	tree=etree.parse(sys.argv[1])
+	orig_tree=tree
+
+	tree = tntapi.strip_namespaces(tree)
+	network = tree.xpath('/config/networks/network')[0]
+	conns = tntapi.network_connect(network)
+
+	assert(conns != None)
+
+	for conn_id in conns:
+		print conn_id
+
+		namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+				"nt":"urn:ietf:params:xml:ns:yang:ietf-network"}
+
+		inst_id="/nc:config/nt:networks/nt:network/nt:node[nt:node-id='%s']/nc:config"%(conn_id)
+		print inst_id
+		config = orig_tree.xpath(inst_id,namespaces=namespaces)[0]
+		print lxml.etree.tostring(config)
+		tntapi.copy_config(conns[conn_id],lxml.etree.tostring(config))
+
+
+	tntapi.network_commit(conns)
+
+
+sys.exit(main())
+

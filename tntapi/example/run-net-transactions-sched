@@ -1,0 +1,45 @@
+#!/usr/bin/python
+import datetime
+import os
+import time
+
+
+anchor_time=datetime.datetime.now()
+print("Run started: anchor-time="+str(anchor_time.strftime("%Y-%d-%mT%H:%M:%S.%f")))
+f = open('sched.conf')
+while True:
+	# read line
+	line = f.readline()
+	if(line==None or line==""):
+		break
+
+	params=line.split()
+	#print(line)
+	print(params[0])
+	relative_time = datetime.datetime.strptime(params[0], '%H:%M:%S.%f')
+	absolute_time = anchor_time + (relative_time-datetime.datetime.strptime("00", '%S'))
+	#print absolute_time.strftime("waiting %Y-%d-%mT%H:%M:%S.%f")
+
+	diff=(absolute_time-datetime.datetime.now()).total_seconds()
+	#print diff
+	if(diff>0):
+		time.sleep(diff)
+	wake_time=datetime.datetime.now()
+	#print wake_time.strftime("woke at %Y-%d-%mT%H:%M:%S.%f")
+	deviation=(wake_time-absolute_time).total_seconds()
+	#assert(abs(deviation)<1)
+	if(-1!=params[1].find('-')):
+		#params[1] is "<uint>-<uint>"
+		(cfg_id,state_id)=params[1].split("-")
+		cmd="./get-net "+ cfg_id + ".xml "  + params[1] + ".xml"
+		print(cmd)
+		os.system(cmd)
+	else:
+		cmd="./set-net "+ params[1] + ".xml"
+		print(cmd)
+		os.system(cmd)
+
+	# check if line is not empty
+	if not line:
+		break
+f.close()
