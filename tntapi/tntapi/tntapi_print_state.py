@@ -16,6 +16,11 @@ import lxml
 # ...
 # The output is compatible with Matlab/octave CLI
 
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+	"nt":"urn:ietf:params:xml:ns:yang:ietf-network-topology",
+	"if":"urn:ietf:params:xml:ns:yang:ietf-interfaces"}
+
 def print_state_ietf_interfaces_statistics_delta(network, before, after):
 	import tntapi
 	print("Printing state ...")
@@ -29,11 +34,11 @@ def print_state_ietf_interfaces_statistics_delta(network, before, after):
 	tp_dict=dict()
         nodes = network.xpath('node')
 	for node in nodes:
-		node_id = node.xpath('node-id')[0].text
+		node_id = node.xpath('nd:node-id', namespaces=namespaces)[0].text
 		node_dict[node_id]=1
-		termination_points = node.xpath('./termination-point')
+		termination_points = node.xpath('./nt:termination-point', namespaces=namespaces)
 		for termination_point in termination_points:
-			tp_id = termination_point.xpath('tp-id')[0].text
+			tp_id = termination_point.xpath('nt:tp-id', namespaces=namespaces)[0].text
 			if tp_id not in tp_dict:
 				tp_dict[tp_id] = 1
 

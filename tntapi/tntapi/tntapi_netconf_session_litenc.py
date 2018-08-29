@@ -47,7 +47,7 @@ class my_class:
 		(ret, reply_xml_str)=self.litenc_session.receive()
 		assert(ret==0)
 		myetree = etree.fromstring(reply_xml_str)
-		myetree = strip_namespaces(myetree)
+		#myetree = strip_namespaces(myetree)
 		return myetree
 
 	def rpc(self, rpc_xml_str):

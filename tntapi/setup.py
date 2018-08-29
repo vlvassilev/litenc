@@ -1,12 +1,13 @@
 from distutils.core import setup
 
 setup(name='tntapi',
-      version='1.1',
-      description="Simple Transactional Network Tools API",
+      version='1.3',
+      description="Transactional Network Tools API",
       author="Vladimir Vassilev",
       author_email="vladimir@transpacket.com",
       url="https://github.com/vlvassilev/litenc",
       packages=["tntapi"],
+      scripts=['example/set-net', 'example/get-net', 'example/run-net-transactions-sched'],
       license="Apache License 2.0",
       platforms=["Posix; OS X; Windows"],
       )

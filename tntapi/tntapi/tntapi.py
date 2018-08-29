@@ -14,6 +14,9 @@ config_transaction_counter = 0
 config_transaction_timestamp_started = None
 config_transaction_timestamp_completed = None
 state_transaction_counter = 0
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+	"netconf-node":"urn:tntapi:netconf-node"}
 
 yangcli_supported=False
 try:
@@ -39,18 +42,18 @@ def controller_connect_yangrpc(address, ncport, user, password, pub_key, priv_ke
 def network_connect(network):
 
 	conns={}
-	network_id = network.xpath('network-id')
+	network_id = network.xpath('nd:network-id', namespaces=namespaces)
 	print("Connecting to network: " + network_id[0].text)
-	nodes = network.xpath('node')
+	nodes = network.xpath('nd:node', namespaces=namespaces)
 	for node in nodes:
-		node_id = node.xpath('node-id')[0].text
-		server = node.xpath('netconf-connect-params/server')[0].text
-		user =node.xpath('netconf-connect-params/user')[0].text
-		if(1==len(node.xpath('netconf-connect-params/password'))):
-			password=node.xpath('netconf-connect-params/password')[0].text
+		node_id = node.xpath('nd:node-id', namespaces=namespaces)[0].text
+		server = node.xpath('netconf-node:netconf-connect-params/netconf-node:server', namespaces=namespaces)[0].text
+		user =node.xpath('netconf-node:netconf-connect-params/netconf-node:user', namespaces=namespaces)[0].text
+		if(1==len(node.xpath('netconf-node:netconf-connect-params/netconf-node:password', namespaces=namespaces))):
+			password=node.xpath('netconf-node:netconf-connect-params/netconf-node:password', namespaces=namespaces)[0].text
 		else:
 			password=None
-		ncport = node.xpath('netconf-connect-params/ncport')[0].text
+		ncport = node.xpath('netconf-node:netconf-connect-params/netconf-node:ncport', namespaces=namespaces)[0].text
 
 		print "Connect to " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport}
 		conns[node_id] = netconf_session_litenc(host=server,port=int(ncport),username=user,password=password,timeout=100)
@@ -66,18 +69,18 @@ def network_connect_yangrpc(network):
 
 	yconns={}
 	assert(yangcli_supported==True)
-	network_id = network.xpath('network-id')
+	network_id = network.xpath('nd:network-id', namespaces=namespaces)
 	print("Connecting to YANG network: " + network_id[0].text)
-	nodes = network.xpath('node')
+	nodes = network.xpath('nd:node', namespaces=namespaces)
 	for node in nodes:
-		node_id = node.xpath('node-id')[0].text
-		server = node.xpath('netconf-connect-params/server')[0].text
-		user =node.xpath('netconf-connect-params/user')[0].text
-		if(1==len(node.xpath('netconf-connect-params/password'))):
-			password=node.xpath('netconf-connect-params/password')[0].text
+		node_id = node.xpath('nd:node-id', namespaces=namespaces)[0].text
+		server = node.xpath('netconf-node:netconf-connect-params/netconf-node:server', namespaces=namespaces)[0].text
+		user =node.xpath('netconf-node:netconf-connect-params/netconf-node:user', namespaces=namespaces)[0].text
+		if(1==len(node.xpath('netconf-node:netconf-connect-params/netconf-node:password', namespaces=namespaces))):
+			password=node.xpath('netconf-node:netconf-connect-params/netconf-node:password', namespaces=namespaces)[0].text
 		else:
 			password=None
-		ncport = node.xpath('netconf-connect-params/ncport')[0].text
+		ncport = node.xpath('netconf-node:netconf-connect-params/netconf-node:ncport', namespaces=namespaces)[0].text
 
 		print "Connect to YANG device " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport}
 		yconns[node_id] = yangrpc.connect(server, int(ncport), user, password, os.getenv('HOME')+"/.ssh/id_rsa.pub", os.getenv('HOME')+"/.ssh/id_rsa", "--dump-session=nc-session-")
@@ -99,17 +102,17 @@ def network_get_state(network, conns, filter=""):
 
 	rpc="""<get xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s</get>"""%{'filter':filter}
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
-	nodes = new_network.xpath("node")
+	nodes = new_network.xpath("nd:node", namespaces=namespaces)
 	file_name_prefix=str(config_transaction_counter) + "-state-" + str(state_transaction_counter)
 	print file_name_prefix
 	for node in nodes:
-		node_id=node.xpath("node-id")[0].text
+		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		conns[node_id].send(rpc)
 
 	for node in nodes:
-		node_id=node.xpath("node-id")[0].text
+		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		result = conns[node_id].receive()
-		data = result.xpath("data")[0]
+		data = result.xpath("nc:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
 		#print lxml.etree.tostring(data)
 		node.append(new_data)
@@ -122,7 +125,6 @@ def network_get_state(network, conns, filter=""):
 		print file_name + " - start"
 		print data_str
 		print file_name + " - end"
-	new_network = strip_namespaces(new_network)
 
 	return new_network
 
@@ -139,7 +141,7 @@ def copy_config(conn, config):
 </copy-config>
 """ % {'config':config}
 	result=conn.rpc(rpc)
-	ok=result.xpath('ok')
+	ok=result.xpath('nc:ok', namespaces=namespaces)
 	if(len(ok)!=1):
 		print(rpc)
 		print(lxml.etree.tostring(result))
@@ -157,7 +159,7 @@ def edit_config(conn, config):
 </edit-config>
 """ % {'config':config}
 	result=conn.rpc(rpc)
-	ok=result.xpath('ok')
+	ok=result.xpath('nc:ok', namespaces=namespaces)
 	if(len(ok)!=1):
 		print(rpc)
 		print(lxml.etree.tostring(result))
@@ -187,7 +189,7 @@ def network_commit(conns):
 	data_str={}
 	for conn_id in conns:
 		result = conns[conn_id].rpc(rpc)
-		data = result.xpath("./data")[0]
+		data = result.xpath("./nc:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
 		#file_name=st + "-config" + "-" + conn_id + ".xml"
 		file_name=str(config_transaction_counter)+ "-config" + "-" + conn_id + ".xml"
@@ -208,7 +210,7 @@ def network_commit(conns):
 		conns[conn_id].send(rpc)
 	for conn_id in conns:
 		result = conns[conn_id].receive()
-		ok=result.xpath('ok')
+		ok=result.xpath('nc:ok', namespaces=namespaces)
 		if(len(ok)!=1):
 			print(data_str[conn_id])
 			print(rpc)
@@ -224,14 +226,14 @@ def network_commit(conns):
 def parse_network_links(network_xml):
 
 	link_index=0
-	links = network_xml.xpath('link')
+	links = network_xml.xpath('nd:link', namespaces=namespaces)
 	mylinks={}
 	for link in links:
-		link_id= link.xpath('link-id')[0].text
-		source_node = link.xpath('source/source-node')[0].text
-		source_tp = link.xpath('source/source-tp')[0].text
-		dest_node = link.xpath('destination/dest-node')[0].text
-		dest_tp = link.xpath('destination/dest-tp')[0].text
+		link_id= link.xpath('nd:link-id', namespaces=namespaces)[0].text
+		source_node = link.xpath('nd:source/nd:source-node', namespaces=namespaces)[0].text
+		source_tp = link.xpath('nd:source/nd:source-tp', namespaces=namespaces)[0].text
+		dest_node = link.xpath('nd:destination/nd:dest-node', namespaces=namespaces)[0].text
+		dest_tp = link.xpath('nd:destination/nd:dest-tp', namespaces=namespaces)[0].text
 
 		#print("[%(link_index)d] link-id=%(link_id)s, source-node=%(source_node)s, source-tp=%(source_tp)s, dest-node=%(dest_node)s, dest-tp=%(dest_tp)s" % {'link_index':link_index,'link_id':link_id,'source_node':source_node,'source_tp':source_tp,'dest_node':dest_node,'dest_tp':dest_tp} )
 		link_index+=1
@@ -240,7 +242,7 @@ def parse_network_links(network_xml):
 	return mylinks
 
 def parse_network_interface(interface_xml):
-
+	interface_xml=strip_namespaces(interface_xml)
 	interface_variables=[]
 	statistics_xml=interface_xml.xpath("statistics")
 	if(len(statistics_xml)==0):
@@ -265,6 +267,7 @@ def parse_network_interface(interface_xml):
 	return interface
 
 def parse_network_nodes(network_xml):
+	network_xml=strip_namespaces(network_xml)
 	network = {}
 
 	nodes = network_xml.xpath('node')
@@ -297,6 +300,8 @@ def get_network_counters_delta_interface(if_before, if_after):
 	return interface
 
 def get_network_counters_delta(before, after):
+	before=strip_namespaces(before)
+	after=strip_namespaces(after)
 	network = {}
 
 	nodes = before.xpath('node')
