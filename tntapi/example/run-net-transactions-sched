@@ -31,13 +31,15 @@ while True:
 	if(-1!=params[1].find('-')):
 		#params[1] is "<uint>-<uint>"
 		(cfg_id,state_id)=params[1].split("-")
-		cmd="./get-net "+ cfg_id + ".xml "  + params[1] + ".xml"
+		cmd="get-net "+ cfg_id + ".xml "  + params[1] + ".xml"
 		print(cmd)
-		os.system(cmd)
+		ret=os.system(cmd)
+		assert(ret==0)
 	else:
-		cmd="./set-net "+ params[1] + ".xml"
+		cmd="set-net "+ params[1] + ".xml"
 		print(cmd)
-		os.system(cmd)
+		ret=os.system(cmd)
+		assert(ret==0)
 
 	# check if line is not empty
 	if not line:

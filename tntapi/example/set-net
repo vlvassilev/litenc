@@ -7,13 +7,16 @@ import sys, os
 import argparse
 import tntapi
 
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network"}
+
+
 def main():
 
 	tree=etree.parse(sys.argv[1])
 	orig_tree=tree
 
-	tree = tntapi.strip_namespaces(tree)
-	network = tree.xpath('/config/networks/network')[0]
+	network = tree.xpath('/nc:config/nd:networks/nd:network', namespaces=namespaces)[0]
 	conns = tntapi.network_connect(network)
 
 	assert(conns != None)
@@ -21,10 +24,7 @@ def main():
 	for conn_id in conns:
 		print conn_id
 
-		namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
-				"nt":"urn:ietf:params:xml:ns:yang:ietf-network"}
-
-		inst_id="/nc:config/nt:networks/nt:network/nt:node[nt:node-id='%s']/nc:config"%(conn_id)
+		inst_id="/nc:config/nd:networks/nd:network/nd:node[nd:node-id='%s']/nc:config"%(conn_id)
 		print inst_id
 		config = orig_tree.xpath(inst_id,namespaces=namespaces)[0]
 		print lxml.etree.tostring(config)
@@ -32,7 +32,7 @@ def main():
 
 
 	tntapi.network_commit(conns)
-
+	return 0
 
 sys.exit(main())
 

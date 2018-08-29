@@ -7,22 +7,25 @@ import sys, os
 import argparse
 import tntapi
 
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network"}
 def main():
 
 	of = open(sys.argv[2], "w")
 	tree=etree.parse(sys.argv[1])
 
-	tree = tntapi.strip_namespaces(tree)
-	network = tree.xpath('/config/networks/network')[0]
+	networks = tree.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
+	network = networks.xpath('nd:network',namespaces=namespaces)[0]
 	conns = tntapi.network_connect(network)
 
 	assert(conns != None)
 
 	filter="""<filter type="xpath" select="/"/>"""
-	state = tntapi.network_get_state(network, conns, filter=filter)
-
-	of.write(lxml.etree.tostring(state))
+	networ_w_state_data = tntapi.network_get_state(network, conns, filter=filter)
+	networks.replace(network,networ_w_state_data)
+	of.write(lxml.etree.tostring(tree))
 	of.close()
+	return 0
 
 sys.exit(main())
 
