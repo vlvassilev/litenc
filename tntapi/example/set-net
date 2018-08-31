@@ -8,7 +8,8 @@ import argparse
 import tntapi
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
-	"nd":"urn:ietf:params:xml:ns:yang:ietf-network"}
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+	"netconf-node":"urn:tntapi:netconf-node"}
 
 
 def main():
@@ -24,7 +25,7 @@ def main():
 	for conn_id in conns:
 		print conn_id
 
-		inst_id="/nc:config/nd:networks/nd:network/nd:node[nd:node-id='%s']/nc:config"%(conn_id)
+		inst_id="/nc:config/nd:networks/nd:network/nd:node[nd:node-id='%s']/netconf-node:config"%(conn_id)
 		print inst_id
 		config = orig_tree.xpath(inst_id,namespaces=namespaces)[0]
 		print lxml.etree.tostring(config)
