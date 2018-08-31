@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+# Prints the delta of all interface counters in Matlab/Octave friendly syntax, skips zero deltas
+# Usage:
+#$get-net topology.xml before.xml
+#$sleep 10
+#$get-net topology.xml after.xml
+#$diff-net before.xml after.xml
+#foo=1;
+#bar=2;
+#eth0=1;
+#eth1=2;
+#in_octets(foo,eth0)=39384;
+#in_unicast_pkts(foo,eth0)=475;
+#out_octets(bar,eth0)=39384;
+#out_unicast_pkts(bar,eth0)=475;
+#in_octets(bar,eth1)=1500;
+#in_unicast_pkts(bar,eth1)=1;
+
+import lxml
+from lxml import etree
+import time
+import sys, os
+import argparse
+import tntapi
+
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network"}
+def main():
+
+	before_config=etree.parse(sys.argv[1])
+	before_networks = before_config.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
+	before_network = before_networks.xpath('nd:network',namespaces=namespaces)[0]
+
+	after_config=etree.parse(sys.argv[2])
+	after_networks = after_config.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
+	after_network = after_networks.xpath('nd:network',namespaces=namespaces)[0]
+
+	filter="""<filter type="xpath" select="/"/>"""
+	t1 = tntapi.parse_network_nodes(before_network)
+	t2 = tntapi.parse_network_nodes(after_network)
+	delta = tntapi.get_network_counters_delta(before_network,after_network)
+
+	#generate node name -> index map
+	i=1
+	for node in sorted(delta, key=str.lower):
+		print(node+"="+str(i)+";")
+		i=i+1
+
+	#generate if name -> index map
+	if_name_list=[]
+	for node in sorted(delta,key=str.lower):
+		for if_name in delta[node]:
+			if if_name in if_name_list:
+				continue
+			if_name_list.append(if_name)
+
+	i=1
+	for if_name in sorted(if_name_list,key=str.lower):
+		print(if_name+"="+str(i)+";")
+		i=i+1
+
+	#print all non-zero deltas
+	for node in sorted(delta, key=str.lower):
+		for if_name in sorted(if_name_list,key=str.lower):
+			if if_name not in delta[node]:
+				continue
+			interface = delta[node][if_name]
+			for v in dir(interface):
+				if not v[0].startswith('_') and not v=='count' and not v=='index':
+					value = getattr(interface,v)
+					if(value!=None and value!=0):
+						print v + "(" + node + ","+ if_name + ")=" + str(value) + ";"
+	return 0
+
+sys.exit(main())
