@@ -8,7 +8,9 @@ import argparse
 import tntapi
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
-	"nd":"urn:ietf:params:xml:ns:yang:ietf-network"}
+	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+	"netconf-node":"urn:tntapi:netconf-node"}
+
 def main():
 
 	of = open(sys.argv[2], "w")
@@ -21,8 +23,9 @@ def main():
 	assert(conns != None)
 
 	filter="""<filter type="xpath" select="/"/>"""
-	networ_w_state_data = tntapi.network_get_state(network, conns, filter=filter)
-	networks.replace(network,networ_w_state_data)
+	network_w_state_data = tntapi.network_get_state(network, conns, filter=filter)
+	network_w_all_data = tntapi.network_get_config(network_w_state_data, conns, filter=filter)
+	networks.replace(network,network_w_all_data)
 	of.write(lxml.etree.tostring(tree))
 	of.close()
 	return 0

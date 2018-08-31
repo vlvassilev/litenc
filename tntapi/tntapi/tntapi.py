@@ -5,6 +5,7 @@ import datetime
 import sys, os
 import argparse
 from collections import namedtuple
+from copy import deepcopy
 #from tntapi_netconf_session_ncclient import netconf_session_ncclient
 from tntapi_netconf_session_litenc import netconf_session_litenc
 from tntapi_strip_namespaces import strip_namespaces
@@ -96,7 +97,7 @@ def network_get_state(network, conns, filter=""):
 	global config_transaction_counter
 	global state_transaction_counter
 
-	state_transaction_counter = state_transaction_counter + 1
+	#state_transaction_counter = state_transaction_counter + 1
 	ts=time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
 
@@ -111,11 +112,64 @@ def network_get_state(network, conns, filter=""):
 
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		datas=node.xpath("netconf-node:data", namespaces=namespaces)
+		assert(len(datas)<=1)
+		if(len(datas)==1):
+			data=datas[0]
+			data.getparent().remove(data)
 		result = conns[node_id].receive()
-		data = result.xpath("netconf-node:data", namespaces=namespaces)[0]
+		data = result.xpath("nc:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
-		#print lxml.etree.tostring(data)
-		node.append(new_data)
+
+		netconf_node_data=lxml.etree.Element("{urn:tntapi:netconf-node}data", nsmap=namespaces)
+		node.append(netconf_node_data)
+		for child in new_data:
+			netconf_node_data.append( deepcopy(child) )
+
+		file_name=file_name_prefix + "-" + node_id + ".xml"
+		data_str=lxml.etree.tostring(new_data)
+		#f = open(file_name, "w")
+		#f.write(data_str)
+		#f.close()
+		print file_name + " - start"
+		print data_str
+		print file_name + " - end"
+
+	return new_network
+
+def network_get_config(network, conns, filter=""):
+	global config_transaction_counter
+	global state_transaction_counter
+
+	#state_transaction_counter = state_transaction_counter + 1
+	ts=time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
+
+	rpc="""<get-config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s<source><running/></source></get-config>"""%{'filter':filter}
+	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
+	nodes = new_network.xpath("nd:node", namespaces=namespaces)
+	file_name_prefix=str(config_transaction_counter) + "-config-" + str(state_transaction_counter)
+	print file_name_prefix
+	for node in nodes:
+		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		conns[node_id].send(rpc)
+
+	for node in nodes:
+		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		configs=node.xpath("netconf-node:config", namespaces=namespaces)
+		assert(len(configs)<=1)
+		if(len(configs)==1):
+			continue
+
+		result = conns[node_id].receive()
+		print result.tag
+		print lxml.etree.tostring(result)
+		data = result.xpath("nc:data", namespaces=namespaces)[0]
+		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
+		netconf_node_config=lxml.etree.Element("{urn:tntapi:netconf-node}config", nsmap=namespaces)
+		node.append(netconf_node_config)
+		for child in new_data:
+			netconf_node_config.append( deepcopy(child) )
 
 		file_name=file_name_prefix + "-" + node_id + ".xml"
 		data_str=lxml.etree.tostring(new_data)
