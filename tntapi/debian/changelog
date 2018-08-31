@@ -1,6 +1,5 @@
-python-tntapi (1.3-0) UNRELEASED; urgency=medium
+python-tntapi (1.3-0) stable; urgency=medium
 
-  * UNRELEASED
+  * Unofficial release
 
- -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 24 Aug 2018 20:08:27 +0200
-
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 31 Aug 2018 16:39:17 +0200

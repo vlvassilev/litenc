@@ -1,4 +1,4 @@
-litenc - light netconf session framer API allowing the user full control without going through any XML validation of the PDUs. litenc can be easily extended with wrappers doing more based on the simple core functionality see litenc_lxml.
+litenc - light NETCONF session framer API allowing the user full control without going through any XML validation of the PDUs. litenc can be easily extended with wrappers doing more based on the simple core functionality see litenc_lxml.
 
 
 The entire litenc API is composed of 4+1 functions:

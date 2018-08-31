@@ -1,8 +1,8 @@
 from distutils.core import setup
 
 setup(name='litenc',
-      version='0.0.1',
-      description="NETCONF session framer",
+      version='1.3',
+      description="Lite NETCONF session framer",
       author="Vladimir Vassilev",
       author_email="vladimir@transpacket.com",
       url="https://github.com/vlvassilev/litenc",

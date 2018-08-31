@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+# Connects to all netconf-nodes in a network and collects operational data.
+# If the topology does not have netconf-node:config collects and saves config data too.
+# This tool takes a snapshot of the network state and saves it as a single XML file.
+# Usage:
+# get-net topology.xml network-snapshot.xml
+
 import lxml
 from lxml import etree
 import time

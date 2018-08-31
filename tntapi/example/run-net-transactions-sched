@@ -1,4 +1,9 @@
 #!/usr/bin/python
+
+# Execution of get-net and set-net commands at precise time according to ./sched.conf
+# Usage:
+#  run-net-transactions-sched
+
 import datetime
 import os
 import time

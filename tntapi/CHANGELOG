@@ -1,8 +1,10 @@
-python-tntapi (1.3) UNRELEASED; urgency=medium
+python-tntapi (1.3) stable; urgency=medium
 
-  * 
+  * Removed default XML namespace stripping of returned data
+  * Added YANG model of the tntapi:netconf-node specific augments to ietf-network
+  * Added basic examples/tools: set-net, get-net, diff-net, run-net-transactions-sched
 
- -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 24 Aug 2018 20:09:32 +0200
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Fri, 31 Aug 2018 16:28:45 +0200
 
 python-tntapi (1.2) stable; urgency=medium
 

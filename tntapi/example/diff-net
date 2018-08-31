@@ -2,20 +2,29 @@
 
 # Prints the delta of all interface counters in Matlab/Octave friendly syntax, skips zero deltas
 # Usage:
-#$get-net topology.xml before.xml
-#$sleep 10
-#$get-net topology.xml after.xml
-#$diff-net before.xml after.xml
-#foo=1;
-#bar=2;
-#eth0=1;
-#eth1=2;
-#in_octets(foo,eth0)=39384;
-#in_unicast_pkts(foo,eth0)=475;
-#out_octets(bar,eth0)=39384;
-#out_unicast_pkts(bar,eth0)=475;
-#in_octets(bar,eth1)=1500;
-#in_unicast_pkts(bar,eth1)=1;
+# $> get-net topology.xml before.xml
+# $> sleep 10
+# $> get-net topology.xml after.xml
+# $> diff-net before.xml after.xml
+# br0=1;
+# host0=2;
+# host1=3;
+# host2=4;
+# p0=1;
+# p1=2;
+# p2=3;
+# in_octets(br0,p0)=1500000000;
+# in_unicast_pkts(br0,p0)=1000000;
+# in_octets(br0,p1)=1500000000;
+# in_unicast_pkts(br0,p1)=1000000;
+# out_octets(br0,p2)=3000000000;
+# out_unicast_pkts(br0,p2)=2000000;
+# out_octets(host0,p0)=1500000000;
+# out_unicast_pkts(host0,p0)=1000000;
+# out_octets(host1,p0)=1500000000;
+# out_unicast_pkts(host1,p0)=1000000;
+# in_octets(host2,p0)=3000000000;
+# in_unicast_pkts(host2,p0)=2000000;
 
 import lxml
 from lxml import etree
