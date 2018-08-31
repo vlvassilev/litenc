@@ -22,7 +22,7 @@ yangcli_supported=False
 try:
 	import yangrpc
 	from yangcli import yangcli
-	print("yangcli supported.")
+	#print("yangcli supported.")
 	yangcli_supported=True
 except ImportError:
 	print("yangcli not supported.")
@@ -112,7 +112,7 @@ def network_get_state(network, conns, filter=""):
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		result = conns[node_id].receive()
-		data = result.xpath("nc:data", namespaces=namespaces)[0]
+		data = result.xpath("netconf-node:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
 		#print lxml.etree.tostring(data)
 		node.append(new_data)
