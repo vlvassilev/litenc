@@ -5,6 +5,7 @@ from lxml import etree
 import time
 import sys, os
 import argparse
+from copy import deepcopy
 import tntapi
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
@@ -29,7 +30,11 @@ def main():
 		print inst_id
 		config = orig_tree.xpath(inst_id,namespaces=namespaces)[0]
 		print lxml.etree.tostring(config)
-		tntapi.copy_config(conns[conn_id],lxml.etree.tostring(config))
+		netconf_config=lxml.etree.Element("{urn:ietf:params:xml:ns:netconf:base:1.0}config", nsmap=namespaces)
+		for child in config:
+			netconf_config.append( deepcopy(child) )
+
+		tntapi.copy_config(conns[conn_id],lxml.etree.tostring(netconf_config))
 
 
 	tntapi.network_commit(conns)
