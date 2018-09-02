@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='tntapi',
-      version='1.3',
+      version='1.4',
       description="Transactional Network Tools API",
       author="Vladimir Vassilev",
       author_email="vladimir@transpacket.com",
