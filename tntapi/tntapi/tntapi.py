@@ -17,6 +17,7 @@ config_transaction_timestamp_completed = None
 state_transaction_counter = 0
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+	"nt":"urn:ietf:params:xml:ns:yang:ietf-network-topology",
 	"netconf-node":"urn:tntapi:netconf-node"}
 
 yangcli_supported=False
@@ -280,14 +281,14 @@ def network_commit(conns):
 def parse_network_links(network_xml):
 
 	link_index=0
-	links = network_xml.xpath('nd:link', namespaces=namespaces)
+	links = network_xml.xpath('nt:link', namespaces=namespaces)
 	mylinks={}
 	for link in links:
-		link_id= link.xpath('nd:link-id', namespaces=namespaces)[0].text
-		source_node = link.xpath('nd:source/nd:source-node', namespaces=namespaces)[0].text
-		source_tp = link.xpath('nd:source/nd:source-tp', namespaces=namespaces)[0].text
-		dest_node = link.xpath('nd:destination/nd:dest-node', namespaces=namespaces)[0].text
-		dest_tp = link.xpath('nd:destination/nd:dest-tp', namespaces=namespaces)[0].text
+		link_id= link.xpath('nt:link-id', namespaces=namespaces)[0].text
+		source_node = link.xpath('nt:source/nt:source-node', namespaces=namespaces)[0].text
+		source_tp = link.xpath('nt:source/nt:source-tp', namespaces=namespaces)[0].text
+		dest_node = link.xpath('nt:destination/nt:dest-node', namespaces=namespaces)[0].text
+		dest_tp = link.xpath('nt:destination/nt:dest-tp', namespaces=namespaces)[0].text
 
 		#print("[%(link_index)d] link-id=%(link_id)s, source-node=%(source_node)s, source-tp=%(source_tp)s, dest-node=%(dest_node)s, dest-tp=%(dest_tp)s" % {'link_index':link_index,'link_id':link_id,'source_node':source_node,'source_tp':source_tp,'dest_node':dest_node,'dest_tp':dest_tp} )
 		link_index+=1
