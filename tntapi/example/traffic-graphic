@@ -1,0 +1,100 @@
+#!/usr/bin/python
+
+# Adds graphical representation of traffic properties to a SVG background 
+# Usage:
+# $> traffic-graphic --background=topology.svg --before=prev.xml --after=cur.xml --output=topology-w-indicators.svg
+
+import lxml
+from lxml import etree
+import time
+import sys, os
+import argparse
+import tntapi
+
+period=20
+
+namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
+        "nd":"urn:ietf:params:xml:ns:yang:ietf-network",
+        "nt":"urn:ietf:params:xml:ns:yang:ietf-network-topology",
+        "traffic-graphic":"urn:tntapi:traffic-graphic"}
+
+namespaces_svg={"svg":"http://www.w3.org/2000/svg"}
+
+def main():
+
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--background", help="SVG graphic to be used as background")
+	parser.add_argument("--before", help="Path to the network data *.xml identifying the network state before the interval")
+	parser.add_argument("--after", help="Path to the network data *.xml identifying the network state after the interval")
+	parser.add_argument("--output", help="Output SVG")
+	args = parser.parse_args()
+
+	svg_doc=etree.parse(args.background)
+	svg=svg_doc.xpath('/svg:svg',namespaces=namespaces_svg)[0]
+	attributes = svg.attrib
+	print("height="+attributes["height"])
+	height=float(attributes["height"])
+	of = open(args.output, "w")
+
+	before_config=etree.parse(args.before)
+	before_networks = before_config.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
+	before_network = before_networks.xpath('nd:network',namespaces=namespaces)[0]
+
+	after_config=etree.parse(args.after)
+	after_networks = after_config.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
+	after_network = after_networks.xpath('nd:network',namespaces=namespaces)[0]
+
+	t1 = tntapi.parse_network_nodes(before_network)
+	t2 = tntapi.parse_network_nodes(after_network)
+	delta = tntapi.get_network_counters_delta(before_network,after_network)
+	after=tntapi.strip_namespaces(after_network)
+
+	nodes = after.xpath('node')
+	for node in nodes:
+		node_id = node.xpath('node-id')[0].text
+		termination_points = node.xpath('termination-point')
+		for termination_point in termination_points:
+			tp_id = termination_point.xpath('tp-id')[0].text
+			indicator=termination_point.xpath('indicator')
+			if(len(indicator)==1):
+				print node_id
+				print tp_id
+				x=float(indicator[0].xpath('x')[0].text)
+				y=height-float(indicator[0].xpath('y')[0].text)
+				ingress_direction=indicator[0].xpath('ingress-direction')[0].text
+				if_speed=float(after.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(node_id,tp_id))[0].text)
+				in_octets=float(delta[node_id][tp_id].in_octets)
+				ingress_bandwidth_rate=(in_octets/period)/(if_speed/8)
+				print("plot traffic indicator at x=%f, y=%f ingress-direction=%s, in_octets=%f, if_speed=%f, period=%f, ingress_bandwidth_rate_procent=%3.2f"%(x,y,ingress_direction, in_octets, if_speed, float(period), ingress_bandwidth_rate*100))
+				if(ingress_direction=='up'):
+					transform="transform=\"rotate(90)\""
+					y_copy=y
+					y=-x
+					x=y_copy
+				else:
+					transform=""
+
+				text=lxml.etree.fromstring('''
+<text
+     %s
+     id="text%s"
+     x="%f"
+     y="%f"
+'''%(transform,"-"+node_id+"-"+tp_id,x,y) + '''
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve">
+''' + '''
+     <tspan
+       x="%f"
+       y="%f"
+       style="fill:#00ff00;"
+       id="tspan4683">&lt;%3.0f%%</tspan></text>
+'''%(x,y,ingress_bandwidth_rate*100))
+
+				svg.append(text)
+
+	of.write(lxml.etree.tostring(svg))
+	of.close()
+	return 0
+
+sys.exit(main())
