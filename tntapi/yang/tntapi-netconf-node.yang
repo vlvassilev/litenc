@@ -35,10 +35,11 @@ module tntapi-netconf-node {
       description
         "Configuration data of the node containing all top level nodes.";
     }
-    anyxml netconf-get-filter {
+    container netconf-get-filter {
       description
         "Contains the <nc:filter> container data to be used when getting
          network state with <get> for the current node.";
+      anyxml filter;
     }
     container netconf-connect-params {
       description

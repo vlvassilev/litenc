@@ -1,0 +1,61 @@
+module tntapi-traffic-graphic {
+
+  namespace
+    "urn:tntapi:traffic-graphic";
+  prefix "traffic-graphic";
+
+  import "ietf-network" { prefix nd; }
+  import "ietf-network-topology" {prefix nt; }
+
+  organization
+    "tntapi project";
+
+  contact
+    "Vladimir Vassilev <mailto:vladimir@transpacket.com>";
+
+  description
+    "This module augments ietf-network with data nodes
+     for graphical representation of traffic indicators.";
+
+  revision 2018-09-18 {
+    description
+      "Iniitial version.";
+  }
+
+  augment "/nd:networks/nd:network/nd:node/nt:termination-point" {
+    description
+      "Adds graphical traffic indicator.";
+
+    container indicator {
+      description
+        "Parameters for graphical traffic indicator.";
+
+      typedef dot-float {
+        type string {
+          pattern '([0-9]+)|([0-9]+\.[0-9]*)';
+        }
+      }
+
+      leaf x {
+        type dot-float;
+      }
+
+      leaf y {
+        type dot-float;
+      }
+
+      leaf ingress-direction {
+        description
+          "The ingress direction to be represented.
+           In case the indicator is below the port
+           the correct direction to specify would be 'up'";
+        type enumeration {
+          enum up;
+          enum down;
+          enum right;
+          enum left;
+	}
+      }
+    }
+  }
+}
