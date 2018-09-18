@@ -9,9 +9,10 @@ from lxml import etree
 import time
 import sys, os
 import argparse
+from datetime import datetime
 import tntapi
 
-period=20
+period_default=20
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
         "nd":"urn:ietf:params:xml:ns:yang:ietf-network",
@@ -47,12 +48,25 @@ def main():
 	t1 = tntapi.parse_network_nodes(before_network)
 	t2 = tntapi.parse_network_nodes(after_network)
 	delta = tntapi.get_network_counters_delta(before_network,after_network)
+	before=tntapi.strip_namespaces(before_network)
 	after=tntapi.strip_namespaces(after_network)
 
 	nodes = after.xpath('node')
 	for node in nodes:
 		node_id = node.xpath('node-id')[0].text
 		termination_points = node.xpath('termination-point')
+		datetime_before=before.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
+		datetime_after=  after.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
+		if(len(datetime_before)==1 and len(datetime_after)==1):
+
+			dt_before = datetime.strptime(datetime_before[0].text[:19], '%Y-%m-%dT%H:%M:%S')
+			dt_after = datetime.strptime(datetime_after[0].text[:19],   '%Y-%m-%dT%H:%M:%S')
+			period = (dt_after-dt_before).total_seconds()
+			print("node:%s supports /system-state/clock/current-datetime calculated %f sec as period"%(node_id,period))
+		else:
+			print("node:%s does not support /system-state/clock/current-datetime using %f sec as period"%(node_id,period_default))
+			period=period_default
+
 		for termination_point in termination_points:
 			tp_id = termination_point.xpath('tp-id')[0].text
 			indicator=termination_point.xpath('indicator')
