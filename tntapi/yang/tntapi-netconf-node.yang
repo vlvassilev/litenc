@@ -16,9 +16,11 @@ module tntapi-netconf-node {
     "This module augments ietf-network with data nodes
      for management of NETCONF enabled nodes.";
 
-  revision 2018-08-29 {
+  revision 2018-09-18 {
     description
-      "Initial version.";
+      "Added netconf-get-filter container so
+       that in cases where not all operational data is of interest
+       this can be specified in the configuration per individual node.";
   }
 
   augment "/nd:networks/nd:network/nd:node" {
@@ -33,7 +35,11 @@ module tntapi-netconf-node {
       description
         "Configuration data of the node containing all top level nodes.";
     }
-
+    anyxml netconf-get-filter {
+      description
+        "Contains the <nc:filter> container data to be used when getting
+         network state with <get> for the current node.";
+    }
     container netconf-connect-params {
       description
         "Parameters for connecting to netconf managed device.";

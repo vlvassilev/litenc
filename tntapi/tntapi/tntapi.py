@@ -102,13 +102,20 @@ def network_get_state(network, conns, filter=""):
 	ts=time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
 
-	rpc="""<get xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s</get>"""%{'filter':filter}
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
 	file_name_prefix=str(config_transaction_counter) + "-state-" + str(state_transaction_counter)
 	print file_name_prefix
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		my_filter=""
+		if(filter==""):
+			my_filter_elements=node.xpath("netconf-node:netconf-get-filter/nc:filter", namespaces=namespaces)
+			if len(my_filter_elements)==1:
+				my_filter=lxml.etree.tostring(my_filter_elements[0])
+		else:
+			my_filter=filter
+		rpc="""<get xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s</get>"""%{'filter':my_filter}
 		conns[node_id].send(rpc)
 
 	for node in nodes:

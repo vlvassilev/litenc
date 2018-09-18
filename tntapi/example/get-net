@@ -4,7 +4,9 @@
 # If the topology does not have netconf-node:config collects and saves config data too.
 # This tool takes a snapshot of the network state and saves it as a single XML file.
 # Usage:
-# get-net topology.xml network-snapshot.xml
+# get-net input-xml-file output-xml-file [filter]
+# Example:
+# get-net topology.xml network-snapshot.xml '<filter type="xpath" select="/"/>'
 
 import lxml
 from lxml import etree
@@ -22,13 +24,17 @@ def main():
 	of = open(sys.argv[2], "w")
 	tree=etree.parse(sys.argv[1])
 
+	if len(sys.argv) > 3:
+		filter=sys.argv[3]
+	else:
+		filter=""
+
 	networks = tree.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
 	network = networks.xpath('nd:network',namespaces=namespaces)[0]
 	conns = tntapi.network_connect(network)
 
 	assert(conns != None)
 
-	filter="""<filter type="xpath" select="/"/>"""
 	network_w_state_data = tntapi.network_get_state(network, conns, filter=filter)
 	network_w_all_data = tntapi.network_get_config(network_w_state_data, conns, filter=filter)
 	networks.replace(network,network_w_all_data)
