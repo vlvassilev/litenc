@@ -79,7 +79,7 @@ def main():
 				if_speed=float(after.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(node_id,tp_id))[0].text)
 				in_octets=float(delta[node_id][tp_id].in_octets)
 				ingress_bandwidth_rate=(in_octets/period)/(if_speed/8)
-				print("plot traffic indicator at x=%f, y=%f ingress-direction=%s, in_octets=%f, if_speed=%f, period=%f, ingress_bandwidth_rate_procent=%3.2f"%(x,y,ingress_direction, in_octets, if_speed, float(period), ingress_bandwidth_rate*100))
+				print("plot traffic indicator at x=%f, y=%f ingress-direction=%s, in_octets=%f, if_speed=%f, period=%f, ingress_bandwidth_rate_percent=%3.2f"%(x,y,ingress_direction, in_octets, if_speed, float(period), ingress_bandwidth_rate*100))
 				if(ingress_direction=='up'):
 					transform="transform=\"rotate(90)\""
 					y_copy=y
