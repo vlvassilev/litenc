@@ -21,6 +21,156 @@ namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 
 namespaces_svg={"svg":"http://www.w3.org/2000/svg"}
 
+def get_port_coordinates(node,in_port_name):
+	print "looking for: " + in_port_name
+	x = node.xpath("""termination-point[tp-id='%s']/indicator/x"""%(in_port_name))
+	y = node.xpath("""termination-point[tp-id='%s']/indicator/y"""%(in_port_name))
+	if(x==None or len(x)==0):
+		return (None,None)
+	else:
+		print "got coordinates" 
+		return (float(x[0].text),float(y[0].text))
+
+def draw_indicator_port(svg,indicator):
+	port_width=10
+	port_length=50
+	network = indicator.getparent().getparent().getparent()
+	node = indicator.getparent().getparent()
+	node_id = node.xpath('node-id')[0].text
+	termination_point = indicator.getparent()
+	tp_id = termination_point.xpath('tp-id')[0].text
+
+	attributes = svg.attrib
+	height=float(attributes["height"])
+	x=float(indicator.xpath('x')[0].text)
+	y=height-float(indicator.xpath('y')[0].text)
+	ingress_direction=indicator.xpath('ingress-direction')[0].text
+
+	text=lxml.etree.fromstring('''
+<rect
+     width="%f"
+     height="%f"
+     x="%f"
+     y="%f"
+     id="%s"
+     style="opacity:1.0;fill:#%s;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+'''%(port_width,port_length,x-port_width/2,y-port_length/2,node_id+":"+tp_id, "ffffff"))
+	svg.append(text)
+
+
+def draw_indicator_traffic(svg,indicator, period, delta):
+	traffic_text_width=48.0
+	port_width=10
+	port_length=50
+	network = indicator.getparent().getparent().getparent()
+	node = indicator.getparent().getparent()
+	node_id = node.xpath('node-id')[0].text
+	termination_point = indicator.getparent()
+	tp_id = termination_point.xpath('tp-id')[0].text
+
+	attributes = svg.attrib
+	print("height="+attributes["height"])
+	height=float(attributes["height"])
+
+	x=float(indicator.xpath('x')[0].text)
+	y=height-float(indicator.xpath('y')[0].text)
+	ingress_direction=indicator.xpath('ingress-direction')[0].text
+	if_speed=float(network.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(node_id,tp_id))[0].text)
+	in_octets=float(delta[node_id][tp_id].in_octets)
+	color="00ff00"
+
+	loopback=network.xpath("node[node-id='%s']/config/interfaces/interface[name='%s']/loopback"%(node_id,tp_id))
+	if(len(loopback)==1):
+		color="00ffff"
+
+	if hasattr(delta[node_id][tp_id], 'generated_ingress_octets'):
+		generated_ingress_octets=float(delta[node_id][tp_id].generated_ingress_octets)
+		if(generated_ingress_octets>0):
+			color="0000ff"
+			in_octets=generated_ingress_octets
+
+	if hasattr(delta[node_id][tp_id], 'testframe_sequence_errors'):
+		testframe_sequence_errors=float(delta[node_id][tp_id].testframe_sequence_errors)
+		if(testframe_sequence_errors>0):
+			color="ff0000" #red
+
+	if hasattr(delta[node_id][tp_id], 'testframe_payload_errors'):
+		testframe_payload_errors=float(delta[node_id][tp_id].testframe_payload_errors)
+		if(testframe_payload_errors>0):
+			color="800080" #purple
+
+	ingress_bandwidth_rate=(in_octets/period)/(if_speed/8)
+	print("plot traffic indicator at x=%f, y=%f ingress-direction=%s, in_octets=%f, if_speed=%f, period=%f, ingress_bandwidth_rate_percent=%3.2f"%(x,y,ingress_direction, in_octets, if_speed, float(period), ingress_bandwidth_rate*100))
+	if(ingress_direction=='up'):
+		transform="transform=\"rotate(90)\""
+		y_copy=y
+		y=-x+(port_width/2)
+		x=y_copy+(port_length/2)
+		indicator_text=("&lt;%3.0f%%"%(ingress_bandwidth_rate*100))
+	elif (ingress_direction=='down'):
+		transform="transform=\"rotate(90)\""
+		y_copy=y
+		y=-x+(port_width/2)
+		x=y_copy-(port_length/2)-traffic_text_width
+		indicator_text=("%3.0f%%&gt;"%(ingress_bandwidth_rate*100))
+	elif (ingress_direction=='left'):
+		transform=""
+		x=x+(port_length/2)
+		indicator_text=("&lt;%3.0f%%"%(ingress_bandwidth_rate*100))
+	elif (ingress_direction=='right'):
+		transform=""
+		x=x-traffic_text_width-(port_length/2)
+		indicator_text=("%3.0f%%&gt;"%(ingress_bandwidth_rate*100))
+
+
+	text=lxml.etree.fromstring('''
+<text
+     %s
+     id="text%s"
+     x="%f"
+     y="%f"
+'''%(transform,"-"+node_id+"-"+tp_id,x,y) + '''
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve">
+''' + '''
+     <tspan
+       x="%f"
+       y="%f"
+       style="fill:#%s;"
+       id="%s">%s</tspan></text>
+'''%(x,y,color,"traffic:"+node_id+":"+tp_id,indicator_text))
+
+	svg.append(text)
+
+def draw_node(svg, flow):
+	return
+
+def draw_flow(svg, flow):
+	node = flow.getparent().getparent().getparent()
+
+	attributes = svg.attrib
+	print("height="+attributes["height"])
+	height=float(attributes["height"])
+
+	id=flow.xpath('id')[0]
+	in_port=flow.xpath('match/in-port')[0]
+ 	x_in,y_in = get_port_coordinates(node,in_port.text)
+	if(x_in==None):
+		return
+	out_ports=flow.xpath('actions/action/output-action/out-port')
+	for out_port in out_ports:
+		print "out port is: "+out_port.text
+		x_out,y_out = get_port_coordinates(node,out_port.text)
+		if(x_out==None):
+			continue
+		text=lxml.etree.fromstring('''
+<path
+     id="%s"
+     d="M %f,%f %f,%f"
+     style="fill:none;fill-rule:evenodd;stroke:#%s;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+'''%(id.text+":"+in_port.text+"->"+out_port.text,x_in,height-y_in,x_out,height-y_out,"FF0000"))
+		svg.append(text)
+
 def main():
 
 	parser = argparse.ArgumentParser()
@@ -32,9 +182,6 @@ def main():
 
 	svg_doc=etree.parse(args.background)
 	svg=svg_doc.xpath('/svg:svg',namespaces=namespaces_svg)[0]
-	attributes = svg.attrib
-	print("height="+attributes["height"])
-	height=float(attributes["height"])
 	of = open(args.output, "w")
 
 	before_config=etree.parse(args.before)
@@ -73,39 +220,15 @@ def main():
 			if(len(indicator)==1):
 				print node_id
 				print tp_id
-				x=float(indicator[0].xpath('x')[0].text)
-				y=height-float(indicator[0].xpath('y')[0].text)
-				ingress_direction=indicator[0].xpath('ingress-direction')[0].text
-				if_speed=float(after.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(node_id,tp_id))[0].text)
-				in_octets=float(delta[node_id][tp_id].in_octets)
-				ingress_bandwidth_rate=(in_octets/period)/(if_speed/8)
-				print("plot traffic indicator at x=%f, y=%f ingress-direction=%s, in_octets=%f, if_speed=%f, period=%f, ingress_bandwidth_rate_percent=%3.2f"%(x,y,ingress_direction, in_octets, if_speed, float(period), ingress_bandwidth_rate*100))
-				if(ingress_direction=='up'):
-					transform="transform=\"rotate(90)\""
-					y_copy=y
-					y=-x
-					x=y_copy
-				else:
-					transform=""
+				draw_indicator_port(svg,indicator[0])
+				draw_indicator_traffic(svg,indicator[0],period,delta)
 
-				text=lxml.etree.fromstring('''
-<text
-     %s
-     id="text%s"
-     x="%f"
-     y="%f"
-'''%(transform,"-"+node_id+"-"+tp_id,x,y) + '''
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     xml:space="preserve">
-''' + '''
-     <tspan
-       x="%f"
-       y="%f"
-       style="fill:#00ff00;"
-       id="tspan4683">&lt;%3.0f%%</tspan></text>
-'''%(x,y,ingress_bandwidth_rate*100))
 
-				svg.append(text)
+		flows = node.xpath('config/flows/flow')
+		for flow in flows:
+			draw_flow(svg,flow)
+
+
 
 	of.write(lxml.etree.tostring(svg))
 	of.close()
