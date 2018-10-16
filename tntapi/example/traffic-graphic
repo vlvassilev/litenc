@@ -154,6 +154,14 @@ def draw_flow(svg, flow):
 
 	id=flow.xpath('id')[0]
 	in_port=flow.xpath('match/in-port')[0]
+	traffic_classes=flow.xpath('traffic-class')
+	if(len(traffic_classes)==1):
+		traffic_class=traffic_classes[0]
+		print traffic_class.text
+		color="FF0000" #red
+	else:
+		color="00FF00" #green
+
  	x_in,y_in = get_port_coordinates(node,in_port.text)
 	if(x_in==None):
 		return
@@ -168,7 +176,7 @@ def draw_flow(svg, flow):
      id="%s"
      d="M %f,%f %f,%f"
      style="fill:none;fill-rule:evenodd;stroke:#%s;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-'''%(id.text+":"+in_port.text+"->"+out_port.text,x_in,height-y_in,x_out,height-y_out,"FF0000"))
+'''%(id.text+":"+in_port.text+"->"+out_port.text,x_in,height-y_in,x_out,height-y_out,color))
 		svg.append(text)
 
 def main():
