@@ -1,3 +1,9 @@
+python-tntapi (1.6) UNRELEASED; urgency=medium
+
+  * Added flow visualization to traffic-graphic
+
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Thu, 18 Oct 2018 12:10:36 +0200
+
 python-tntapi (1.5) stable; urgency=medium
 
   * Added netconf-node:netconf-get-filter specifying per node <get> filters
