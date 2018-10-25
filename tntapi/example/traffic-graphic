@@ -46,6 +46,20 @@ def draw_indicator_port(svg,indicator):
 	y=height-float(indicator.xpath('y')[0].text)
 	ingress_direction=indicator.xpath('ingress-direction')[0].text
 
+
+	if(ingress_direction=='up' or ingress_direction=='down'):
+		horizontal_len = port_width
+		vertical_len = port_length
+		x = x-horizontal_len/2
+		y = y-vertical_len/2
+	elif(ingress_direction=='left' or ingress_direction=='right'):
+		horizontal_len = port_length
+		vertical_len = port_width
+		x = x-horizontal_len/2
+		y = y-vertical_len/2
+	else:
+		assert(0)
+
 	text=lxml.etree.fromstring('''
 <rect
      width="%f"
@@ -54,7 +68,7 @@ def draw_indicator_port(svg,indicator):
      y="%f"
      id="%s"
      style="opacity:1.0;fill:#%s;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-'''%(port_width,port_length,x-port_width/2,y-port_length/2,node_id+":"+tp_id, "ffffff"))
+'''%(horizontal_len,vertical_len,x,y,node_id+":"+tp_id, "ffffff"))
 	svg.append(text)
 
 
@@ -116,10 +130,12 @@ def draw_indicator_traffic(svg,indicator, period, delta):
 	elif (ingress_direction=='left'):
 		transform=""
 		x=x+(port_length/2)
+		y=y+(port_width/2)
 		indicator_text=("&lt;%3.0f%%"%(ingress_bandwidth_rate*100))
 	elif (ingress_direction=='right'):
 		transform=""
 		x=x-traffic_text_width-(port_length/2)
+		y=y+(port_width/2)
 		indicator_text=("%3.0f%%&gt;"%(ingress_bandwidth_rate*100))
 
 
