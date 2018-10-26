@@ -60,6 +60,13 @@ def draw_indicator_port(svg,indicator):
 	else:
 		assert(0)
 
+	oper_status=network.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/oper-status"%(node_id,tp_id))[0].text
+	if(oper_status=="up"):
+		color="00ff00"
+	else:
+		color="ff0000"
+
+
 	text=lxml.etree.fromstring('''
 <rect
      width="%f"
@@ -68,7 +75,7 @@ def draw_indicator_port(svg,indicator):
      y="%f"
      id="%s"
      style="opacity:1.0;fill:#%s;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-'''%(horizontal_len,vertical_len,x,y,node_id+":"+tp_id, "ffffff"))
+'''%(horizontal_len,vertical_len,x,y,node_id+":"+tp_id, color))
 	svg.append(text)
 
 
