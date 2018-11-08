@@ -23,7 +23,7 @@ namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 yangcli_supported=False
 try:
 	import yangrpc
-	from yangcli import yangcli
+	from yangcli import yangcli as yangcli_imp
 	#print("yangcli supported.")
 	yangcli_supported=True
 except ImportError:
@@ -70,7 +70,8 @@ def network_connect(network):
 def network_connect_yangrpc(network):
 
 	yconns={}
-	assert(yangcli_supported==True)
+	if(yangcli_supported!=True):
+		return network_connect(network)
 	network_id = network.xpath('nd:network-id', namespaces=namespaces)
 	print("Connecting to YANG network: " + network_id[0].text)
 	nodes = network.xpath('nd:node', namespaces=namespaces)
@@ -190,6 +191,23 @@ def network_get_config(network, conns, filter=""):
 
 	return new_network
 
+def yangcli(conn, cmd_line):
+	if(yangcli_supported):
+		print("strip_namespaces is False")
+		return yangcli_imp(conn, cmd_line, strip_namespaces=False)
+	else:
+		#yangcli-less developers in case the server supports yangcli-to-rpc
+		myns = namespaces
+		myns.update({"yangcli-to-rpc":"http://yuma123.org/ns/yangcli-to-rpc"})
+		yangcli_to_rpc="""
+<yangcli-to-rpc xmlns="http://yuma123.org/ns/yangcli-to-rpc">
+  <cmd>%s</cmd>
+</yangcli-to-rpc>
+"""%(cmd_line)
+		result=conn.rpc(yangcli_to_rpc)
+		rpc_xml=result.xpath('yangcli-to-rpc:rpc/child::*', namespaces=myns)
+		assert(len(rpc_xml)==1)
+		return conn.rpc(lxml.etree.tostring(rpc_xml[0]))
 
 def copy_config(conn, config):
 	rpc ="""
