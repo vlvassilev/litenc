@@ -193,7 +193,6 @@ def network_get_config(network, conns, filter=""):
 
 def yangcli(conn, cmd_line):
 	if(yangcli_supported):
-		print("strip_namespaces is False")
 		return yangcli_imp(conn, cmd_line, strip_namespaces=False)
 	else:
 		#yangcli-less developers in case the server supports yangcli-to-rpc
