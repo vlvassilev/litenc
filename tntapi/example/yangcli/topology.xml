@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <networks xmlns="urn:ietf:params:xml:ns:yang:ietf-network">
+    <network>
+      <network-id>test-tntapi-yangcli</network-id>
+      <node>
+        <node-id>local</node-id>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>vladimir</user>
+          <server>localhost</server>
+          <ncport>830</ncport>
+<!--          <password>mypass123</password> -->
+        </netconf-connect-params>
+      </node>
+    </network>
+  </networks>
+</config>
