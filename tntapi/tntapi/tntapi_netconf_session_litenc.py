@@ -8,7 +8,7 @@ import argparse
 from collections import namedtuple
 from tntapi_strip_namespaces import strip_namespaces
 
-class my_class:
+class tntapi_netconf_session_litenc_class:
 	def __init__(self,host="localhost",port=830,username="root",password=None,timeout=100):
 		conn = litenc.litenc()
 		if(password==None):
@@ -54,6 +54,9 @@ class my_class:
 		self.send(rpc_xml_str)
 		return self.receive()
 
+	def terminate(self):
+		self.litenc_session.terminate()
+
 def netconf_session_litenc(host="localhost",port=830,username="root",password="blah",timeout=100):
-	x=my_class(host,port,username,password,timeout)
+	x=tntapi_netconf_session_litenc_class(host,port,username,password,timeout)
 	return x
