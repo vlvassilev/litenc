@@ -5,7 +5,7 @@ The entire litenc API is composed of 4+1 functions:
 * connect
 * send
 * receive
-* terminate
+* close
 
 ** rpc - is a sequence of send and receive calls. Handy when you do not need the full control provided by send and receive.
 

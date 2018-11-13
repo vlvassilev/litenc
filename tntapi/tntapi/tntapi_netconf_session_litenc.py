@@ -54,8 +54,8 @@ class tntapi_netconf_session_litenc_class:
 		self.send(rpc_xml_str)
 		return self.receive()
 
-	def terminate(self):
-		self.litenc_session.terminate()
+	def close(self):
+		self.litenc_session.close()
 
 def netconf_session_litenc(host="localhost",port=830,username="root",password="blah",timeout=100):
 	x=tntapi_netconf_session_litenc_class(host,port,username,password,timeout)
