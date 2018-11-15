@@ -395,3 +395,30 @@ def get_network_counters_delta(before, after):
 			network[node_id][name.text]=get_network_counters_delta_interface(interface_before, interface_after)
 
 	return network
+
+def get_datetime_delta(before, after):
+	before=strip_namespaces(before)
+	after=strip_namespaces(after)
+	network = {}
+
+	nodes = before.xpath('node')
+	for node in nodes:
+		node_id = node.xpath('node-id')[0].text
+		datetime_before=before.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
+		datetime_after=  after.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
+		if(len(datetime_before)==1 and len(datetime_after)==1):
+			if(len(datetime_before[0].text)>len('1970-01-01T00:00:00.000000')):
+				strptime_fmt_spec='%Y-%m-%dT%H:%M:%S.%f'
+				strptime_str_len=len('1970-01-01T00:00:00.000000')
+			else:
+				strptime_fmt_spec='%Y-%m-%dT%H:%M:%S'
+				strptime_str_len=len('1970-01-01T00:00:00')
+
+			dt_before = datetime.datetime.strptime(datetime_before[0].text[:strptime_str_len], strptime_fmt_spec)
+			dt_after = datetime.datetime.strptime(datetime_after[0].text[:strptime_str_len],   strptime_fmt_spec)
+			period = float((dt_after-dt_before).total_seconds())
+			network[node_id]=period
+		else:
+			network[node_id]=None
+
+	return network

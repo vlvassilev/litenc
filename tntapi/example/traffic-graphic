@@ -229,18 +229,13 @@ def main():
 	before=tntapi.strip_namespaces(before_network)
 	after=tntapi.strip_namespaces(after_network)
 
+	periods=tntapi.get_datetime_delta(before, after)
 	nodes = after.xpath('node')
 	for node in nodes:
 		node_id = node.xpath('node-id')[0].text
 		termination_points = node.xpath('termination-point')
-		datetime_before=before.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
-		datetime_after=  after.xpath("node[node-id='%s']/data/system-state/clock/current-datetime"%(node_id))
-		if(len(datetime_before)==1 and len(datetime_after)==1):
-
-			dt_before = datetime.strptime(datetime_before[0].text[:19], '%Y-%m-%dT%H:%M:%S')
-			dt_after = datetime.strptime(datetime_after[0].text[:19],   '%Y-%m-%dT%H:%M:%S')
-			period = (dt_after-dt_before).total_seconds()
-			print("node:%s supports /system-state/clock/current-datetime calculated %f sec as period"%(node_id,period))
+		if(periods[node_id]!=None):
+			period=periods[node_id]
 		else:
 			print("node:%s does not support /system-state/clock/current-datetime using %f sec as period"%(node_id,period_default))
 			period=period_default
