@@ -105,6 +105,7 @@ def network_get_state(network, conns, filter=""):
 
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
+	assert(len(nodes)>0)
 	file_name_prefix=str(config_transaction_counter) + "-state-" + str(state_transaction_counter)
 	print file_name_prefix
 	for node in nodes:
@@ -157,18 +158,20 @@ def network_get_config(network, conns, filter=""):
 	rpc="""<get-config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s<source><running/></source></get-config>"""%{'filter':filter}
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
+	assert(len(nodes)>0)
 	file_name_prefix=str(config_transaction_counter) + "-config-" + str(state_transaction_counter)
 	print file_name_prefix
-	for node in nodes:
-		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
-		conns[node_id].send(rpc)
-
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		configs=node.xpath("netconf-node:config", namespaces=namespaces)
 		assert(len(configs)<=1)
 		if(len(configs)==1):
-			continue
+			config=configs[0]
+			config.getparent().remove(config)
+		conns[node_id].send(rpc)
+
+	for node in nodes:
+		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 
 		result = conns[node_id].receive()
 		print result.tag

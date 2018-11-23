@@ -36,8 +36,9 @@ def main():
 	assert(conns != None)
 
 	network_w_state_data = tntapi.network_get_state(network, conns, filter=filter)
-	network_w_all_data = tntapi.network_get_config(network_w_state_data, conns, filter=filter)
-	networks.replace(network,network_w_all_data)
+	networks.replace(network,network_w_state_data)
+	network_w_all_data = tntapi.network_get_config(network_w_state_data, conns, filter="")
+	networks.replace(network_w_state_data,network_w_all_data)
 	of.write(lxml.etree.tostring(tree, xml_declaration=True, encoding=tree.docinfo.encoding))
 	of.close()
 	return 0
