@@ -1,0 +1,63 @@
+ <html>
+<head>
+<!--<meta http-equiv="refresh" content="5" />-->
+<style>
+div.gallery {
+    margin: 15px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 940px;
+    height:600px;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: 95%;
+}
+
+div.desc {
+    padding: 5px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="gallery">
+  <div class="desc">Setup</div>
+  <a target="_blank" href="traffic-graphic.svg">
+    <img src="traphic-graphic.svg" alt="Setup" width="900" height="400">
+  </a>
+</div>
+<div class="gallery">
+  <div class="desc">Report</div>
+  <iframe src="report.txt" alt="Report" style='height: 100%; width: 100%;' frameborder="0" scrolling="yes" id="iframe"></iframe>
+</div>
+<div class="gallery">
+  <div class="desc">cur.xml</div>
+  <iframe src="cur.xml" alt="Current" style='height: 100%; width: 100%;' frameborder="0" scrolling="yes" id="iframe"></iframe>
+</div>
+<div class="gallery">
+  <div class="desc">prev.xml</div>
+  <iframe src="prev.xml" alt="Previous" style='height: 100%; width: 100%;' frameborder="0" scrolling="yes" id="iframe"></iframe>
+</div>
+<div class="gallery">
+  <div class="desc">diff-net.txt</div>
+  <iframe src="diff-net.txt" alt="diff-net output" style='height: 100%; width: 100%;' frameborder="0" scrolling="yes" id="iframe"></iframe>
+</div>
+ <form action="/" method=POST enctype="multipart/form-data">
+  Network config:<br>
+  <input type="hidden" id="cmd-id" name="cmd" value="set-net">
+  <input type="file" id="file" name="file" accept="application/xml">
+  <input type="submit" value="set-net">
+ </form> 
+ <form action="/" method=POST enctype="multipart/form-data">
+  <input type="submit" value="get-net">
+  <input type="hidden" id="cmd-id" name="cmd" value="get-net">
+ </form>
+</body>
+</html> 
