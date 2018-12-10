@@ -17,9 +17,10 @@ module tntapi-traffic-graphic {
     "This module augments ietf-network with data nodes
      for graphical representation of traffic indicators.";
 
-  revision 2018-09-18 {
+  revision 2018-12-10 {
     description
-      "Iniitial version.";
+      "Added empty /traffic-graphic
+       container for global parameters.";
   }
 
   augment "/nd:networks/nd:network/nd:node/nt:termination-point" {
@@ -57,5 +58,11 @@ module tntapi-traffic-graphic {
 	}
       }
     }
+  }
+
+  container traffic-graphic {
+    description
+      "Container for various global properties augmented child nodes
+       from specialized modules.";
   }
 }

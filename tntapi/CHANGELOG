@@ -4,8 +4,10 @@ python-tntapi (1.6) UNRELEASED; urgency=medium
   * Added tntapi.yangcli function and usage example
   * Added get_datetime_delta returning elapsed period in float seconds
     based on /system-state/clock/current-datetime
+  * Added tntapi-traffic-graphic-flows.yang with global properties for
+    graphic representation of flows - color for now
 
- -- Vladimir Vassilev <vladimir@transpacket.com>  Thu, 15 Nov 2018 17:23:49 +0100
+ -- Vladimir Vassilev <vladimir@transpacket.com>  Mon, 10 Dec 2018 18:38:13 +0100
 
 python-tntapi (1.5) stable; urgency=medium
 

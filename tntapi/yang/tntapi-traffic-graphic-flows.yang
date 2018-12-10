@@ -1,0 +1,43 @@
+module tntapi-traffic-graphic-flows {
+
+  namespace
+    "urn:tntapi:traffic-graphic-flows";
+  prefix "traffic-graphic-flows";
+
+  import "tntapi-traffic-graphic" { prefix traffic-graphic; }
+  import "ietf-network-bridge-scheduler" {prefix sched; }
+
+  organization
+    "tntapi project";
+
+  contact
+    "Vladimir Vassilev <mailto:vladimir@transpacket.com>";
+
+  description
+    "This module augments /traffic-graphic with global
+     properties for representation of flows.";
+
+  revision 2018-12-10 {
+    description
+      "Iniitial version.";
+  }
+
+  augment "/traffic-graphic:traffic-graphic" {
+    description
+      "Adds container with list to configure
+       properties for representation of traffic flows.";
+    container traffic-classes {
+      list traffic-class {
+        key "class";
+        leaf class {
+          type sched:traffic-class-ref;
+        }
+        leaf color {
+          type string {
+            pattern '[0-9A-F]{6}';
+          }
+        }
+      }
+    }
+  }
+}
