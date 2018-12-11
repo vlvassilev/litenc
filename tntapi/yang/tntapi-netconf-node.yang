@@ -16,11 +16,11 @@ module tntapi-netconf-node {
     "This module augments ietf-network with data nodes
      for management of NETCONF enabled nodes.";
 
-  revision 2018-09-18 {
+  revision 2018-12-11 {
     description
-      "Added netconf-get-filter container so
-       that in cases where not all operational data is of interest
-       this can be specified in the configuration per individual node.";
+      "Changed netconf-get-filter from container to anyxml
+       so that <nc:filter> child node can have
+       the nc namespace.";
   }
 
   augment "/nd:networks/nd:network/nd:node" {
@@ -35,11 +35,10 @@ module tntapi-netconf-node {
       description
         "Configuration data of the node containing all top level nodes.";
     }
-    container netconf-get-filter {
+    anyxml netconf-get-filter {
       description
-        "Contains the <nc:filter> container data to be used when getting
+        "Contains the <nc:filter> XML node to be used when getting
          network state with <get> for the current node.";
-      anyxml filter;
     }
     container netconf-connect-params {
       description

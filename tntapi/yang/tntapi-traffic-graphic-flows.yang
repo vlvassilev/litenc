@@ -17,9 +17,9 @@ module tntapi-traffic-graphic-flows {
     "This module augments /traffic-graphic with global
      properties for representation of flows.";
 
-  revision 2018-12-10 {
+  revision 2018-12-11 {
     description
-      "Iniitial version.";
+      "Fixed bug by replacing the class type from leafref to identityref.";
   }
 
   augment "/traffic-graphic:traffic-graphic" {
@@ -30,7 +30,9 @@ module tntapi-traffic-graphic-flows {
       list traffic-class {
         key "class";
         leaf class {
-          type sched:traffic-class-ref;
+          type identityref {
+            base sched:traffic-class;
+          }
         }
         leaf color {
           type string {
