@@ -6,8 +6,10 @@ python-tntapi (1.6) UNRELEASED; urgency=medium
     based on /system-state/clock/current-datetime
   * Added tntapi-traffic-graphic-flows.yang with global properties for
     graphic representation of flows - color for now
+  * Implemented flow color specification support in
+    examples/traffic-graphic according to tntapi-traffic-graphic-flows.yang
 
- -- Vladimir Vassilev <vladimir@transpacket.com>  Mon, 10 Dec 2018 18:38:13 +0100
+ -- Vladimir Vassilev <vladimir@transpapcket.com>  Tue, 11 Dec 2018 15:15:36 +0100
 
 python-tntapi (1.5) stable; urgency=medium
 
