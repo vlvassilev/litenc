@@ -168,6 +168,14 @@ def draw_indicator_traffic(svg,indicator, period, delta):
 def draw_node(svg, flow):
 	return
 
+def traffic_class_to_color(traffic_class):
+	root = traffic_class.getparent().getparent().getparent().getparent().getparent().getparent().getparent()
+	color=root.xpath('''traffic-graphic/traffic-classes/traffic-class[class='%s']/color'''%(traffic_class.text))
+	if(len(color)==1):
+		return color[0].text
+	else:
+		return "FF0000" #red default
+
 def draw_flow(svg, flow):
 	node = flow.getparent().getparent().getparent()
 
@@ -181,7 +189,7 @@ def draw_flow(svg, flow):
 	if(len(traffic_classes)==1):
 		traffic_class=traffic_classes[0]
 		print traffic_class.text
-		color="FF0000" #red
+		color=traffic_class_to_color(traffic_class)
 	else:
 		color="00FF00" #green
 
@@ -226,11 +234,15 @@ def main():
 	t1 = tntapi.parse_network_nodes(before_network)
 	t2 = tntapi.parse_network_nodes(after_network)
 	delta = tntapi.get_network_counters_delta(before_network,after_network)
-	before=tntapi.strip_namespaces(before_network)
-	after=tntapi.strip_namespaces(after_network)
 
-	periods=tntapi.get_datetime_delta(before, after)
-	nodes = after.xpath('node')
+
+	periods=tntapi.get_datetime_delta(before_network, after_network)
+
+	# strip namespaces for simplicity
+	after_config_nons=tntapi.strip_namespaces(after_config)
+	after_network_nons = after_config_nons.xpath('/config/networks/network')[0]
+
+	nodes = after_network_nons.xpath('node')
 	for node in nodes:
 		node_id = node.xpath('node-id')[0].text
 		termination_points = node.xpath('termination-point')
