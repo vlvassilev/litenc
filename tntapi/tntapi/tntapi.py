@@ -211,6 +211,17 @@ def yangcli(conn, cmd_line):
 		assert(len(rpc_xml)==1)
 		return conn.rpc(lxml.etree.tostring(rpc_xml[0]))
 
+def yangcli_ok_script(yconn, yangcli_script):
+	for line in yangcli_script.splitlines():
+		line=line.strip()
+		if not line:
+			continue
+		result = yangcli(yconn, line)
+		ok=result.xpath('./ok')
+		if(len(ok)!=1):
+			print lxml.etree.tostring(result)
+			assert(0)
+
 def copy_config(conn, config):
 	rpc ="""
 <copy-config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
