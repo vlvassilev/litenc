@@ -216,8 +216,9 @@ def yangcli_ok_script(yconn, yangcli_script):
 		line=line.strip()
 		if not line:
 			continue
+		print("Executing: %s"%(line))
 		result = yangcli(yconn, line)
-		ok=result.xpath('./ok')
+		ok=result.xpath('./nc:ok', namespaces=namespaces)
 		if(len(ok)!=1):
 			print lxml.etree.tostring(result)
 			assert(0)

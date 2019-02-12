@@ -32,7 +32,7 @@ def print_state_ietf_interfaces_statistics_delta(network, before, after):
 	line=""
 	node_dict=dict()
 	tp_dict=dict()
-        nodes = network.xpath('node')
+        nodes = network.xpath('nd:node',namespaces=namespaces)
 	for node in nodes:
 		node_id = node.xpath('nd:node-id', namespaces=namespaces)[0].text
 		node_dict[node_id]=1
