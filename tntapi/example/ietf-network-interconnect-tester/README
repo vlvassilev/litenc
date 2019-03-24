@@ -1,6 +1,6 @@
 Usage:
 
-# ./test-network-interconnect-tester --config=../topology.xml \
+# ./test-network-interconnect-tester.py --config=../topology.xml \
  --interface=analyzer.ge0 --interface=analyzer.xe0 \
  --interface=local.ge15 --interface=local.xe2 --interface=local.xe3 \
  --test-internal-loopback=true --test-analyzer=true
