@@ -8,7 +8,6 @@ import tntapi
 import yangrpc
 from yangcli import yangcli
 sys.path.append("../common")
-import testsuiteapi
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
@@ -231,7 +230,6 @@ def validate(network, conns, yconns, inks, load_percent=99, frame_size=1500, int
 	delta = tntapi.get_network_counters_delta(state_before,state_after)
 
 	tntapi.print_state_ietf_interfaces_statistics_delta(network, state_before, state_after)
-	testsuiteapi.print_state(state_before, state_after)
 
 	load_generated={}
 	for node in nodes:
@@ -348,13 +346,13 @@ def main():
 
 
 	#1 - Generate maximum traffic load with maximum frame size 98.7% 6+6+2+1500+4 byte packets 7+1+12 byte ifg and verify counters.
-	#(bw_expected[step],bw_generated[step]) = validate(network, conns, yconns, mylinks, 98.7, frame_size=6+6+2+1500+4, interframe_gap=7+1+12)
-	#step=step+1
+	(bw_expected[step],bw_generated[step]) = validate(network, conns, yconns, mylinks, 98.7, frame_size=6+6+2+1500+4, interframe_gap=7+1+12)
+	step=step+1
 
 
 	#2 - Generate maximum traffic load with minimum frame size 76.19% 6+6+2+46+4 byte packets 7+1+12 byte ifg and verify counters.
-	#(bw_expected[step],bw_generated[step]) = validate(network, conns, yconns, mylinks, 76.19, frame_size=6+6+2+46+4, interframe_gap=7+1+12)
-	#step=step+1
+	(bw_expected[step],bw_generated[step]) = validate(network, conns, yconns, mylinks, 76.19, frame_size=6+6+2+46+4, interframe_gap=7+1+12)
+	step=step+1
 
 	#3 - Generate 50% traffic load with maximum frame size 6+6+2+1500+4 byte packets 7+1+12+1498 byte ifg and verify counters.
 	(bw_expected[step],bw_generated[step]) = validate(network, conns, yconns, mylinks, 50, frame_size=6+6+2+1500+4, interframe_gap=7+1+12+1498, frames_per_burst=0, interburst_gap=0)
