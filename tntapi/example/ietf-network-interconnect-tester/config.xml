@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <networks xmlns="urn:ietf:params:xml:ns:yang:ietf-network">
+    <network>
+      <network-id>example-network</network-id>
+      <node>
+        <node-id>tester0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <indicator xmlns="urn:tntapi:traffic-graphic"><x>500</x><y>500</y><ingress-direction>left</ingress-direction></indicator>
+          <tp-id>xe0</tp-id>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <indicator xmlns="urn:tntapi:traffic-graphic"><x>500</x><y>1000</y><ingress-direction>right</ingress-direction></indicator>
+          <tp-id>xe1</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>admin</user>
+          <password>ietf</password>
+          <server>31.133.147.9</server>
+          <ncport>10830</ncport>
+        </netconf-connect-params>
+      </node>
+      <node>
+        <node-id>tester1</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe0</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>admin</user>
+          <password>ietf</password>
+          <server>31.133.147.9</server>
+          <ncport>20830</ncport>
+        </netconf-connect-params>
+      </node>
+      <node>
+        <node-id>dut0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe0</tp-id>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe1</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>admin</user>
+          <password>ietf</password>
+          <server>31.133.147.9</server>
+          <ncport>30830</ncport>
+        </netconf-connect-params>
+      </node>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>tester0</source-node>
+          <source-tp>xe0</source-tp>
+        </source>
+        <destination>
+          <dest-node>dut0</dest-node>
+          <dest-tp>xe0</dest-tp>
+        </destination>
+        <link-id>tester0.xe0-dut0.xe0</link-id>
+      </link>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>tester0</source-node>
+          <source-tp>xe1</source-tp>
+        </source>
+        <destination>
+          <dest-node>dut0</dest-node>
+          <dest-tp>xe1</dest-tp>
+        </destination>
+        <link-id>tester0.xe1-dut0.xe1</link-id>
+      </link>
+    </network>
+  </networks>
+</config>
