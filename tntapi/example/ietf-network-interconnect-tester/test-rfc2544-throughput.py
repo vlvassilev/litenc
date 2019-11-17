@@ -131,7 +131,7 @@ def trail(network, conns, yconns, frame_size=1500, interframe_gap=20, interburst
 
 def main():
 	print("""
-#Description: Automated network interconnect tester self-test
+#Description: RFC2544 throughput test
 #Procedure:
 #1 - Generate maximum traffic load with minimum interframe gap.
 #2 - If packets are lost set high search boundary try with less traffic in the middle between the low boundary.
