@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <networks xmlns="urn:ietf:params:xml:ns:yang:ietf-network">
+    <network>
+      <network-id>example-network</network-id>
+      <node>
+        <node-id>dut0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>sfp-sfpplus1</tp-id>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>sfp-sfpplus2</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>vladimir</user>
+          <server>localhost</server>
+          <ncport>30830</ncport>
+        </netconf-connect-params>
+        <config xmlns="urn:tntapi:netconf-node">
+          <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+            <ports>
+              <port>
+                <name>sfp-sfpplus1</name>
+              </port>
+              <port>
+                <name>sfp-sfpplus2</name>
+              </port>
+            </ports>
+          </bridge>
+          <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+            <flow>
+              <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+              <match>
+                <in-port>sfp-sfpplus1</in-port>
+                <ethernet-match>
+                  <ethernet-source>
+                    <address>00:00:00:00:00:00</address>
+                  </ethernet-source>
+                  <ethernet-destination>
+                    <address>00:00:00:00:00:01</address>
+                  </ethernet-destination>
+                </ethernet-match>
+              </match>
+              <actions>
+                <action>
+                  <order>0</order>
+                  <output-action>
+                    <out-port>sfp-sfpplus2</out-port>
+                  </output-action>
+                </action>
+              </actions>
+            </flow>
+          </flows>
+          <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+            <interface>
+              <name>sfp-sfpplus1</name>
+              <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+              <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+            </interface>
+            <interface>
+              <name>sfp-sfpplus2</name>
+              <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+              <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+            </interface>
+          </interfaces>
+        </config>
+      </node>
+      <node>
+        <node-id>tester0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe0</tp-id>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe1</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>vladimir</user>
+          <server>localhost</server>
+          <ncport>10830</ncport>
+        </netconf-connect-params>
+        <config xmlns="urn:tntapi:netconf-node">
+          <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+            <interface>
+              <name>xe0</name>
+              <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+            </interface>
+            <interface>
+              <name>xe1</name>
+              <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+            </interface>
+          </interfaces>
+        </config>
+      </node>
+      <node>
+        <node-id>tester0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>xe0</tp-id>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>vladimir</user>
+          <server>localhost</server>
+          <ncport>20830</ncport>
+        </netconf-connect-params>
+        <config xmlns="urn:tntapi:netconf-node">
+          <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+            <interface>
+              <name>xe0</name>
+              <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+            </interface>
+          </interfaces>
+        </config>
+      </node>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>tester0</source-node>
+          <source-tp>xe0</source-tp>
+        </source>
+        <destination>
+          <dest-node>dut0</dest-node>
+          <dest-tp>sfp-sfpplus1</dest-tp>
+        </destination>
+        <link-id>tester0.xe0-dut0.sfp-sfpplus1</link-id>
+      </link>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>dur0</source-node>
+          <source-tp>sfp-sfpplus2</source-tp>
+        </source>
+        <destination>
+          <dest-node>tester1</dest-node>
+          <dest-tp>xe0</dest-tp>
+        </destination>
+        <link-id>dut0.sfp-sfpplus2-tester1.xe0</link-id>
+      </link>
+    </network>
+  </networks>
+</config>

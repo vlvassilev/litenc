@@ -13,7 +13,6 @@ namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
 	"nt":"urn:ietf:params:xml:ns:yang:ietf-network-topology"}
 
-test_time=30
 args=None
 
 def get_delta_counter(before,after,node_name,inst_id_xpath):
@@ -31,7 +30,6 @@ def is_interface_test_enabled(node_id,tp_id):
 
 def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, after, delta, my_test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap):
 
-	global test_time
 	global args
 
 	before=tntapi.strip_namespaces(before)
@@ -54,7 +52,7 @@ def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, afte
  
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
-def trail(network, conns, yconns, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[]):
+def trail(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[]):
 	global args
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
@@ -139,18 +137,18 @@ def main():
 """)
 def main():
 
-	global test_time
 	global args
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--config", help="Path to the netconf configuration *.xml file defining the configuration according to ietf-networks, ietf-networks-topology and netconf-node models e.g. ../networks.xml")
-	parser.add_argument('--frame-size', default=[],help="Frame size.")
-	parser.add_argument('--interframe-gap', default=[],help="Interframe gap.")
+	parser.add_argument('--test-time', default="60",help="Test time for traffic generation in seconds.")
+	parser.add_argument('--frame-size', default="64",help="Frame size.")
+	parser.add_argument('--interframe-gap', default="20",help="Interframe gap.")
 	parser.add_argument('--tx-node', default=[],help="Transmitting node.")
 	parser.add_argument('--tx-node-port', default=[],help="Transmitting node port.")
 	parser.add_argument('--rx-node', default=[],help="Receiving node.")
 	parser.add_argument('--rx-node-port', default=[],help="Receiving node port.")
-	parser.add_argument('--src-mac-address', default=[],help="Source MAC address.")
-	parser.add_argument('--dst-mac-address', default=[],help="Destination MAC address.")
+	parser.add_argument('--src-mac-address', default="01:23:45:67:89:AB",help="Source MAC address.")
+	parser.add_argument('--dst-mac-address', default="01:23:45:67:89:AC",help="Destination MAC address.")
 	args = parser.parse_args()
 
 	tree=etree.parse(args.config)
@@ -163,7 +161,8 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trail(network, conns, yconns, frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trail(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address)
+	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	#print("Generated octets MB/s:          %8f"%(generated_pkts*float(args.frame_size)/(test_time*1024*1024))
 	print("Lost packets:                   %8u"%(generated_pkts-rx_testframe_pkts))
