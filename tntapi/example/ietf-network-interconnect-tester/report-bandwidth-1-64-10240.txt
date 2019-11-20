@@ -1,0 +1,1080 @@
+Connecting to network: example-network
+Connect to dut0 (server=localhost user=vladimir) password=None ncport=30830:
+[OK] Connecting to server=localhost:
+[OK] Receiving <hello> =<?xml version="1.0" encoding="UTF-8"?>
+<hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <capabilities>
+    <capability>urn:ietf:params:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:base:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=file</capability>
+    <capability>urn:ietf:params:netconf:capability:xpath:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:notification:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:interleave:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:partial-lock:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:with-defaults:1.0?basic-mode=explicit&amp;also-supported=trim,report-all,report-all-tagged</capability>
+    <capability>http://example.com/ns/example-bridge?module=example-bridge&amp;revision=2018-07-17</capability>
+    <capability>urn:ietf:params:xml:ns:yang:iana-crypt-hash?module=iana-crypt-hash&amp;revision=2014-08-06&amp;features=crypt-hash-md5,crypt-hash-sha-256,crypt-hash-sha-512</capability>
+    <capability>urn:ietf:params:xml:ns:yang:iana-if-type?module=iana-if-type&amp;revision=2014-05-08</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-inet-types?module=ietf-inet-types&amp;revision=2013-07-15</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-interfaces?module=ietf-interfaces&amp;revision=2014-05-08&amp;features=arbitrary-names,pre-provisioning,if-mib</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-acm?module=ietf-netconf-acm&amp;revision=2018-02-14</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring?module=ietf-netconf-monitoring&amp;revision=2010-10-04</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-notifications?module=ietf-netconf-notifications&amp;revision=2012-02-06</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:partial-lock:1.0?module=ietf-netconf-partial-lock&amp;revision=2009-10-19</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults?module=ietf-netconf-with-defaults&amp;revision=2011-06-01</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-network-bridge?module=ietf-network-bridge&amp;revision=2019-07-05</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows?module=ietf-network-bridge-flows&amp;revision=2019-07-05</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-network-bridge-scheduler?module=ietf-network-bridge-scheduler&amp;revision=2019-07-05</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-system?module=ietf-system&amp;revision=2014-08-06&amp;features=radius,authentication,local-users,radius-authentication,ntp,ntp-udp-port,timezone-name,dns-udp-tcp-port</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-yang-library?module=ietf-yang-library&amp;revision=2016-06-21</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-yang-types?module=ietf-yang-types&amp;revision=2013-07-15</capability>
+    <capability>urn:ietf:params:xml:ns:netmod:notification?module=nc-notifications&amp;revision=2008-07-14</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:notification:1.0?module=notifications&amp;revision=2008-07-14</capability>
+    <capability>http://netconfcentral.org/ns/yuma-app-common?module=yuma-app-common&amp;revision=2012-08-16</capability>
+    <capability>http://netconfcentral.org/ns/yuma-mysession?module=yuma-mysession&amp;revision=2010-05-10</capability>
+    <capability>http://netconfcentral.org/ns/yuma-ncx?module=yuma-ncx&amp;revision=2012-01-13</capability>
+    <capability>http://netconfcentral.org/ns/yuma-proc?module=yuma-proc&amp;revision=2012-10-10</capability>
+    <capability>http://netconfcentral.org/ns/yuma-time-filter?module=yuma-time-filter&amp;revision=2012-11-15</capability>
+    <capability>http://netconfcentral.org/ns/yuma-types?module=yuma-types&amp;revision=2012-06-01</capability>
+    <capability>http://yuma123.org/ns/yuma123-mysession-cache?module=yuma123-mysession-cache&amp;revision=2018-11-12</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:base:1.0?module=ietf-netconf&amp;revision=2011-06-01&amp;features=writable-running,candidate,confirmed-commit,rollback-on-error,validate,startup,url,xpath</capability>
+    <capability>http://yuma123.org/ns/yuma123-netconf-types?module=yuma123-netconf-types&amp;revision=2017-06-23</capability>
+    <capability>http://yuma123.org/ns/yuma123-system?module=yuma123-system&amp;revision=2017-03-26</capability>
+    <capability>urn:ietf:params:netconf:capability:yang-library:1.0?revision=2016-06-21&amp;module-set-id=5840c0d92d1ff762d29f900cbcde4dd70df15c80</capability>
+  </capabilities>
+  <session-id>89</session-id>
+</hello>:
+OK
+Connect to tester0 (server=localhost user=vladimir) password=None ncport=10830:
+[OK] Connecting to server=localhost:
+[OK] Receiving <hello> =<?xml version="1.0" encoding="UTF-8"?>
+<hello xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0"
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <capabilities>
+    <capability>urn:ietf:params:netconf:base:1.0</capability>
+    <capability>urn:ietf:params:netconf:base:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:candidate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:confirmed-commit:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:rollback-on-error:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:validate:1.1</capability>
+    <capability>urn:ietf:params:netconf:capability:url:1.0?scheme=file</capability>
+    <capability>urn:ietf:params:netconf:capability:xpath:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:notification:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:interleave:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:partial-lock:1.0</capability>
+    <capability>urn:ietf:params:netconf:capability:with-defaults:1.0?basic-mode=explicit&amp;also-supported=trim,report-all,report-all-tagged</capability>
+    <capability>urn:ieee:params:xml:ns:yang:ethernet?module=ethernet&amp;revision=2015-05-07</capability>
+    <capability>urn:ietf:params:xml:ns:yang:iana-crypt-hash?module=iana-crypt-hash&amp;revision=2014-08-06&amp;features=crypt-hash-md5,crypt-hash-sha-256,crypt-hash-sha-512</capability>
+    <capability>urn:ietf:params:xml:ns:yang:iana-if-type?module=iana-if-type&amp;revision=2014-05-08</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-inet-types?module=ietf-inet-types&amp;revision=2013-07-15</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-interfaces?module=ietf-interfaces&amp;revision=2014-05-08&amp;features=if-mib</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-acm?module=ietf-netconf-acm&amp;revision=2018-02-14</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring?module=ietf-netconf-monitoring&amp;revision=2010-10-04</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-notifications?module=ietf-netconf-notifications&amp;revision=2012-02-06</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:partial-lock:1.0?module=ietf-netconf-partial-lock&amp;revision=2009-10-19</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-netconf-with-defaults?module=ietf-netconf-with-defaults&amp;revision=2011-06-01</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-system?module=ietf-system&amp;revision=2014-08-06&amp;features=authentication,local-users</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer?module=ietf-traffic-analyzer&amp;revision=2019-10-08&amp;features=ingress-direction,filter,capture</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-traffic-generator?module=ietf-traffic-generator&amp;revision=2019-10-08&amp;features=egress-direction,ethernet</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-yang-library?module=ietf-yang-library&amp;revision=2016-06-21</capability>
+    <capability>urn:ietf:params:xml:ns:yang:ietf-yang-types?module=ietf-yang-types&amp;revision=2013-07-15</capability>
+    <capability>urn:ietf:params:xml:ns:netmod:notification?module=nc-notifications&amp;revision=2008-07-14</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:notification:1.0?module=notifications&amp;revision=2008-07-14</capability>
+    <capability>http://netconfcentral.org/ns/yuma-app-common?module=yuma-app-common&amp;revision=2012-08-16</capability>
+    <capability>http://netconfcentral.org/ns/yuma-mysession?module=yuma-mysession&amp;revision=2010-05-10</capability>
+    <capability>http://netconfcentral.org/ns/yuma-ncx?module=yuma-ncx&amp;revision=2012-01-13</capability>
+    <capability>http://netconfcentral.org/ns/yuma-proc?module=yuma-proc&amp;revision=2012-10-10</capability>
+    <capability>http://netconfcentral.org/ns/yuma-time-filter?module=yuma-time-filter&amp;revision=2012-11-15</capability>
+    <capability>http://netconfcentral.org/ns/yuma-types?module=yuma-types&amp;revision=2012-06-01</capability>
+    <capability>http://yuma123.org/ns/yuma123-mysession-cache?module=yuma123-mysession-cache&amp;revision=2018-11-12</capability>
+    <capability>urn:ietf:params:xml:ns:netconf:base:1.0?module=ietf-netconf&amp;revision=2011-06-01&amp;features=writable-running,candidate,confirmed-commit,rollback-on-error,validate,startup,url,xpath</capability>
+    <capability>http://yuma123.org/ns/yuma123-netconf-types?module=yuma123-netconf-types&amp;revision=2017-06-23</capability>
+    <capability>http://yuma123.org/ns/yuma123-system?module=yuma123-system&amp;revision=2017-03-26</capability>
+    <capability>urn:ietf:params:netconf:capability:yang-library:1.0?revision=2016-06-21&amp;module-set-id=ee5b035823598dedf0622916202649faab89dbb5</capability>
+  </capabilities>
+  <session-id>25</session-id>
+</hello>:
+OK
+Connecting to YANG network: example-network
+Connect to YANG device dut0 (server=localhost user=vladimir) password=None ncport=30830:
+
+Warning: line is 82 chars, limit is 72 chars
+yangcli.yang:824.1: warning(438): display line length exceeded
+val->res is NO_ERR.
+
+yangcli: Starting NETCONF session for vladimir on localhost
+
+NETCONF session established for vladimir on localhost
+
+Client Session Id: 1
+Server Session Id: 90
+
+Server Protocol Capabilities
+   base:1.0
+   candidate:1.0
+   confirmed-commit:1.0
+   rollback-on-error:1.0
+   validate:1.0
+   url:1.0
+   xpath:1.0
+   notification:1.0
+   interleave:1.0
+   partial-lock:1.0
+   with-defaults:1.0
+   base:1.1
+   validate:1.1
+   confirmed-commit:1.1
+   yang-library:1.0
+
+Server Module Capabilities
+   example-bridge@2018-07-17
+   iana-crypt-hash@2014-08-06
+      Features: 
+         crypt-hash-md5 
+         crypt-hash-sha-256 
+         crypt-hash-sha-512 
+   iana-if-type@2014-05-08
+   ietf-inet-types@2013-07-15
+   ietf-interfaces@2014-05-08
+      Features: 
+         arbitrary-names 
+         pre-provisioning 
+         if-mib 
+   ietf-netconf-acm@2018-02-14
+   ietf-netconf-monitoring@2010-10-04
+   ietf-netconf-notifications@2012-02-06
+   ietf-netconf-partial-lock@2009-10-19
+   ietf-netconf-with-defaults@2011-06-01
+   ietf-network-bridge@2019-07-05
+   ietf-network-bridge-flows@2019-07-05
+   ietf-network-bridge-scheduler@2019-07-05
+   ietf-system@2014-08-06
+      Features: 
+         radius 
+         authentication 
+         local-users 
+         radius-authentication 
+         ntp 
+         ntp-udp-port 
+         timezone-name 
+         dns-udp-tcp-port 
+   ietf-yang-library@2016-06-21
+   ietf-yang-types@2013-07-15
+   nc-notifications@2008-07-14
+   notifications@2008-07-14
+   yuma-app-common@2012-08-16
+   yuma-mysession@2010-05-10
+   yuma-ncx@2012-01-13
+   yuma-proc@2012-10-10
+   yuma-time-filter@2012-11-15
+   yuma-types@2012-06-01
+   yuma123-mysession-cache@2018-11-12
+   ietf-netconf@2011-06-01
+      Features: 
+         writable-running 
+         candidate 
+         confirmed-commit 
+         rollback-on-error 
+         validate 
+         startup 
+         url 
+         xpath 
+   yuma123-netconf-types@2017-06-23
+   yuma123-system@2017-03-26
+
+Server Enterprise Capabilities
+   None
+
+Protocol version set to: RFC 6241 (base:1.1)
+Default target set to: <candidate>
+Save operation mapped to: commit
+Default with-defaults behavior: explicit
+Additional with-defaults behavior: trim,report-all,report-all-tagged
+Current module-set-id: 5840c0d92d1ff762d29f900cbcde4dd70df15c80.
+
+
+Checking Server Modules...
+<get-schema>:ietf-network-bridge-flows
+<get-schema>:ietf-network-bridge-scheduler
+OK
+Connect to YANG device tester0 (server=localhost user=vladimir) password=None ncport=10830:
+val->res is NO_ERR.
+
+yangcli: Starting NETCONF session for vladimir on localhost
+
+NETCONF session established for vladimir on localhost
+
+Client Session Id: 2
+Server Session Id: 26
+
+Server Protocol Capabilities
+   base:1.0
+   candidate:1.0
+   confirmed-commit:1.0
+   rollback-on-error:1.0
+   validate:1.0
+   url:1.0
+   xpath:1.0
+   notification:1.0
+   interleave:1.0
+   partial-lock:1.0
+   with-defaults:1.0
+   base:1.1
+   validate:1.1
+   confirmed-commit:1.1
+   yang-library:1.0
+
+Server Module Capabilities
+   iana-crypt-hash@2014-08-06
+      Features: 
+         crypt-hash-md5 
+         crypt-hash-sha-256 
+         crypt-hash-sha-512 
+   iana-if-type@2014-05-08
+   ietf-inet-types@2013-07-15
+   ietf-interfaces@2014-05-08
+      Features: 
+         if-mib 
+   ietf-netconf-acm@2018-02-14
+   ietf-netconf-monitoring@2010-10-04
+   ietf-netconf-notifications@2012-02-06
+   ietf-netconf-partial-lock@2009-10-19
+   ietf-netconf-with-defaults@2011-06-01
+   ietf-system@2014-08-06
+      Features: 
+         authentication 
+         local-users 
+   ietf-traffic-analyzer@2019-10-08
+      Features: 
+         ingress-direction 
+         filter 
+         capture 
+   ietf-traffic-generator@2019-10-08
+      Features: 
+         egress-direction 
+         ethernet 
+   ietf-yang-library@2016-06-21
+   ietf-yang-types@2013-07-15
+   nc-notifications@2008-07-14
+   notifications@2008-07-14
+   yuma-app-common@2012-08-16
+   yuma-mysession@2010-05-10
+   yuma-ncx@2012-01-13
+   yuma-proc@2012-10-10
+   yuma-time-filter@2012-11-15
+   yuma-types@2012-06-01
+   yuma123-mysession-cache@2018-11-12
+   ietf-netconf@2011-06-01
+      Features: 
+         writable-running 
+         candidate 
+         confirmed-commit 
+         rollback-on-error 
+         validate 
+         startup 
+         url 
+         xpath 
+   yuma123-netconf-types@2017-06-23
+   yuma123-system@2017-03-26
+
+Server Enterprise Capabilities
+   None
+
+Protocol version set to: RFC 6241 (base:1.1)
+Default target set to: <candidate>
+Save operation mapped to: commit
+Default with-defaults behavior: explicit
+Additional with-defaults behavior: trim,report-all,report-all-tagged
+Current module-set-id: ee5b035823598dedf0622916202649faab89dbb5.
+
+
+Checking Server Modules...
+OK
+1-config-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>sfp-sfpplus1</name>
+        </port>
+        <port>
+          <name>sfp-sfpplus2</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+        <match>
+          <in-port>sfp-sfpplus1</in-port>
+          <ethernet-match>
+            <ethernet-source>
+              <address>00:00:00:00:00:00</address>
+            </ethernet-source>
+            <ethernet-destination>
+              <address>00:00:00:00:00:01</address>
+            </ethernet-destination>
+          </ethernet-match>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>sfp-sfpplus2</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+      </interface>
+    </interfaces>
+  </data>
+
+1-config-dut0.xml - end
+1-config-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+  </data>
+
+1-config-tester0.xml - end
+Transaction 1 started: 2019-11-20T01:33:30
+Transaction 1 completed: 2019-11-20T01:33:30
+1-state-0
+1-state-0-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <statistics>
+          <out-octets>0</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>24480782796</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <statistics>
+          <out-octets>24274062156</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>0</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+      </interface>
+    </interfaces>
+  </data>
+1-state-0-dut0.xml - end
+1-state-0-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>1</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>2653348</in-octets>
+          <out-octets>26976667540</out-octets>
+          <in-multicast-pkts>35677</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>0</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>229168215</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>2</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>25112733668</in-octets>
+          <out-octets>0</out-octets>
+          <in-multicast-pkts>35637</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>209005181</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>0</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+  </data>
+1-state-0-tester0.xml - end
+Waiting 5 sec. ...
+Done.
+1-state-0
+1-state-0-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <statistics>
+          <out-octets>0</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>24480782796</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <statistics>
+          <out-octets>24274062156</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>0</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+      </interface>
+    </interfaces>
+  </data>
+1-state-0-dut0.xml - end
+1-state-0-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>1</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>2653540</in-octets>
+          <out-octets>26976667540</out-octets>
+          <in-multicast-pkts>35681</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>0</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>229168215</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>2</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>25112733924</in-octets>
+          <out-octets>0</out-octets>
+          <in-multicast-pkts>35641</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>209005181</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>0</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+  </data>
+1-state-0-tester0.xml - end
+Printing state ...
+dut0=1;tester0=2;
+sfp-sfpplus1=1;sfp-sfpplus2=2;xe0=3;xe1=4;
+in_multicast_pkts(tester0,xe0)=4;
+in_octets(tester0,xe0)=192;
+in_pkts(tester0,xe0)=4;
+in_multicast_pkts(tester0,xe1)=4;
+in_octets(tester0,xe1)=256;
+in_pkts(tester0,xe1)=4;
+
+Filling container /interfaces/interface/traffic-analyzer:2-config-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>sfp-sfpplus1</name>
+        </port>
+        <port>
+          <name>sfp-sfpplus2</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+        <match>
+          <in-port>sfp-sfpplus1</in-port>
+          <ethernet-match>
+            <ethernet-source>
+              <address>00:00:00:00:00:00</address>
+            </ethernet-source>
+            <ethernet-destination>
+              <address>00:00:00:00:00:01</address>
+            </ethernet-destination>
+          </ethernet-match>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>sfp-sfpplus2</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+      </interface>
+    </interfaces>
+  </data>
+
+2-config-dut0.xml - end
+2-config-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-analyzer xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer"/>
+      </interface>
+    </interfaces>
+  </data>
+
+2-config-tester0.xml - end
+Transaction 2 started: 2019-11-20T01:33:40
+Transaction 2 completed: 2019-11-20T01:33:40
+2-state-0
+2-state-0-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <statistics>
+          <out-octets>0</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>24480782796</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <statistics>
+          <out-octets>24274062156</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>0</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+      </interface>
+    </interfaces>
+  </data>
+2-state-0-dut0.xml - end
+2-state-0-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>1</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>2653668</in-octets>
+          <out-octets>26976667540</out-octets>
+          <in-multicast-pkts>35682</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>0</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>229168215</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>2</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>25112733988</in-octets>
+          <out-octets>0</out-octets>
+          <in-multicast-pkts>35642</in-multicast-pkts>
+          <in-broadcast-pkts>1516</in-broadcast-pkts>
+          <in-unicast-pkts>209005181</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>0</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-analyzer xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer">
+          <state>
+            <pkts>0</pkts>
+            <errors>0</errors>
+            <testframe-stats>
+              <testframe-pkts>0</testframe-pkts>
+              <sequence-errors>0</sequence-errors>
+              <payload-errors>0</payload-errors>
+              <latency>
+                <samples>0</samples>
+              </latency>
+            </testframe-stats>
+          </state>
+        </traffic-analyzer>
+      </interface>
+    </interfaces>
+  </data>
+2-state-0-tester0.xml - end
+3-config-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>sfp-sfpplus1</name>
+        </port>
+        <port>
+          <name>sfp-sfpplus2</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+        <match>
+          <in-port>sfp-sfpplus1</in-port>
+          <ethernet-match>
+            <ethernet-source>
+              <address>00:00:00:00:00:00</address>
+            </ethernet-source>
+            <ethernet-destination>
+              <address>00:00:00:00:00:01</address>
+            </ethernet-destination>
+          </ethernet-match>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>sfp-sfpplus2</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+      </interface>
+    </interfaces>
+  </data>
+
+3-config-dut0.xml - end
+3-config-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-generator xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-generator">
+          <frame-size>64</frame-size>
+          <interframe-gap>10240</interframe-gap>
+          <src-mac-address>00:00:00:00:00:00</src-mac-address>
+          <dst-mac-address>00:00:00:00:00:01</dst-mac-address>
+          <ether-type>4660</ether-type>
+        </traffic-generator>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-analyzer xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer"/>
+      </interface>
+    </interfaces>
+  </data>
+
+3-config-tester0.xml - end
+Transaction 3 started: 2019-11-20T01:33:42
+Transaction 3 completed: 2019-11-20T01:33:42
+Waiting 60 sec. ...
+Stopping generators ...
+4-config-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>sfp-sfpplus1</name>
+        </port>
+        <port>
+          <name>sfp-sfpplus2</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+        <match>
+          <in-port>sfp-sfpplus1</in-port>
+          <ethernet-match>
+            <ethernet-source>
+              <address>00:00:00:00:00:00</address>
+            </ethernet-source>
+            <ethernet-destination>
+              <address>00:00:00:00:00:01</address>
+            </ethernet-destination>
+          </ethernet-match>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>sfp-sfpplus2</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+      </interface>
+    </interfaces>
+  </data>
+
+4-config-dut0.xml - end
+4-config-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-analyzer xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer"/>
+      </interface>
+    </interfaces>
+  </data>
+
+4-config-tester0.xml - end
+Transaction 4 started: 2019-11-20T01:34:42
+Transaction 4 completed: 2019-11-20T01:34:42
+Done.
+4-state-0
+4-state-0-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <statistics>
+          <out-octets>0</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>24918173676</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <statistics>
+          <out-octets>24711453036</out-octets>
+          <out-discards>0</out-discards>
+          <in-octets>0</in-octets>
+          <in-discards>0</in-discards>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+      </interface>
+    </interfaces>
+  </data>
+4-state-0-dut0.xml - end
+4-state-0-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>1</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>2656020</in-octets>
+          <out-octets>27443217812</out-octets>
+          <in-multicast-pkts>35715</in-multicast-pkts>
+          <in-broadcast-pkts>1517</in-broadcast-pkts>
+          <in-unicast-pkts>0</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>236458063</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <admin-status>up</admin-status>
+        <oper-status>up</oper-status>
+        <if-index>2</if-index>
+        <speed>10000000000</speed>
+        <statistics>
+          <in-octets>25579286676</in-octets>
+          <out-octets>0</out-octets>
+          <in-multicast-pkts>35675</in-multicast-pkts>
+          <in-broadcast-pkts>1517</in-broadcast-pkts>
+          <in-unicast-pkts>216295029</in-unicast-pkts>
+          <out-multicast-pkts>0</out-multicast-pkts>
+          <out-broadcast-pkts>0</out-broadcast-pkts>
+          <out-unicast-pkts>0</out-unicast-pkts>
+          <in-errors>0</in-errors>
+        </statistics>
+      </interface>
+    </interfaces-state>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <traffic-analyzer xmlns="urn:ietf:params:xml:ns:yang:ietf-traffic-analyzer">
+          <state>
+            <pkts>7289883</pkts>
+            <errors>0</errors>
+            <testframe-stats>
+              <testframe-pkts>7289848</testframe-pkts>
+              <sequence-errors>0</sequence-errors>
+              <payload-errors>0</payload-errors>
+              <latency>
+                <samples>7289848</samples>
+                <max>1222324</max>
+                <min>9299</min>
+              </latency>
+            </testframe-stats>
+            <capture>
+              <frame>
+                <sequence-number>7289883</sequence-number>
+                <timestamp>2019-11-20T00:31:02.756194368Z</timestamp>
+                <length>60</length>
+                <preceding-interframe-gap>144464612</preceding-interframe-gap>
+                <data>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</data>
+              </frame>
+            </capture>
+          </state>
+        </traffic-analyzer>
+      </interface>
+    </interfaces>
+  </data>
+4-state-0-tester0.xml - end
+Printing state ...
+dut0=1;tester0=2;
+sfp-sfpplus1=1;sfp-sfpplus2=2;xe0=3;xe1=4;
+in_octets(dut0,sfp-sfpplus1)=437390880;
+out_octets(dut0,sfp-sfpplus2)=437390880;
+in_broadcast_pkts(tester0,xe0)=1;
+in_multicast_pkts(tester0,xe0)=33;
+in_octets(tester0,xe0)=2352;
+in_pkts(tester0,xe0)=34;
+out_octets(tester0,xe0)=466550272;
+out_pkts(tester0,xe0)=7289848;
+out_unicast_pkts(tester0,xe0)=7289848;
+in_broadcast_pkts(tester0,xe1)=1;
+in_multicast_pkts(tester0,xe1)=33;
+in_octets(tester0,xe1)=466552688;
+in_pkts(tester0,xe1)=7289882;
+in_unicast_pkts(tester0,xe1)=7289848;
+generated_octets=466550272.0
+Disabling analyzer.
+5-config-dut0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>sfp-sfpplus1</name>
+        </port>
+        <port>
+          <name>sfp-sfpplus2</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>sfp-sfpplus1-to-sfp-sfpplus2</id>
+        <match>
+          <in-port>sfp-sfpplus1</in-port>
+          <ethernet-match>
+            <ethernet-source>
+              <address>00:00:00:00:00:00</address>
+            </ethernet-source>
+            <ethernet-destination>
+              <address>00:00:00:00:00:01</address>
+            </ethernet-destination>
+          </ethernet-match>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>sfp-sfpplus2</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>sfp-sfpplus1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus1</port-name>
+      </interface>
+      <interface>
+        <name>sfp-sfpplus2</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">sfp-sfpplus2</port-name>
+      </interface>
+    </interfaces>
+  </data>
+
+5-config-dut0.xml - end
+5-config-tester0.xml - start
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>xe0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>xe1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+  </data>
+
+5-config-tester0.xml - end
+Transaction 5 started: 2019-11-20T01:34:44
+Transaction 5 completed: 2019-11-20T01:34:44
+Test time:                            60
+Generated packets:               7289848
+Lost packets:                          0
+Lost packets percent:           0.000000
+Sequence errors:                       0
+Sequence errors percent:        0.000000
+Latency Min[nanoseconds]:           9299
+Latency Max[nanoseconds]:        1222324
