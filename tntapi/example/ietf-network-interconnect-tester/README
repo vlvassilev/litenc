@@ -36,7 +36,7 @@ Yes there is a problem exposed in the output.
 Uasge:
 # set-net config-1.xml
 # python ./test-rfc2544-throughput.py --config=config-1.xml \
---frame-size=64 --interframe-gap=$((9*1024)) --tx-node=tester0 \
+--test-time=60 --frame-size=64 --interframe-gap=$((9*1024)) --tx-node=tester0 \
 --tx-node-port=xe0 --rx-node=tester1 --rx-node-port=xe0 \
 --src-mac-address="00:00:00:00:00:00" --dst-mac-address="00:00:00:00:00:01"
 
