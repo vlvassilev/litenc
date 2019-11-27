@@ -131,9 +131,10 @@ def main():
 	print("""
 #Description: RFC2544 throughput test
 #Procedure:
-#1 - Generate maximum traffic load with minimum interframe gap.
-#2 - If packets are lost set high search boundary try with less traffic in the middle between the low boundary.
-#3 - If no packets are lost set low search bondary try with more traffic in the middle between the high boundary.
+#1 - Connect to network specified in the configuration.
+#2 - Generate test trail traffic with the specified parameters.
+#3 - Wait for the --test-time period.
+#4 - Read counter statistics and analyzer state and write a report.
 """)
 def main():
 
