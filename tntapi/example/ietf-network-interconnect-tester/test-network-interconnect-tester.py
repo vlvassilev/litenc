@@ -154,7 +154,7 @@ def validate(network, conns, yconns, inks, load_percent=99, frame_size=1500, int
 				tp_id = termination_point.xpath('nt:tp-id', namespaces=namespaces)[0].text
 				if(not is_interface_test_enabled(node_id,tp_id)):
 					continue
-				ok=yangcli(yconns[node_id],"""merge /interfaces/interface[name='%(name)s'] -- loopback=near-end"""%{'name':tp_id}).xpath('./ok')
+				ok=yangcli(yconns[node_id],"""merge /interfaces/interface[name='%(name)s'] -- loopback=internal"""%{'name':tp_id}).xpath('./ok')
 				assert(len(ok)==1)
 
 		tntapi.network_commit(conns)
@@ -326,7 +326,7 @@ def main():
 	parser.add_argument("--config", help="Path to the netconf configuration *.xml file defining the configuration according to ietf-networks, ietf-networks-topology and netconf-node models e.g. ../networks.xml")
 	parser.add_argument("--direction", help="--direction=ingress or --direction=egress")
 	parser.add_argument('--interface', action='append', dest='interfaces',default=[],help="Add interface to be tested e.g --interface='foo.ge0 --interface=bar.xe1'")
-	parser.add_argument('--test-internal-loopback', help="When direction=='egress' create internal 'near-end' loopback on all interfaces and validate in_octets==out_octets")
+	parser.add_argument('--test-internal-loopback', help="When direction=='egress' create 'internal' loopback on all interfaces and validate in_octets==out_octets")
 	parser.add_argument('--test-analyzer', help="Create traffic-analyzer and measure min and max latency")
 	args = parser.parse_args()
 
