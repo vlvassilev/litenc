@@ -54,6 +54,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 			os.system("get-net topology.xml cur.xml")
 			os.system("./report.py prev.xml cur.xml | tee  report.txt")
 			os.system("traffic-graphic --background=traffic-graphic-background.svg --before=prev.xml --after=cur.xml --output=traffic-graphic.svg")
+			os.system("diff-net prev.xml cur.xml | tee  diff-net.txt")
 
 		SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
