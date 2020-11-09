@@ -52,7 +52,7 @@ def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, afte
  
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
-def trail(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[]):
+def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[]):
 	global args
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
@@ -132,7 +132,7 @@ def main():
 #Description: RFC2544 throughput test
 #Procedure:
 #1 - Connect to network specified in the configuration.
-#2 - Generate test trail traffic with the specified parameters.
+#2 - Generate test trial traffic with the specified parameters.
 #3 - Wait for the --test-time period.
 #4 - Read counter statistics and analyzer state and write a report.
 """)
@@ -162,7 +162,7 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trail(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address)
 	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	#print("Generated octets MB/s:          %8f"%(generated_pkts*float(args.frame_size)/(test_time*1024*1024))
