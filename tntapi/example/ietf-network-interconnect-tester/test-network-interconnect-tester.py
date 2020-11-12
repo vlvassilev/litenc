@@ -47,9 +47,11 @@ def validate_traffic_on(node_name, interface_name, before, after, delta, my_test
 		generated_octets=frame_size*generated_pkts
 	else:
 		generated_octets=1.0*delta[node_name][interface_name].out_octets
-		assert(delta[node_name][interface_name].out_multicast_pkts==0)
+		#assert(delta[node_name][interface_name].out_multicast_pkts==0)
 		assert(delta[node_name][interface_name].out_unicast_pkts>0)
-		generated_pkts=generated_octets/frame_size
+		generated_pkts=generated_octets/(frame_size-4)
+		print generated_pkts
+		print delta[node_name][interface_name].out_unicast_pkts
 		assert(delta[node_name][interface_name].out_unicast_pkts==generated_pkts)
 
 	assert(generated_octets>0)

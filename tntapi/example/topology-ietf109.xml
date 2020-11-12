@@ -4,7 +4,7 @@
     <network>
       <network-id>ietf109</network-id>
       <node>
-        <node-id>tester-0</node-id>
+        <node-id>tester0</node-id>
         <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
           <tp-id>eth0</tp-id>
           <indicator xmlns="urn:tntapi:traffic-graphic">
@@ -54,11 +54,11 @@
       </node>
       <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
         <source>
-          <source-node>tester-0</source-node>
+          <source-node>tester0</source-node>
           <source-tp>eth0</source-tp>
         </source>
         <destination>
-          <dest-node>tester-0</dest-node>
+          <dest-node>tester0</dest-node>
           <dest-tp>eth1</dest-tp>
         </destination>
         <link-id>loopback-0</link-id>
