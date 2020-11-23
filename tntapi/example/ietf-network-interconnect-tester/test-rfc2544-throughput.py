@@ -40,13 +40,13 @@ def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, afte
 	print generated_pkts
 	generated_pkts=total_frames
 	assert(total_frames==generated_pkts)
-	assert(delta[tx_node][tx_node_port].out_unicast_pkts==generated_pkts)
+	#assert(delta[tx_node][tx_node_port].out_unicast_pkts==generated_pkts)
 
 	assert(generated_octets>0)
 	print("generated_octets="+str(generated_octets))
 
-	#sequence_errors=get_delta_counter(before,after,rx_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(rx_node_port))
-	sequence_errors=0
+	sequence_errors=get_delta_counter(before,after,rx_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(rx_node_port))
+	#sequence_errors=0
 	rx_testframe_pkts=1.0*get_delta_counter(before,after,rx_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(rx_node_port))
 	rx_in_pkts=1.0*long(after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/pkts"""%(rx_node, rx_node_port))[0].text)
 
@@ -57,7 +57,7 @@ def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, afte
  
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
-def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[], frame_data=[]):
+def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[]):
 	global args
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
@@ -89,7 +89,12 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	speed = long(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(tx_node, tx_node_port))[0].text)
 
 	total_frames = test_time*speed/((interframe_gap+frame_size)*8)
-	ok=yangcli(yconns[tx_node],"""create /interfaces/interface[name="%(name)s"]/traffic-generator -- ether-type=%(ether-type)s frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d src-mac-address=%(src-mac-address)s dst-mac-address=%(dst-mac-address)s total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s""" % {'name':tx_node_port,'frame-size':frame_size,'ether-type':0x1234, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'src-mac-address':src_mac_address, 'dst-mac-address':dst_mac_address, 'total-frames':total_frames, 'frame-data':frame_data}).xpath('./ok')
+
+	testframe = []
+	if(testframe_type != []):
+		testframe = "testframe/type=%s" % testframe_type
+	print """create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}
+	ok=yangcli(yconns[tx_node],"""create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}).xpath('./ok')
 	assert(len(ok)==1)
 
 
@@ -149,6 +154,7 @@ def main():
 	parser.add_argument('--src-mac-address', default="01:23:45:67:89:AB",help="Source MAC address.")
 	parser.add_argument('--dst-mac-address', default="01:23:45:67:89:AC",help="Destination MAC address.")
 	parser.add_argument('--frame-data', default=[],help="Hex string frame data.")
+	parser.add_argument('--testframe-type', default=[],help="Type of generated testframe.")
 	args = parser.parse_args()
 
 	tree=etree.parse(args.config)
@@ -161,7 +167,7 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
 	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	#print("Generated octets MB/s:          %8f"%(generated_pkts*float(args.frame_size)/(test_time*1024*1024))

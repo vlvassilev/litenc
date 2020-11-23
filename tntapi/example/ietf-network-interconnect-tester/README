@@ -33,7 +33,7 @@ Yes there is a problem exposed in the output.
        | tester0   TG|>-------->|    dut0    |>------->|TA  tester1 |
        |             |          |            |         |            |
        +-------------+          +------------+         +------------+
-Uasge:
+Usage:
 # set-net config-1.xml
 # python ./test-rfc2544-throughput.py --config=config-1.xml \
 --test-time=60 --frame-size=64 --interframe-gap=$((9*1024)) --tx-node=tester0 \
@@ -61,3 +61,25 @@ Latency Max[nanoseconds]:       10030374
 --src-mac-address="70:b3:d5:ec:20:00" --src-ipv4-address="192.0.2.1" \
 --src-ipv4-udp-port=49184 --dst-ipv4-address="192.0.2.2" \
 --dst-ipv4-udp-port=7`
+
+==With testframe/type==
+ # python ./test-rfc2544-throughput.py --config=../topology-ietf109.xml \
+ --test-time=5 --frame-size=1500 --interframe-gap=1000 \
+ --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
+ --rx-node-port=eth1 --testframe=testframe-ipv4-udp \
+ --frame-data=`traffic-generator-make-testframe --frame-size=1500 \
+ --dst-mac-address="70:b3:d5:ec:20:01" --src-mac-address="70:b3:d5:ec:20:00" \
+ --src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
+ --dst-ipv4-address="192.0.2.2" --dst-ipv4-udp-port=7`
+ ...
+ 5-config-tester0.xml - end
+ Transaction 5 started: 2020-11-23T02:50:41
+ Transaction 5 completed: 2020-11-23T02:50:42
+ Test time:                             5
+ Generated packets:                250000
+ Lost packets:                         79
+ Lost packets percent:           0.031600
+ Sequence errors:                       4
+ Sequence errors percent:        0.001600
+ Latency Min[nanoseconds]:          40230
+ Latency Max[nanoseconds]:        2988460
