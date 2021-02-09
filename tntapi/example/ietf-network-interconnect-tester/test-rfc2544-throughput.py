@@ -79,8 +79,9 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
 	config_idle={}
-
-	ok=yangcli(yconns[rx_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':rx_node_port}).xpath('./ok')
+	print(rx_node)
+	result=yangcli(yconns[rx_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':rx_node_port})
+	ok = result.xpath('./ok')
 	assert(len(ok)==1)
 	ok=yangcli(yconns[tx_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':tx_node_port}).xpath('./ok')
 	assert(len(ok)==1)
@@ -105,7 +106,10 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	#speed=1000000000 # 1Gb
 	speed = long(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(tx_node, tx_node_port))[0].text)
 
-	total_frames = test_time*speed/((interframe_gap+frame_size)*8)
+	if(frames_per_burst == 0):
+		total_frames = test_time*speed/((interframe_gap+frame_size)*8)
+	else:
+		total_frames = frames_per_burst*test_time*speed/(((frames_per_burst-1)*interframe_gap+frames_per_burst*frame_size+interburst_gap)*8)
 
 	testframe = ""
 	if(testframe_type != []):
@@ -164,6 +168,8 @@ def main():
 	parser.add_argument('--test-time', default="60",help="Test time for traffic generation in seconds.")
 	parser.add_argument('--frame-size', default="64",help="Frame size.")
 	parser.add_argument('--interframe-gap', default="20",help="Interframe gap.")
+	parser.add_argument('--interburst-gap', default="20",help="Interburst gap.")
+	parser.add_argument('--frames-per-burst', default="0",help="Frames per burst.")
 	parser.add_argument('--tx-node', default=[],help="Transmitting node.")
 	parser.add_argument('--tx-node-port', default=[],help="Transmitting node port.")
 	parser.add_argument('--rx-node', default=[],help="Receiving node.")
@@ -184,7 +190,7 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), interburst_gap=long(args.interburst_gap), frames_per_burst=long(args.frames_per_burst), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
 	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	print("Received  packets:              %8u"%(rx_testframe_pkts))
