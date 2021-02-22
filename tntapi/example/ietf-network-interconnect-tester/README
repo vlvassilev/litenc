@@ -62,11 +62,11 @@ Latency Max[nanoseconds]:       10030374
 --src-ipv4-udp-port=49184 --dst-ipv4-address="192.0.2.2" \
 --dst-ipv4-udp-port=7`
 
-==With testframe/type==
+==With --testframe-type=dynamic ==
  # python ./test-rfc2544-throughput.py --config=../topology-ietf109.xml \
  --test-time=5 --frame-size=1500 --interframe-gap=1000 \
  --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
- --rx-node-port=eth1 --testframe=testframe-ipv4-udp \
+ --rx-node-port=eth1 --testframe-type=dynamic \
  --frame-data=`traffic-generator-make-testframe --frame-size=1500 \
  --dst-mac-address="70:b3:d5:ec:20:01" --src-mac-address="70:b3:d5:ec:20:00" \
  --src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \

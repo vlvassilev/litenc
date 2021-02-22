@@ -113,7 +113,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 
 	testframe = ""
 	if(testframe_type != []):
-		testframe = "testframe/type=%s" % testframe_type
+		testframe = "testframe-type=%s" % testframe_type
 	print """create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}
 	ok=yangcli(yconns[tx_node],"""create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}).xpath('./ok')
 	assert(len(ok)==1)
