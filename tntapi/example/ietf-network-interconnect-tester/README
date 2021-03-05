@@ -15,7 +15,7 @@
  
 Usage:
 # set-net topology-ietf110.xml
-# python ./test-rfc2544-trial.py --config=../topology-ietf109.xml \
+# python ./test-rfc2544-trial.py --config=../topology-ietf110.xml \
  --test-time=5 --frame-size=1500 --interframe-gap=1000 \
  --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
  --rx-node-port=eth1 --testframe-type=dynamic \
