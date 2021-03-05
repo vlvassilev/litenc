@@ -9,6 +9,9 @@ The entire litenc API is composed of 4+1 functions:
 
 ** rpc - is a sequence of send and receive calls. Handy when you do not need the full control provided by send and receive.
 
+to install it on Debian 10 use
+
+python setup/py install
 
 For short example check:
 
