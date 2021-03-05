@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="800"
+   height="600"
+   id="svg3009"
+   sodipodi:docname="traffic-graphic-background-ietf110.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1020"
+     id="namedview90"
+     showgrid="false"
+     inkscape:zoom="1.5733333"
+     inkscape:cx="404.55976"
+     inkscape:cy="292.19885"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3009" />
+  <defs
+     id="defs3011">
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.4) rotate(180) translate(10,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4922" />
+    </marker>
+    <linearGradient
+       id="linearGradient4043">
+      <stop
+         id="stop4045"
+         style="stop-color:#ff0000;stop-opacity:1"
+         offset="0" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3969">
+      <stop
+         id="stop3971"
+         style="stop-color:#ff0000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3973"
+         style="stop-color:#ff0000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3957">
+      <stop
+         id="stop3959"
+         style="stop-color:#00ff00;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3961"
+         style="stop-color:#00ff00;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient5493-0"
+       xlink:href="#linearGradient3969-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+    <linearGradient
+       id="linearGradient3969-5">
+      <stop
+         id="stop3971-4"
+         style="stop-color:#ff0000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3973-3"
+         style="stop-color:#ff0000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient5491-2"
+       xlink:href="#linearGradient4043-8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+    <linearGradient
+       id="linearGradient4043-8">
+      <stop
+         id="stop4045-3"
+         style="stop-color:#ff0000;stop-opacity:1"
+         offset="0" />
+    </linearGradient>
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient4035-2"
+       xlink:href="#linearGradient3957-2"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+    <linearGradient
+       id="linearGradient3957-2">
+      <stop
+         id="stop3959-1"
+         style="stop-color:#00ff00;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop3961-3"
+         style="stop-color:#00ff00;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient6250"
+       xlink:href="#linearGradient3957"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient6252"
+       xlink:href="#linearGradient3969"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+    <radialGradient
+       cx="176.57379"
+       cy="670.83667"
+       r="157.65518"
+       fx="176.57379"
+       fy="670.83667"
+       id="radialGradient6254"
+       xlink:href="#linearGradient4043"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.37999998,0,415.91875)" />
+  </defs>
+  <metadata
+     id="metadata3014">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(44,-14)"
+     id="g5512" />
+  <g
+     transform="matrix(0.61499684,0,0,0.82665562,-170.65479,184.82492)"
+     id="g5547" />
+  <text
+     x="-151.12848"
+     y="58.592827"
+     id="text3088"
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:36px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><tspan
+       x="-151.12848"
+       y="58.592827"
+       id="tspan3090" /></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="464.36224"
+     y="327.43665"
+     id="text5198"><tspan
+       id="tspan5196"
+       x="464.36224"
+       y="341.30182" /></text>
+  <rect
+     width="199.41531"
+     height="156.94165"
+     x="-303.34653"
+     y="-608.50842"
+     transform="matrix(0,-1,-1,0,0,0)"
+     id="rect3017-5-3"
+     style="opacity:0.98999999;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.47999832;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     inkscape:connector-avoid="true" />
+  <rect
+     width="10"
+     height="50"
+     x="474.99994"
+     y="275"
+     id="rect136"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <rect
+     width="10"
+     height="50"
+     x="494.99994"
+     y="275"
+     id="rect140"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <text
+     id="text5726"
+     y="560.44995"
+     x="49.437553"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.00000191px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.00000012px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve"><tspan
+       style="stroke-width:1.00000012px"
+       y="574.31512"
+       x="49.437553"
+       id="tspan5724" /></text>
+  <g
+     id="g1142"
+     transform="translate(0,-2.4111383e-5)">
+    <g
+       transform="matrix(0.77057864,0,0,0.86681087,269.83891,172.14077)"
+       id="g5402-5">
+      <rect
+         y="321.38129"
+         x="349.53488"
+         height="20"
+         width="20"
+         id="rect5194-35"
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         id="text5202-6"
+         y="335.1973"
+         x="385.60144"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="335.1973"
+           x="385.60144"
+           id="tspan5200-2">Normal ingress traffic</tspan></text>
+    </g>
+    <g
+       transform="matrix(0.77057864,0,0,0.86681087,269.83891,170.78329)"
+       id="g5397-9">
+      <text
+         id="text5206-1"
+         y="367.44299"
+         x="385.32944"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="367.44299"
+           x="385.32944"
+           id="tspan5204-2">?</tspan></text>
+      <rect
+         y="353.62698"
+         x="349.53488"
+         height="20"
+         width="20"
+         id="rect5194-3-7"
+         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <text
+       transform="scale(0.94285804,1.0606051)"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.07647324px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.81727958px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="561.66119"
+       y="411.28552"
+       id="text5503-73"><tspan
+         style="stroke-width:0.81727958px"
+         id="tspan5501-6"
+         x="561.66119"
+         y="411.28552">Traffic indicator color map:</tspan></text>
+  </g>
+  <g
+     transform="matrix(0.77057864,0,0,0.86681087,-1.5936391,193.93581)"
+     id="g5088">
+    <g
+       id="g5402-6-1"
+       transform="translate(-13.362693,-25.671933)">
+      <rect
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect5194-2-2"
+         width="20"
+         height="20"
+         x="349.53488"
+         y="321.38129" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="385.60144"
+         y="335.1973"
+         id="text5202-9-9"><tspan
+           id="tspan5200-1-3"
+           x="385.60144"
+           y="335.1973">Unspecified traffic class</tspan></text>
+    </g>
+    <text
+       id="text5206-7-1"
+       y="340.20499"
+       x="371.96674"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="fill:#000000;fill-opacity:1"
+         y="340.20499"
+         x="371.96674"
+         id="tspan5204-0-9">Specified traffic class</tspan></text>
+    <rect
+       y="326.38898"
+       x="336.17218"
+       height="20"
+       width="20"
+       id="rect5194-3-9-4"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="323.69293"
+       y="278.97437"
+       id="text5503-7-7"><tspan
+         id="tspan5501-5-8"
+         x="323.69293"
+         y="278.97437">Flow connector color map:</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="485.38684"
+     y="159.55637"
+     id="text984"><tspan
+       id="tspan982"
+       x="485.38684"
+       y="159.55637">tester0</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="475.18393"
+     y="261.12805"
+     id="text988"><tspan
+       id="tspan986"
+       x="475.18393"
+       y="261.12805">0</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="494.99194"
+     y="261.23206"
+     id="text992"><tspan
+       id="tspan990"
+       x="494.99194"
+       y="261.23206">1</tspan></text>
+  <g
+     transform="matrix(0.77057864,0,0,0.86681087,-242.51072,193.93581)"
+     id="g5088-5">
+    <g
+       id="g5402-6-1-3"
+       transform="translate(-13.362693,-25.671933)">
+      <rect
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect5194-2-2-5"
+         width="20"
+         height="20"
+         x="349.53488"
+         y="321.38129" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="385.60144"
+         y="335.1973"
+         id="text5202-9-9-6"><tspan
+           id="tspan5200-1-3-2"
+           x="385.60144"
+           y="335.1973">Link up</tspan></text>
+    </g>
+    <text
+       id="text5206-7-1-9"
+       y="340.20499"
+       x="371.96674"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="fill:#000000;fill-opacity:1"
+         y="340.20499"
+         x="371.96674"
+         id="tspan5204-0-9-1">Link down</tspan></text>
+    <rect
+       y="326.38898"
+       x="336.17218"
+       height="20"
+       width="20"
+       id="rect5194-3-9-4-2"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#00ff00;stroke-width:0.63499999;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="323.69293"
+       y="278.97437"
+       id="text5503-7-7-7"><tspan
+         id="tspan5501-5-8-0"
+         x="323.69293"
+         y="278.97437">Port state color map:</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="447.27536"
+     y="261.19205"
+     id="text5972-9"><tspan
+       id="tspan5970-3"
+       x="447.27536"
+       y="261.19205">eth</tspan></text>
+  <rect
+     width="199.41531"
+     height="156.94165"
+     x="-303.34653"
+     y="-428.50809"
+     transform="matrix(0,-1,-1,0,0,0)"
+     id="rect3017-5-3-3"
+     style="opacity:0.98999999;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.47999832;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     inkscape:connector-avoid="true" />
+  <rect
+     width="10"
+     height="50"
+     x="294.9996"
+     y="275"
+     id="rect136-6"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <rect
+     width="10"
+     height="50"
+     x="314.9996"
+     y="275"
+     id="rect140-7"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="305.38651"
+     y="159.55637"
+     id="text984-2"><tspan
+       id="tspan982-9"
+       x="305.38651"
+       y="159.55637">dut0</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="295.18356"
+     y="261.12805"
+     id="text988-1"><tspan
+       id="tspan986-2"
+       x="295.18356"
+       y="261.12805">0</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="314.99161"
+     y="261.23206"
+     id="text992-7"><tspan
+       id="tspan990-0"
+       x="314.99161"
+       y="261.23206">1</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Courier 10 Pitch';-inkscape-font-specification:'Courier 10 Pitch';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     x="267.27499"
+     y="261.19205"
+     id="text5972-9-8"><tspan
+       id="tspan5970-3-7"
+       x="267.27499"
+       y="261.19205">eth</tspan></text>
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 304.9996,325 409.32203,380.08475 474.99994,325 v 0"
+     id="path943"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 324.9996,325 427.11864,379.44915 494.99994,325 v 0"
+     id="path945"
+     inkscape:connector-curvature="0" />
+</svg>

@@ -153,7 +153,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 
 def main():
 	print("""
-#Description: RFC2544 throughput test
+#Description: RFC2544 trial run
 #Procedure:
 #1 - Connect to network specified in the configuration.
 #2 - Generate test trial traffic with the specified parameters.

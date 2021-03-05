@@ -1,3 +1,53 @@
+==RFC2544 bandwidth test (manual search)==
+
+       +-----------------+     
+  eth0 |                 | eth1
+    +-<|TG   tester0   TA|<-+
+    |  |                 |  |
+    |  +-----------------+  |
+    |                       |
+    |  +-----------------+  |
+    |  |      dut0       |  |
+    +->|       ->        |>-+
+  eth0 |                 | eth1
+       +-----------------+
+
+ 
+Usage:
+# set-net topology-ietf110.xml
+# python ./test-rfc2544-trial.py --config=../topology-ietf109.xml \
+ --test-time=5 --frame-size=1500 --interframe-gap=1000 \
+ --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
+ --rx-node-port=eth1 --testframe-type=dynamic \
+ --frame-data=`traffic-generator-make-testframe --frame-size=1500 \
+ --dst-mac-address="70:b3:d5:ec:20:01" --src-mac-address="70:b3:d5:ec:20:00" \
+ --src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
+ --dst-ipv4-address="192.0.2.2" --dst-ipv4-udp-port=7`
+ ...
+5-config-tester0.xml - end
+Transaction 5 started: 2021-03-05T14:09:04
+Transaction 5 completed: 2021-03-05T14:09:04
+Test time:                             5
+Generated packets:                250000
+Received  packets:                249894
+Lost packets:                        106
+Lost packets percent:           0.042400
+Sequence errors:                      52
+Sequence errors percent:        0.020800
+Latency Min[nanoseconds]:          71810
+Latency Max[nanoseconds]:       29179790
+
+==With default static testframe==
+# python ./test-rfc2544-trial.py --config=../topology-ietf110.xml \
+--test-time=5 --frame-size=1500 --interframe-gap=15000 \
+--tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
+--rx-node-port=eth1 --frame-data=`traffic-generator-make-testframe \
+--frame-size=1500 --dst-mac-address="70:b3:d5:ec:20:01" \
+--src-mac-address="70:b3:d5:ec:20:00" --src-ipv4-address="192.0.2.1" \
+--src-ipv4-udp-port=49184 --dst-ipv4-address="192.0.2.2" \
+--dst-ipv4-udp-port=7`
+
+
 ==Self-test==
 Usage:
 # ./test-network-interconnect-tester.py --config=../topology.xml \
@@ -26,60 +76,4 @@ Output:
 Yes there is a problem exposed in the output.
 
 
-==RFC2544 bandwidth test (manual search)==
-                           sfp-sfpplus1  sfp-sfpplus2
-       +-------------+          +------------+         +------------+
-       |             | xe0      |            |     xe0 |            |
-       | tester0   TG|>-------->|    dut0    |>------->|TA  tester1 |
-       |             |          |            |         |            |
-       +-------------+          +------------+         +------------+
-Usage:
-# set-net config-1.xml
-# python ./test-rfc2544-throughput.py --config=config-1.xml \
---test-time=60 --frame-size=64 --interframe-gap=$((9*1024)) --tx-node=tester0 \
---tx-node-port=xe0 --rx-node=tester1 --rx-node-port=xe0 \
---src-mac-address="00:00:00:00:00:00" --dst-mac-address="00:00:00:00:00:01"
 
-...
-Transaction 5 started: 2019-11-19T02:30:26
-Transaction 5 completed: 2019-11-19T02:30:26
-Test time:                            60
-Generated packets:               8089051
-Lost packets:                     291328
-Lost packets percent:           3.601510
-Sequence errors:                   19347
-Sequence errors percent:        0.239175
-Latency Min[nanoseconds]:          12180
-Latency Max[nanoseconds]:       10030374
-
-==IETF109==
-# python ./test-rfc2544-throughput.py --config=../topology-ietf109.xml \
---test-time=5 --frame-size=1500 --interframe-gap=15000 \
---tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
---rx-node-port=eth1 --frame-data=`traffic-generator-make-testframe \
---frame-size=1500 --dst-mac-address="70:b3:d5:ec:20:01" \
---src-mac-address="70:b3:d5:ec:20:00" --src-ipv4-address="192.0.2.1" \
---src-ipv4-udp-port=49184 --dst-ipv4-address="192.0.2.2" \
---dst-ipv4-udp-port=7`
-
-==With --testframe-type=dynamic ==
- # python ./test-rfc2544-throughput.py --config=../topology-ietf109.xml \
- --test-time=5 --frame-size=1500 --interframe-gap=1000 \
- --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
- --rx-node-port=eth1 --testframe-type=dynamic \
- --frame-data=`traffic-generator-make-testframe --frame-size=1500 \
- --dst-mac-address="70:b3:d5:ec:20:01" --src-mac-address="70:b3:d5:ec:20:00" \
- --src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
- --dst-ipv4-address="192.0.2.2" --dst-ipv4-udp-port=7`
- ...
- 5-config-tester0.xml - end
- Transaction 5 started: 2020-11-23T02:50:41
- Transaction 5 completed: 2020-11-23T02:50:42
- Test time:                             5
- Generated packets:                250000
- Lost packets:                         79
- Lost packets percent:           0.031600
- Sequence errors:                       4
- Sequence errors percent:        0.001600
- Latency Min[nanoseconds]:          40230
- Latency Max[nanoseconds]:        2988460

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <networks xmlns="urn:ietf:params:xml:ns:yang:ietf-network">
+    <network>
+      <network-id>ietf110</network-id>
+      <node>
+        <node-id>tester0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth0</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>480</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth1</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>500</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>user</user>
+          <server>lightside-instruments.com</server>
+          <password>ietf110</password>
+          <ncport>10830</ncport>
+        </netconf-connect-params>
+    <netconf-node:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:netconf-node="urn:tntapi:netconf-node" xmlns:nt="urn:ietf:params:xml:ns:yang:ietf-network-topology"><interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>eth0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>eth1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+    <nacm xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-acm">
+    </nacm>
+  </netconf-node:config></node>
+      <node>
+        <node-id>dut0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth0</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>300</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth1</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>320</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>user</user>
+          <server>lightside-instruments.com</server>
+          <ncport>10832</ncport>
+          <password>ietf110</password>
+        </netconf-connect-params>
+    <netconf-node:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:netconf-node="urn:tntapi:netconf-node" xmlns:nt="urn:ietf:params:xml:ns:yang:ietf-network-topology"><bridge xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">
+      <ports>
+        <port>
+          <name>dp0</name>
+        </port>
+        <port>
+          <name>eth0</name>
+        </port>
+        <port>
+          <name>eth1</name>
+        </port>
+      </ports>
+    </bridge>
+    <flows xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge-flows">
+      <flow>
+        <id>eth0-to-eth1</id>
+        <match>
+          <in-port>eth0</in-port>
+        </match>
+        <actions>
+          <action>
+            <order>0</order>
+            <output-action>
+              <out-port>eth1</out-port>
+            </output-action>
+          </action>
+        </actions>
+      </flow>
+    </flows>
+    <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>eth0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">eth0</port-name>
+      </interface>
+      <interface>
+        <name>eth1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+        <port-name xmlns="urn:ietf:params:xml:ns:yang:ietf-network-bridge">eth1</port-name>
+      </interface>
+    </interfaces>
+    <nacm xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-acm">
+    </nacm>
+  </netconf-node:config></node>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>tester0</source-node>
+          <source-tp>eth0</source-tp>
+        </source>
+        <destination>
+          <dest-node>dut0</dest-node>
+          <dest-tp>eth0</dest-tp>
+        </destination>
+        <link-id>tester-dut</link-id>
+      </link>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>dut0</source-node>
+          <source-tp>eth1</source-tp>
+        </source>
+        <destination>
+          <dest-node>tester0</dest-node>
+          <dest-tp>eth1</dest-tp>
+        </destination>
+        <link-id>dut-tester</link-id>
+      </link>
+    </network></networks>
+</config>
