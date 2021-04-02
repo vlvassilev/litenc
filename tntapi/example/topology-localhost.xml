@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <networks xmlns="urn:ietf:params:xml:ns:yang:ietf-network">
+    <network>
+      <network-id>localhost</network-id>
+      <node>
+        <node-id>tester0</node-id>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth0</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>480</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+          <tp-id>eth1</tp-id>
+          <indicator xmlns="urn:tntapi:traffic-graphic">
+            <x>500</x>
+            <y>300</y>
+            <ingress-direction>up</ingress-direction>
+          </indicator>
+        </termination-point>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>root</user>
+          <server>localhost</server>
+          <ncport>830</ncport>
+        </netconf-connect-params>
+    <netconf-node:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:netconf-node="urn:tntapi:netconf-node" xmlns:nt="urn:ietf:params:xml:ns:yang:ietf-network-topology"><interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface>
+        <name>eth0</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+      <interface>
+        <name>eth1</name>
+        <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+      </interface>
+    </interfaces>
+    <nacm xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-acm">
+    </nacm>
+  </netconf-node:config></node>
+      <link xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
+        <source>
+          <source-node>tester0</source-node>
+          <source-tp>eth0</source-tp>
+        </source>
+        <destination>
+          <dest-node>tester0</dest-node>
+          <dest-tp>eth1</dest-tp>
+        </destination>
+        <link-id>loopback</link-id>
+      </link>
+    </network></networks>
+</config>
+
