@@ -27,44 +27,44 @@ def is_interface_test_enabled(node_id,tp_id):
 			match=True
 			break
 	return match
-def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, after, delta, my_test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap, total_frames):
+def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface, before, after, delta, my_test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap, total_frames):
 
 	global args
 
 	before=tntapi.strip_namespaces(before)
 	after=tntapi.strip_namespaces(after)
 
-	#generated_octets=1.0*delta[tx_node][tx_node_port].out_octets
+	#generated_octets=1.0*delta[src_node][src_node_interface].out_octets
 	#generated_pkts=generated_octets/(frame_size-4)
 	generated_pkts = total_frames
 	generated_octets = total_frames*frame_size
 
-	#assert(delta[tx_node][tx_node_port].out_unicast_pkts==generated_pkts)
+	#assert(delta[src_node][src_node_interface].out_unicast_pkts==generated_pkts)
 
 	#assert(generated_octets>0)
 	print("generated_octets="+str(generated_octets))
-	testframe_pkts_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(rx_node, rx_node_port))
+	testframe_pkts_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(dst_node, dst_node_interface))
 	if(len(testframe_pkts_nodes) == 1):
-		rx_testframe_pkts=1.0*get_delta_counter(before,after,rx_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(rx_node_port))
+		rx_testframe_pkts=1.0*get_delta_counter(before,after,dst_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(dst_node_interface))
 #		assert(rx_testframe_pkts>0)
 	else:
 		rx_testframe_pkts=None
 		assert(0)
 
-	sequence_errors_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(rx_node, rx_node_port))
+	sequence_errors_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(dst_node, dst_node_interface))
 	if(len(sequence_errors_nodes) == 1):
-		sequence_errors=get_delta_counter(before,after,rx_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(rx_node_port))
+		sequence_errors=get_delta_counter(before,after,dst_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/sequence-errors"""%(dst_node_interface))
 	else:
 		sequence_errors=None
 
 
-	rx_in_pkts=1.0*long(after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/pkts"""%(rx_node, rx_node_port))[0].text)
+	rx_in_pkts=1.0*long(after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/pkts"""%(dst_node, dst_node_interface))[0].text)
 
-	latency_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency"""%(rx_node, rx_node_port))
+	latency_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency"""%(dst_node, dst_node_interface))
 	if(len(latency_nodes) == 1):
-		latency_min = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/min"%(rx_node, rx_node_port))[0].text)
-		latency_max = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/max"%(rx_node, rx_node_port))[0].text)
-		#latency_average = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/average"%(rx_node, rx_node_port))[0].text)
+		latency_min = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/min"%(dst_node, dst_node_interface))[0].text)
+		latency_max = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/max"%(dst_node, dst_node_interface))[0].text)
+		#latency_average = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/average"%(dst_node, dst_node_interface))[0].text)
 		latency_average=None
 	else:
 		latency_min=None
@@ -74,21 +74,21 @@ def get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, before, afte
  
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
-def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, tx_node=[], tx_node_port=[], rx_node=[], rx_node_port=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[]):
+def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, src_node=[], src_node_interface=[], dst_node=[], dst_node_interface=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[]):
 	global args
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
 	config_idle={}
-	print(rx_node)
-	result=yangcli(yconns[rx_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':rx_node_port})
+	print(dst_node)
+	result=yangcli(yconns[dst_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':dst_node_interface})
 	ok = result.xpath('./ok')
 	assert(len(ok)==1)
-	ok=yangcli(yconns[tx_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':tx_node_port}).xpath('./ok')
+	ok=yangcli(yconns[src_node],"""replace /interfaces/interface[name='%(name)s'] -- type=ethernetCsmacd"""%{'name':src_node_interface}).xpath('./ok')
 	assert(len(ok)==1)
 
 	tntapi.network_commit(conns)
 
-	ok=yangcli(yconns[rx_node],"""create /interfaces/interface[name='%(name)s']/traffic-analyzer"""%{'name':rx_node_port}).xpath('./ok')
+	ok=yangcli(yconns[dst_node],"""create /interfaces/interface[name='%(name)s']/traffic-analyzer"""%{'name':dst_node_interface}).xpath('./ok')
 	assert(len(ok)==1)
 
 	tntapi.network_commit(conns)
@@ -104,7 +104,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	state_before = tntapi.network_get_state(network, conns, filter=filter)
 	state_before_wo_ns=tntapi.strip_namespaces(state_before)
 	#speed=1000000000 # 1Gb
-	speed = long(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(tx_node, tx_node_port))[0].text)
+	speed = long(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(src_node, src_node_interface))[0].text)
 
 	if(frames_per_burst == 0):
 		total_frames = test_time*speed/((interframe_gap+frame_size)*8)
@@ -114,8 +114,8 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	testframe = ""
 	if(testframe_type != []):
 		testframe = "testframe-type=%s" % testframe_type
-	print """create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}
-	ok=yangcli(yconns[tx_node],"""create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':tx_node_port,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}).xpath('./ok')
+	print """create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':src_node_interface,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}
+	ok=yangcli(yconns[src_node],"""create /interfaces/interface[name="%(name)s"]/traffic-generator -- frame-size=%(frame-size)d interframe-gap=%(interframe-gap)d total-frames=%(total-frames)s %(burst)s frame-data=%(frame-data)s %(testframe)s""" % {'name':src_node_interface,'frame-size':frame_size, 'interframe-gap':interframe_gap, 'burst':my_burst_config, 'total-frames':total_frames, 'frame-data':frame_data, 'testframe':testframe}).xpath('./ok')
 	assert(len(ok)==1)
 
 
@@ -126,7 +126,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	time.sleep(test_time+1)
 
 	print("Stopping generators ...")
-	ok=yangcli(yconns[tx_node],"""delete /interfaces/interface[name='%(name)s']/traffic-generator"""%{'name':tx_node_port}).xpath('./ok')
+	ok=yangcli(yconns[src_node],"""delete /interfaces/interface[name='%(name)s']/traffic-generator"""%{'name':src_node_interface}).xpath('./ok')
 	assert(len(ok)==1)
 
 	tntapi.network_commit(conns)
@@ -140,10 +140,10 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 
 	tntapi.print_state_ietf_interfaces_statistics_delta(network, state_before, state_after)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)=get_traffic_stats(rx_node, rx_node_port, tx_node, tx_node_port, state_before, state_after, delta, test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap, total_frames)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)=get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface, state_before, state_after, delta, test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap, total_frames)
 
 	print("Disabling analyzer.")
-	ok=yangcli(yconns[rx_node],"""delete /interfaces/interface[name='%(name)s']/traffic-analyzer%(analyzer-direction-suffix)s"""%{'name':rx_node_port, 'analyzer-direction-suffix':analyzer_direction_suffix}).xpath('./ok')
+	ok=yangcli(yconns[dst_node],"""delete /interfaces/interface[name='%(name)s']/traffic-analyzer%(analyzer-direction-suffix)s"""%{'name':dst_node_interface, 'analyzer-direction-suffix':analyzer_direction_suffix}).xpath('./ok')
 	assert(len(ok)==1)
 
 	tntapi.network_commit(conns)
@@ -164,16 +164,16 @@ def main():
 
 	global args
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--config", help="Path to the netconf configuration *.xml file defining the configuration according to ietf-networks, ietf-networks-topology and netconf-node models e.g. ../networks.xml")
+	parser.add_argument("--config", help="Path to the network configuration *.xml file defining the configuration according to ietf-networks, ietf-networks-topology and netconf-node models e.g. ../networks.xml")
 	parser.add_argument('--test-time', default="60",help="Test time for traffic generation in seconds.")
 	parser.add_argument('--frame-size', default="64",help="Frame size.")
 	parser.add_argument('--interframe-gap', default="20",help="Interframe gap.")
 	parser.add_argument('--interburst-gap', default="20",help="Interburst gap.")
 	parser.add_argument('--frames-per-burst', default="0",help="Frames per burst.")
-	parser.add_argument('--tx-node', default=[],help="Transmitting node.")
-	parser.add_argument('--tx-node-port', default=[],help="Transmitting node port.")
-	parser.add_argument('--rx-node', default=[],help="Receiving node.")
-	parser.add_argument('--rx-node-port', default=[],help="Receiving node port.")
+	parser.add_argument('--src-node', default=[],help="Transmitting node.")
+	parser.add_argument('--src-node-interface', default=[],help="Transmitting node interface e.g. eth0.")
+	parser.add_argument('--dst-node', default=[],help="Receiving node.")
+	parser.add_argument('--dst-node-interface', default=[],help="Receiving node interface e.g. eth0.")
 	parser.add_argument('--src-mac-address', default="01:23:45:67:89:AB",help="Source MAC address.")
 	parser.add_argument('--dst-mac-address', default="01:23:45:67:89:AC",help="Destination MAC address.")
 	parser.add_argument('--frame-data', default=[],help="Hex string frame data.")
@@ -190,7 +190,7 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), interburst_gap=long(args.interburst_gap), frames_per_burst=long(args.frames_per_burst), tx_node=args.tx_node, tx_node_port=args.tx_node_port, rx_node=args.rx_node, rx_node_port=args.rx_node_port, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), interburst_gap=long(args.interburst_gap), frames_per_burst=long(args.frames_per_burst), src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
 	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	print("Received  packets:              %8u"%(rx_testframe_pkts))
