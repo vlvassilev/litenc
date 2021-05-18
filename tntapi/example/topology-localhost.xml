@@ -23,7 +23,7 @@
         </termination-point>
         <netconf-connect-params xmlns="urn:tntapi:netconf-node">
           <user>root</user>
-          <server>localhost</server>
+          <server>127.0.0.1</server> <!--Can use hostname too e.g. localhost or myhost.com etc. -->
           <ncport>830</ncport>
         </netconf-connect-params>
     <netconf-node:config xmlns:nc="urn:ietf:params:xml:ns:netconf:base:1.0" xmlns:netconf-node="urn:tntapi:netconf-node" xmlns:nt="urn:ietf:params:xml:ns:yang:ietf-network-topology"><interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">

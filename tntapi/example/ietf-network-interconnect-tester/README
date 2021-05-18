@@ -1,4 +1,4 @@
-==RFC2544 bandwidth test (manual search)==
+==RFC2544 test==
 
        +-----------------+     
   eth0 |                 | eth1
@@ -12,13 +12,83 @@
   eth0 |                 | eth1
        +-----------------+
 
- 
+
+python ./rfc2544.py --config=../topology-localhost.xml --dst-node=tester0 \
+--dst-node-interface=eth1 --src-node=tester0 --src-node-interface=eth0 \
+--dst-mac-address="70:B3:D5:EC:20:01" --src-mac-address="70:B3:D5:EC:20:00" \
+--src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
+--dst-ipv4-address="192.0.2.2" --frame-size=64 \
+--testframe-type=dynamic | grep "^#"
+
+#=RFC2544 Benchmark - Loopback Spark-V2=
+#==Frame size 64 octets==
+#===Throughput===
+##1 1488095 pps 100.00% ... OK
+#
+#===Latency===
+#Measurement style - bit forwarding
+#Measuring at the calculated maximum throughput (see preceding Throughput section)
+#
+##1  880 ns
+##2  880 ns
+##3  880 ns
+##4  880 ns
+##5  880 ns
+##6  880 ns
+##7  880 ns
+##8  880 ns
+##9  880 ns
+##10 880 ns
+##11 880 ns
+##12 880 ns
+##13 880 ns
+##14 880 ns
+##15 880 ns
+##16 880 ns
+##17 880 ns
+##18 880 ns
+##19 880 ns
+##20 880 ns
+#
+#===Frame loss rate===
+##1 100% ... 0.00%
+##2 90%  ... 0.00%
+#
+#===Back to back frames===
+#Burst length limit is set to 1 sec 1488095 frames
+#
+##1        2 OK
+##2        4 OK
+##3        8 OK
+##4       16 OK
+##5       32 OK
+##6       64 OK
+##7      128 OK
+##8      256 OK
+##9      512 OK
+##10    1024 OK
+##11    2048 OK
+##12    4096 OK
+##13    8192 OK
+##14   16384 OK
+##15   32768 OK
+##16   65536 OK
+##17  131072 OK
+##18  262144 OK
+##19  524288 OK
+##20 1048576 OK
+##21 1488095 OK
+#
+
+
+==Custom testing using the universal trial function==
+
 Usage:
 # set-net topology-ietf110.xml
 # python ./test-rfc2544-trial.py --config=../topology-ietf110.xml \
  --test-time=5 --frame-size=1500 --interframe-gap=1000 \
- --tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
- --rx-node-port=eth1 --testframe-type=dynamic \
+ --src-node=tester0 --src-node-port=eth0 --dst-node=tester0 \
+ --dst-node-port=eth1 --testframe-type=dynamic \
  --frame-data=`traffic-generator-make-testframe --frame-size=1500 \
  --dst-mac-address="70:b3:d5:ec:20:01" --src-mac-address="70:b3:d5:ec:20:00" \
  --src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
@@ -40,8 +110,8 @@ Latency Max[nanoseconds]:       29179790
 ==With default static testframe==
 # python ./test-rfc2544-trial.py --config=../topology-ietf110.xml \
 --test-time=5 --frame-size=1500 --interframe-gap=15000 \
---tx-node=tester0 --tx-node-port=eth0 --rx-node=tester0 \
---rx-node-port=eth1 --frame-data=`traffic-generator-make-testframe \
+--src-node=tester0 --src-node-port=eth0 --dst-node=tester0 \
+--dst-node-port=eth1 --frame-data=`traffic-generator-make-testframe \
 --frame-size=1500 --dst-mac-address="70:b3:d5:ec:20:01" \
 --src-mac-address="70:b3:d5:ec:20:00" --src-ipv4-address="192.0.2.1" \
 --src-ipv4-udp-port=49184 --dst-ipv4-address="192.0.2.2" \
