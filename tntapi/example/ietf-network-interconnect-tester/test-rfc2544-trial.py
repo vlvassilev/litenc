@@ -8,7 +8,7 @@ import tntapi
 import yangrpc
 from yangcli import yangcli
 sys.path.append("../common")
-from trial import trial
+from rfc2544 import trial
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
@@ -43,7 +43,7 @@ def main():
 	parser.add_argument('--src-mac-address', default="01:23:45:67:89:AB",help="Source MAC address.")
 	parser.add_argument('--dst-mac-address', default="01:23:45:67:89:AC",help="Destination MAC address.")
 	parser.add_argument('--frame-data', default=[],help="Hex string frame data.")
-	parser.add_argument('--testframe-type', default=[],help="Type of generated testframe.")
+	parser.add_argument('--testframe-type', default="dynamic",help="Type of generated testframe.")
 	args = parser.parse_args()
 
 	tree=etree.parse(args.config)

@@ -13,72 +13,65 @@
        +-----------------+
 
 
-python ./rfc2544.py --config=../topology-localhost.xml --dst-node=tester0 \
---dst-node-interface=eth1 --src-node=tester0 --src-node-interface=eth0 \
---dst-mac-address="70:B3:D5:EC:20:01" --src-mac-address="70:B3:D5:EC:20:00" \
---src-ipv4-address="192.0.2.1" --src-ipv4-udp-port=49184 \
---dst-ipv4-address="192.0.2.2" --frame-size=64 \
---testframe-type=dynamic | grep "^#"
 
-#=RFC2544 Benchmark - Loopback Spark-V2=
-#==Frame size 64 octets==
+python ./rfc2544.py --config=../topology-localhost.xml --dst-node=tester0 --dst-node-interface=eth1 \
+--src-node=tester0 --src-node-interface=eth0 --dst-mac-address="70:B3:D5:EC:20:01" \
+--src-mac-address="70:B3:D5:EC:20:00" --dst-ipv4-address="192.0.2.2" --src-ipv4-udp-port=49184 \
+--src-ipv4-address="192.0.2.1" --frame-size=64 --trial-time=120 --speed=1000000000 | grep "^#"
+
 #===Throughput===
-##1 1488095 pps 100.00% ... OK
-#
+#1 1488095.238095 pps, 20 octets interframe gap, 100.00% ... 178571428 / 178571428
+#Result: 1488095.238095 pps
 #===Latency===
 #Measurement style - bit forwarding
-#Measuring at the calculated maximum throughput (see preceding Throughput section)
-#
-##1  880 ns
-##2  880 ns
-##3  880 ns
-##4  880 ns
-##5  880 ns
-##6  880 ns
-##7  880 ns
-##8  880 ns
-##9  880 ns
-##10 880 ns
-##11 880 ns
-##12 880 ns
-##13 880 ns
-##14 880 ns
-##15 880 ns
-##16 880 ns
-##17 880 ns
-##18 880 ns
-##19 880 ns
-##20 880 ns
-#
+#1 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#2 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#3 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#4 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#5 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#6 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#7 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#8 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#9 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#10 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#11 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#12 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#13 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#14 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#15 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#16 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#17 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#18 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#19 896 ns (min=864 ns, max=896 ns) ... 178571428 / 178571428
+#20 904 ns (min=872 ns, max=904 ns) ... 178571428 / 178571428
+#Result: 900.800000 nanoseconds
 #===Frame loss rate===
-##1 100% ... 0.00%
-##2 90%  ... 0.00%
-#
+#1 100% rate, 0% loss, (100.000000% rate actual), 1488095.238095 pps (1488095.238095 pps actual), 20 octets interframe gap ... 178571428 / 178571428
+#2 90% rate, 0% loss, (89.361702% rate actual), 1339285.714286 pps (1329787.234043 pps actual), 30 octets interframe gap ... 159574468 / 159574468
 #===Back to back frames===
-#Burst length limit is set to 1 sec 1488095 frames
-#
-##1        2 OK
-##2        4 OK
-##3        8 OK
-##4       16 OK
-##5       32 OK
-##6       64 OK
-##7      128 OK
-##8      256 OK
-##9      512 OK
-##10    1024 OK
-##11    2048 OK
-##12    4096 OK
-##13    8192 OK
-##14   16384 OK
-##15   32768 OK
-##16   65536 OK
-##17  131072 OK
-##18  262144 OK
-##19  524288 OK
-##20 1048576 OK
-##21 1488095 OK
-#
+#1 2 back-to-back frames ... 120 / 120
+#2 4 back-to-back frames ... 240 / 240
+#3 8 back-to-back frames ... 480 / 480
+#4 16 back-to-back frames ... 960 / 960
+#5 32 back-to-back frames ... 1920 / 1920
+#6 64 back-to-back frames ... 3840 / 3840
+#7 128 back-to-back frames ... 7680 / 7680
+#8 256 back-to-back frames ... 15360 / 15360
+#9 512 back-to-back frames ... 30720 / 30720
+#10 1024 back-to-back frames ... 61440 / 61440
+#11 2048 back-to-back frames ... 122880 / 122880
+#12 4096 back-to-back frames ... 245760 / 245760
+#13 8192 back-to-back frames ... 491520 / 491520
+#14 16384 back-to-back frames ... 983040 / 983040
+#15 32768 back-to-back frames ... 1966080 / 1966080
+#16 65536 back-to-back frames ... 3932160 / 3932160
+#17 131072 back-to-back frames ... 7864320 / 7864320
+#18 262144 back-to-back frames ... 15728641 / 15728641
+#19 524288 back-to-back frames ... 31457282 / 31457282
+#20 1048576 back-to-back frames ... 62914565 / 62914565
+#21 1488095 back-to-back frames ... 89285707 / 89285707
+#The back to back search is limited to bursts below 1 second.
+#Result: >= 1488095
 
 
 ==Custom testing using the universal trial function==
