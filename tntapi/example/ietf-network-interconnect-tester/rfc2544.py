@@ -133,7 +133,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	tntapi.network_commit(conns)
 
 	print("Waiting " + str(test_time) + " sec. ..." )
-	time.sleep(test_time)
+	time.sleep(test_time+1)
 
 	print("Stopping generators ...")
 	ok=yangcli(yconns[src_node],"""delete /interfaces/interface[name='%(name)s']/traffic-generator"""%{'name':src_node_interface}).xpath('./ok')
