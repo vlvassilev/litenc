@@ -9,7 +9,6 @@ import argparse
 import tntapi
 import yangrpc
 from yangcli import yangcli
-sys.path.append("../common")
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",

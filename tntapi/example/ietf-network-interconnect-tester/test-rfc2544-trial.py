@@ -7,7 +7,6 @@ import argparse
 import tntapi
 import yangrpc
 from yangcli import yangcli
-sys.path.append("../common")
 from rfc2544 import trial
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",

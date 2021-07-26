@@ -13,3 +13,29 @@ The entire litenc API is composed of 4+1 functions:
 For short example check:
 
 scripts/netconf_get - script connecting to netconf server sending <get> RPC and printing to the standard output the reply XML.
+
+Installation:
+
+ sudo apt-get -y install python python-lxml libxml2-utils python-paramiko
+ sudo python setup.py install
+ cd tntapi
+ sudo python setup.py install
+
+# In case you use yangrpc with yangcli syntax (recommended) you have to install yuma123 with client side python support yangrpc/yangcli
+ cd ~
+ git clone https://github.com/vlvassilev/yuma123.git
+ cd yuma123
+ apt-get -y install libxml2-dev libssh2-1-dev libncurses5-dev zlib1g-dev libreadline-dev libssl-dev
+ autoreconf -i -f
+ ./configure CFLAGS="-g -O0"  CXXFLAGS="-g -O0" --prefix=/usr
+ make
+ make install
+ cd netconf/python
+ apt-get -y install python-all-dev
+ autoreconf -i -f
+ ./configure CFLAGS="-g -O0"  CXXFLAGS="-g -O0" --prefix=/usr
+ make
+ make install
+ python setup.py install 
+
+Done.
