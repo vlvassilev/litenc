@@ -17,6 +17,14 @@ else:
 	PORT = 8000
 	I = ""
 
+def update():
+	os.system("mv cur.xml prev.xml")
+	os.system("get-net topology.xml cur.xml")
+	os.system("./report.py prev.xml cur.xml | tee  report.txt")
+	os.system("./report-cameras.py prev.xml cur.xml | tee  cameras.html")
+	os.system("traffic-graphic --background=traffic-graphic-background.svg --before=prev.xml --after=cur.xml --output=traffic-graphic.svg")
+	os.system("diff-net prev.xml cur.xml | tee  diff-net.txt")
+
 
 class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
@@ -31,6 +39,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 	def do_GET(self):
 		#pdb.set_trace()
+		#update()
 		SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
 	def do_POST(self):
@@ -50,11 +59,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 			open('topology.xml', 'wb').write(fileitem.file.read())
 			os.system("set-net topology.xml")
 		if(form.getvalue('cmd')=='get-net' or form.getvalue('cmd')=='set-net'):
-			os.system("mv cur.xml prev.xml")
-			os.system("get-net topology.xml cur.xml")
-			os.system("./report.py prev.xml cur.xml | tee  report.txt")
-			os.system("traffic-graphic --background=traffic-graphic-background.svg --before=prev.xml --after=cur.xml --output=traffic-graphic.svg")
-			os.system("diff-net prev.xml cur.xml | tee  diff-net.txt")
+			update()
 
 		SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
