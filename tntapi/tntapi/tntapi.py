@@ -57,14 +57,14 @@ def network_connect(network):
 			password=None
 		ncport = node.xpath('netconf-node:netconf-connect-params/netconf-node:ncport', namespaces=namespaces)[0].text
 
-		print "Connect to " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport}
+		print("Connect to " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport})
 		conns[node_id] = netconf_session_litenc(host=server,port=int(ncport),username=user,password=password,timeout=100)
 
 		if conns[node_id] == None:
-			print "FAILED connect"
+			print("FAILED connect")
 			return(None)
 		else:
-			print "OK"
+			print("OK")
 	return conns
 
 def network_connect_yangrpc(network):
@@ -85,14 +85,14 @@ def network_connect_yangrpc(network):
 			password=None
 		ncport = node.xpath('netconf-node:netconf-connect-params/netconf-node:ncport', namespaces=namespaces)[0].text
 
-		print "Connect to YANG device " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport}
+		print("Connect to YANG device " + node_id +" (server=%(server)s user=%(user)s) password=%(password)s ncport=%(ncport)s:" % {'server':server, 'user':user, 'password':password, 'ncport':ncport})
 		yconns[node_id] = yangrpc.connect(server, int(ncport), user, password, os.getenv('HOME')+"/.ssh/id_rsa.pub", os.getenv('HOME')+"/.ssh/id_rsa", "--dump-session=nc-session-")
 
 		if yconns[node_id] == None:
-			print "FAILED connect"
+			print("FAILED connect")
 			return(None)
 		else:
-			print "OK"
+			print("OK")
 	return yconns
 
 def network_get_state(network, conns, filter=""):
@@ -107,7 +107,7 @@ def network_get_state(network, conns, filter=""):
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
 	assert(len(nodes)>0)
 	file_name_prefix=str(config_transaction_counter) + "-state-" + str(state_transaction_counter)
-	print file_name_prefix
+	print(file_name_prefix)
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		my_filter=""
@@ -141,9 +141,9 @@ def network_get_state(network, conns, filter=""):
 		#f = open(file_name, "w")
 		#f.write(data_str)
 		#f.close()
-		print file_name + " - start"
-		print data_str
-		print file_name + " - end"
+		print(file_name + " - start")
+		print(data_str)
+		print(file_name + " - end")
 
 	return new_network
 
@@ -160,7 +160,7 @@ def network_get_config(network, conns, filter=""):
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
 	assert(len(nodes)>0)
 	file_name_prefix=str(config_transaction_counter) + "-config-" + str(state_transaction_counter)
-	print file_name_prefix
+	print(file_name_prefix)
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 		configs=node.xpath("netconf-node:config", namespaces=namespaces)
@@ -174,8 +174,8 @@ def network_get_config(network, conns, filter=""):
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
 
 		result = conns[node_id].receive()
-		print result.tag
-		print lxml.etree.tostring(result)
+		print(result.tag)
+		print(lxml.etree.tostring(result))
 		data = result.xpath("nc:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
 		netconf_node_config=lxml.etree.Element("{urn:tntapi:netconf-node}config", nsmap=namespaces)
@@ -188,9 +188,9 @@ def network_get_config(network, conns, filter=""):
 		#f = open(file_name, "w")
 		#f.write(data_str)
 		#f.close()
-		print file_name + " - start"
-		print data_str
-		print file_name + " - end"
+		print(file_name + " - start")
+		print(data_str)
+		print(file_name + " - end")
 
 	return new_network
 
@@ -220,7 +220,7 @@ def yangcli_ok_script(yconn, yangcli_script):
 		result = yangcli(yconn, line)
 		ok=result.xpath('./nc:ok', namespaces=namespaces)
 		if(len(ok)!=1):
-			print lxml.etree.tostring(result)
+			print(lxml.etree.tostring(result))
 			assert(0)
 
 def copy_config(conn, config):
@@ -291,13 +291,13 @@ def network_commit(conns):
 		#f = open(file_name, "w")
 		#f.write(data_str[conn_id])
 		#f.close()
-		print file_name + " - start"
+		print(file_name + " - start")
 		print(data_str[conn_id])
-		print file_name + " - end"
+		print(file_name + " - end")
 
 	config_transaction_timestamp_started=time.time()
 	timestamp_started = datetime.datetime.fromtimestamp(config_transaction_timestamp_started).strftime('%Y-%m-%dT%H:%M:%S')
-	print "Transaction " + str(config_transaction_counter) + " started: " + timestamp_started
+	print("Transaction " + str(config_transaction_counter) + " started: " + timestamp_started)
 
 	rpc="""<commit/>"""
 	for conn_id in conns:
@@ -313,7 +313,7 @@ def network_commit(conns):
 
 	config_transaction_timestamp_completed=time.time()
         timestamp_completed = datetime.datetime.fromtimestamp(config_transaction_timestamp_completed).strftime('%Y-%m-%dT%H:%M:%S')
-	print "Transaction " + str(config_transaction_counter) + " completed: " + timestamp_completed
+	print("Transaction " + str(config_transaction_counter) + " completed: " + timestamp_completed)
 
 	return
 

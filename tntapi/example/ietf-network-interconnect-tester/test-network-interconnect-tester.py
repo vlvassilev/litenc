@@ -39,8 +39,8 @@ def validate_traffic_on(node_name, interface_name, before, after, delta, my_test
 	after=tntapi.strip_namespaces(after)
 
 	speed_bits_per_sec=long(after.xpath("node[node-id='"+node_name+"']/data/interfaces-state/interface[name='"+interface_name+"']/speed")[0].text)
-	print "speed(bits/sec)="+str(speed_bits_per_sec)
-	print "speed(bytes/sec)="+str(speed_bits_per_sec/8)
+	print("speed(bits/sec)="+str(speed_bits_per_sec))
+	print("speed(bytes/sec)="+str(speed_bits_per_sec/8))
 	if (args.direction=='ingress'):
 		generated_pkts=	1.0*delta[node_name][interface_name].generated_ingress_pkts
 		generated_octets=frame_size*generated_pkts
@@ -144,7 +144,7 @@ def validate(network, conns, yconns, inks, load_percent=99, frame_size=1500, int
 			validate_traffic_off(node_id, tp_id, state_before, state_after, delta, frame_size)
 
 	load=float(load_percent)/100
-	print "ifg="+str(interframe_gap)
+	print("ifg="+str(interframe_gap))
 
         if(args.test_internal_loopback=="true"):
 		print("Enabling internal loopbacks.")

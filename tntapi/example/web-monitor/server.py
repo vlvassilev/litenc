@@ -68,8 +68,8 @@ def main():
 
 	httpd = SocketServer.TCPServer(("", PORT), Handler)
 
-	print "Starting tntapi web-monitor example ..."
-	print "Serving at: http://%(interface)s:%(port)s" % dict(interface=I or "localhost", port=PORT)
+	print("Starting tntapi web-monitor example ...")
+	print("Serving at: http://%(interface)s:%(port)s" % dict(interface=I or "localhost", port=PORT))
 	httpd.serve_forever()
 
 sys.exit(main())

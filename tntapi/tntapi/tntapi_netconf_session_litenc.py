@@ -17,9 +17,9 @@ class tntapi_netconf_session_litenc_class:
 			password_str="password="+password
 		ret = conn.connect(server=host, port=port, user=username, password=password, timeout=timeout)
 		if ret != 0:
-			print "[FAILED] Connecting to server=%(server)s:" % {'server':host}
+			print("[FAILED] Connecting to server=%(server)s:" % {'server':host})
 			assert(0)
-		print "[OK] Connecting to server=%(server)s:" % {'server':host}
+		print("[OK] Connecting to server=%(server)s:" % {'server':host})
 
 		ret = conn.send("""
 <hello>
@@ -36,7 +36,7 @@ class tntapi_netconf_session_litenc_class:
 			print("[FAILED] Receiving <hello>")
 			assert(0)
 
-		print "[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml}
+		print("[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml})
 		self.litenc_session=conn
 
 
