@@ -32,7 +32,7 @@ def print_state_ietf_interfaces_statistics_delta(network, before, after):
 	line=""
 	node_dict=dict()
 	tp_dict=dict()
-        nodes = network.xpath('nd:node',namespaces=namespaces)
+	nodes = network.xpath('nd:node',namespaces=namespaces)
 	for node in nodes:
 		node_id = node.xpath('nd:node-id', namespaces=namespaces)[0].text
 		node_dict[node_id]=1
@@ -67,4 +67,4 @@ def print_state_ietf_interfaces_statistics_delta(network, before, after):
 				if not v[0].startswith('_') and not v=='count' and not v=='index':
 					value = getattr(interface,v)
 					if(value!=None and value!=0):
-						print v + "(" + node + ","+ if_name + ")=" + str(value) + ";"
+						print( v + "(" + node + ","+ if_name + ")=" + str(value) + ";")

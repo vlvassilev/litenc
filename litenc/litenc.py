@@ -15,7 +15,7 @@ class litenc:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.settimeout(timeout)
             self.sock.connect((server, port))
-        except Exception, e:
+        except (Exception, e):
             print('*** Connect failed: ' + str(e))
             traceback.print_exc()
             return -1
@@ -29,7 +29,7 @@ class litenc:
             except paramiko.SSHException:
                 print('*** SSH negotiation failed.')
                 return -1
-        except Exception, e:
+        except (Exception, e):
             print('*** Connect failed: ' + str(e))
             traceback.print_exc()
             return -1
@@ -62,11 +62,11 @@ class litenc:
                 if n <= 0:
                     return -1
                 data = data[n:]
-        except Exception, e:
+        except (Exception, e):
             print('*** Caught exception: ' + str(e.__class__) + ': ' + str(e))
             traceback.print_exc()
             return -1
-	return 0
+        return 0
 
     def receive(self):
         while True:
@@ -92,7 +92,7 @@ class litenc:
         ret=self.send('''<rpc xmlns="urn:ietf:params:xml:ns:netconf:base:1.0" message-id="'''+str(message_id)+'''">'''+xml+"</rpc>")
         if(ret!=0):
             return (ret,[])
-	(ret,reply_xml)=self.receive()
+        (ret,reply_xml)=self.receive()
         return (ret,reply_xml)
 
     def close(self):

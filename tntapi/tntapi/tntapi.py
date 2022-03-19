@@ -101,7 +101,7 @@ def network_get_state(network, conns, filter=""):
 
 	#state_transaction_counter = state_transaction_counter + 1
 	ts=time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
+	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
 
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
 	nodes = new_network.xpath("nd:node", namespaces=namespaces)
@@ -153,7 +153,7 @@ def network_get_config(network, conns, filter=""):
 
 	#state_transaction_counter = state_transaction_counter + 1
 	ts=time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
+	st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%S')
 
 	rpc="""<get-config xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">%(filter)s<source><running/></source></get-config>"""%{'filter':filter}
 	new_network = lxml.etree.fromstring(lxml.etree.tostring(network))
@@ -312,7 +312,7 @@ def network_commit(conns):
 			assert(0)
 
 	config_transaction_timestamp_completed=time.time()
-        timestamp_completed = datetime.datetime.fromtimestamp(config_transaction_timestamp_completed).strftime('%Y-%m-%dT%H:%M:%S')
+	timestamp_completed = datetime.datetime.fromtimestamp(config_transaction_timestamp_completed).strftime('%Y-%m-%dT%H:%M:%S')
 	print("Transaction " + str(config_transaction_counter) + " completed: " + timestamp_completed)
 
 	return
