@@ -24,12 +24,12 @@ def main():
 	assert(conns != None)
 
 	for conn_id in conns:
-		print conn_id
+		print (conn_id)
 
 		inst_id="/nc:config/nd:networks/nd:network/nd:node[nd:node-id='%s']/netconf-node:config"%(conn_id)
-		print inst_id
+		print (inst_id)
 		config = orig_tree.xpath(inst_id,namespaces=namespaces)[0]
-		print lxml.etree.tostring(config)
+		print( lxml.etree.tostring(config))
 		netconf_config=lxml.etree.Element("{urn:ietf:params:xml:ns:netconf:base:1.0}config", nsmap=namespaces)
 		for child in config:
 			netconf_config.append( deepcopy(child) )

@@ -82,7 +82,7 @@ class litenc:
             except socket.timeout:
                 return (1,[])
             if data:
-                self.receive_total_data = self.receive_total_data + str(data)
+                self.receive_total_data = self.receive_total_data + data.decode('ascii')
             else:
                 return (-1,[])
 

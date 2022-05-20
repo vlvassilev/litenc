@@ -1,12 +1,12 @@
 #!/usr/bin/python
 from lxml import etree
-import litenc
+from litenc import litenc
 import time
 import datetime
 import sys, os
 import argparse
 from collections import namedtuple
-from tntapi_strip_namespaces import strip_namespaces
+from tntapi.tntapi_strip_namespaces import strip_namespaces
 
 class tntapi_netconf_session_litenc_class:
 	def __init__(self,host="localhost",port=830,username="root",password=None,timeout=100):
@@ -46,7 +46,8 @@ class tntapi_netconf_session_litenc_class:
 	def receive(self):
 		(ret, reply_xml_str)=self.litenc_session.receive()
 		assert(ret==0)
-		myetree = etree.fromstring(reply_xml_str)
+		print(reply_xml_str)
+		myetree = etree.fromstring(reply_xml_str.encode('ascii'))
 		#myetree = strip_namespaces(myetree)
 		return myetree
 

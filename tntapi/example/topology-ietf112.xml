@@ -4,6 +4,15 @@
     <network>
       <network-id>ietf112</network-id>
       <node>
+        <node-id>camera0</node-id>
+        <netconf-connect-params xmlns="urn:tntapi:netconf-node">
+          <user>pi</user>
+          <server>192.168.0.81</server>
+          <password>hadm1_123</password>
+          <ncport>830</ncport>
+        </netconf-connect-params>
+      </node>
+      <node>
         <node-id>tester0</node-id>
         <termination-point xmlns="urn:ietf:params:xml:ns:yang:ietf-network-topology">
           <tp-id>eth0</tp-id>

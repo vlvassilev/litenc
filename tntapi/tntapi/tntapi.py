@@ -7,9 +7,9 @@ import argparse
 from collections import namedtuple
 from copy import deepcopy
 #from tntapi_netconf_session_ncclient import netconf_session_ncclient
-from tntapi_netconf_session_litenc import netconf_session_litenc
-from tntapi_strip_namespaces import strip_namespaces
-from tntapi_print_state import print_state_ietf_interfaces_statistics_delta
+from tntapi.tntapi_netconf_session_litenc import netconf_session_litenc
+from tntapi.tntapi_strip_namespaces import strip_namespaces
+from tntapi.tntapi_print_state import print_state_ietf_interfaces_statistics_delta
 
 config_transaction_counter = 0
 config_transaction_timestamp_started = None
@@ -233,7 +233,7 @@ def copy_config(conn, config):
   %(config)s
  </source>
 </copy-config>
-""" % {'config':config}
+""" % {'config':config.decode('ascii')}
 	result=conn.rpc(rpc)
 	ok=result.xpath('nc:ok', namespaces=namespaces)
 	if(len(ok)!=1):
