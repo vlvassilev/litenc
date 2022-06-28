@@ -41,7 +41,7 @@ def controller_connect_yangrpc(address, ncport, user, password, pub_key, priv_ke
 	conns={}
 	return network,conns
 
-def network_connect(network):
+def network_connect(network, skip_unreachable=False):
 
 	conns={}
 	network_id = network.xpath('nd:network-id', namespaces=namespaces)
@@ -62,7 +62,10 @@ def network_connect(network):
 
 		if conns[node_id] == None:
 			print("FAILED connect")
-			return(None)
+			if(skip_unreachable):
+				continue;
+			else:
+				return(None)
 		else:
 			print("OK")
 	return conns
@@ -110,6 +113,11 @@ def network_get_state(network, conns, filter=""):
 	print(file_name_prefix)
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+
+		if(conns[node_id]==None):
+			print("Skipping over disconnected " + node_id)
+			continue
+
 		my_filter=""
 		if(filter==""):
 			my_filter_elements=node.xpath("netconf-node:netconf-get-filter/nc:filter", namespaces=namespaces)
@@ -127,6 +135,10 @@ def network_get_state(network, conns, filter=""):
 		if(len(datas)==1):
 			data=datas[0]
 			data.getparent().remove(data)
+
+		if(conns[node_id]==None):
+			continue
+
 		result = conns[node_id].receive()
 		data = result.xpath("nc:data", namespaces=namespaces)[0]
 		new_data = lxml.etree.fromstring(lxml.etree.tostring(data))
@@ -163,6 +175,8 @@ def network_get_config(network, conns, filter=""):
 	print(file_name_prefix)
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		if(conns[node_id] == None):
+			continue
 		configs=node.xpath("netconf-node:config", namespaces=namespaces)
 		assert(len(configs)<=1)
 		if(len(configs)==1):
@@ -172,6 +186,8 @@ def network_get_config(network, conns, filter=""):
 
 	for node in nodes:
 		node_id=node.xpath("nd:node-id", namespaces=namespaces)[0].text
+		if(conns[node_id] == None):
+			continue
 
 		result = conns[node_id].receive()
 		print(result.tag)

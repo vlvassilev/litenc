@@ -31,7 +31,7 @@ def main():
 
 	networks = tree.xpath('/nc:config/nd:networks',namespaces=namespaces)[0]
 	network = networks.xpath('nd:network',namespaces=namespaces)[0]
-	conns = tntapi.network_connect(network)
+	conns = tntapi.network_connect(network, skip_unreachable=(True if os.environ.get("GET_NET_SKIP_UNREACHABLE")=="1" else False))
 
 	assert(conns != None)
 

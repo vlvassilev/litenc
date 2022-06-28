@@ -9,8 +9,11 @@ from collections import namedtuple
 from tntapi.tntapi_strip_namespaces import strip_namespaces
 
 class tntapi_netconf_session_litenc_class:
-	def __init__(self,host="localhost",port=830,username="root",password=None,timeout=100):
-		conn = litenc.litenc()
+	def __init__(self):
+		return
+
+	def connect(self, host="localhost",port=830,username="root",password=None,timeout=100):
+		conn = litenc()
 		if(password==None):
 			password_str=""
 		else:
@@ -18,7 +21,7 @@ class tntapi_netconf_session_litenc_class:
 		ret = conn.connect(server=host, port=port, user=username, password=password, timeout=timeout)
 		if ret != 0:
 			print("[FAILED] Connecting to server=%(server)s:" % {'server':host})
-			assert(0)
+			return None
 		print("[OK] Connecting to server=%(server)s:" % {'server':host})
 
 		ret = conn.send("""
@@ -30,14 +33,15 @@ class tntapi_netconf_session_litenc_class:
 """)
 		if ret != 0:
 			print("[FAILED] Sending <hello>")
-			assert(0)
+			return None
 		(ret, reply_xml)=conn.receive()
 		if ret != 0:
 			print("[FAILED] Receiving <hello>")
-			assert(0)
+			return None
 
 		print("[OK] Receiving <hello> =%(reply_xml)s:" % {'reply_xml':reply_xml})
 		self.litenc_session=conn
+		return 0
 
 
 	def send(self, xml_str):
@@ -59,5 +63,9 @@ class tntapi_netconf_session_litenc_class:
 		self.litenc_session.close()
 
 def netconf_session_litenc(host="localhost",port=830,username="root",password="blah",timeout=100):
-	x=tntapi_netconf_session_litenc_class(host,port,username,password,timeout)
-	return x
+	x=tntapi_netconf_session_litenc_class()
+	res=x.connect(host,port,username,password,timeout)
+	if(res==0):
+		return x
+	else:
+		return None
