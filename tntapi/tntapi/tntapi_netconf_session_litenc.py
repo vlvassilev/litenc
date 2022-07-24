@@ -1,6 +1,5 @@
-#!/usr/bin/python
 from lxml import etree
-from litenc import litenc
+from litenc.litenc import litenc
 import time
 import datetime
 import sys, os

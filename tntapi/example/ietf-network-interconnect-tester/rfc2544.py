@@ -8,7 +8,7 @@ import subprocess
 import argparse
 import tntapi
 import yangrpc
-from yangcli import yangcli
+from yangcli.yangcli import yangcli
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
 	"nd":"urn:ietf:params:xml:ns:yang:ietf-network",
@@ -25,7 +25,7 @@ yconns=None
 frame_data=None
 
 def get_delta_counter(before,after,node_name,inst_id_xpath):
-	return long(after.xpath("node[node-id='"+node_name+"']/data/"+inst_id_xpath)[0].text) - long(before.xpath("node[node-id='"+node_name+"']/data/"+inst_id_xpath)[0].text)
+	return int(after.xpath("node[node-id='"+node_name+"']/data/"+inst_id_xpath)[0].text) - int(before.xpath("node[node-id='"+node_name+"']/data/"+inst_id_xpath)[0].text)
 
 def is_interface_test_enabled(node_id,tp_id):
 	global args
@@ -67,13 +67,13 @@ def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface
 		sequence_errors=None
 
 
-	rx_in_pkts=1.0*long(after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/pkts"""%(dst_node, dst_node_interface))[0].text)
+	rx_in_pkts=1.0*int(after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/pkts"""%(dst_node, dst_node_interface))[0].text)
 
 	latency_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency"""%(dst_node, dst_node_interface))
 	if(len(latency_nodes) == 1):
-		latency_min = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/min"%(dst_node, dst_node_interface))[0].text)
-		latency_max = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/max"%(dst_node, dst_node_interface))[0].text)
-		#latency_average = long(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/average"%(dst_node, dst_node_interface))[0].text)
+		latency_min = int(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/min"%(dst_node, dst_node_interface))[0].text)
+		latency_max = int(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/max"%(dst_node, dst_node_interface))[0].text)
+		#latency_average = int(after.xpath("node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/latency/average"%(dst_node, dst_node_interface))[0].text)
 		latency_average=None
 	else:
 		latency_min=None
@@ -113,7 +113,7 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 	state_before = tntapi.network_get_state(network, conns, filter=filter)
 	state_before_wo_ns=tntapi.strip_namespaces(state_before)
 	#speed=1000000000 # 1Gb
-	speed = long(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(src_node, src_node_interface))[0].text)
+	speed = int(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(src_node, src_node_interface))[0].text)
 
 	if(frames_per_burst == 0):
 		total_frames = int(math.floor(test_time*speed/((interframe_gap+frame_size)*8)))
@@ -197,7 +197,7 @@ def test_throughput():
 		if(ok):
 			pps_low = pps
 			interframe_gap_high = ((speed/8) - frame_size*(pps_high))/(pps_high)
-        	        interframe_gap_high = math.ceil(interframe_gap_high)
+			interframe_gap_high = math.ceil(interframe_gap_high)
 			if(abs(interframe_gap_high - interframe_gap)<=1):
 				break
 		else:
@@ -315,7 +315,7 @@ def test_back_to_back_frames():
 
 		interburst_gap = math.ceil(2*speed/8 - frames_per_burst*(interframe_gap+frame_size))
 		print ("%d %f back-to-back frames ... "%(i, frames_per_burst))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=long(args.frame_size), interframe_gap=interframe_gap, interburst_gap=interburst_gap, frames_per_burst=frames_per_burst, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=int(args.frame_size), interframe_gap=interframe_gap, interburst_gap=interburst_gap, frames_per_burst=frames_per_burst, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
 		if(rx_testframe_pkts == generated_pkts):
 			ok = True
 		else:
@@ -346,6 +346,12 @@ def test_back_to_back_frames():
 		print("#Result: >= %d"%(frames_per_burst_low))
 	else:
 		print("#Result: %d"%(frames_per_burst_low))
+
+def test_system_recovery():
+	print("#TODO")
+
+def test_reset():
+	print("#TODO")
 
 def main():
 	pass
@@ -383,7 +389,7 @@ if __name__ == "__main__":
 	assert(conns != None)
 	assert(yconns != None)
 
-	frame_data = subprocess.check_output(("traffic-generator-make-testframe --frame-size=%(frame_size)s --dst-mac-address=%(dst_mac_address)s --src-mac-address=%(src_mac_address)s --src-ipv4-address=%(src_ipv4_address)s --ipv4-ttl=%(ipv4_ttl)s --src-ipv4-udp-port=49184 --dst-ipv4-address=%(dst_ipv4_address)s --dst-ipv4-udp-port=%(dst_ipv4_udp_port)s"%{'frame_size':args.frame_size, 'dst_mac_address':args.dst_mac_address, 'src_mac_address':args.src_mac_address, 'src_ipv4_address':args.src_ipv4_address, 'ipv4_ttl':args.ipv4_ttl, 'dst_ipv4_address':args.dst_ipv4_address, 'dst_ipv4_udp_port':args.dst_ipv4_udp_port}).split(' '))
+	frame_data = subprocess.check_output(("traffic-generator-make-testframe --frame-size=%(frame_size)s --dst-mac-address=%(dst_mac_address)s --src-mac-address=%(src_mac_address)s --src-ipv4-address=%(src_ipv4_address)s --ipv4-ttl=%(ipv4_ttl)s --src-ipv4-udp-port=49184 --dst-ipv4-address=%(dst_ipv4_address)s --dst-ipv4-udp-port=%(dst_ipv4_udp_port)s"%{'frame_size':args.frame_size, 'dst_mac_address':args.dst_mac_address, 'src_mac_address':args.src_mac_address, 'src_ipv4_address':args.src_ipv4_address, 'ipv4_ttl':args.ipv4_ttl, 'dst_ipv4_address':args.dst_ipv4_address, 'dst_ipv4_udp_port':args.dst_ipv4_udp_port}).split(' ')).decode('utf-8').rstrip()
 
 	print("#===Throughput===")
 	throughput_pps = test_throughput()
@@ -393,5 +399,9 @@ if __name__ == "__main__":
 	test_frame_loss_rate()
 	print("#===Back to back frames===")
 	test_back_to_back_frames()
+	print("#===System recovery===")
+	test_system_recovery()
+	print("#===Reset===")
+	test_reset()
 
 	sys.exit(0)

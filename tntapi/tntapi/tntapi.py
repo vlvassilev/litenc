@@ -370,7 +370,7 @@ def parse_network_interface(interface_xml):
 	for v in interface_variables:
 		xml_leaf=interface_xml.xpath("statistics/"+v.replace("_", "-"))
 		if(xml_leaf!=None and len(xml_leaf)==1):
-			setattr(interface,v,long(xml_leaf[0].text))
+			setattr(interface,v,int(xml_leaf[0].text))
 		else:
 			setattr(interface,v,None)
 
