@@ -39,7 +39,7 @@ def main():
 	networks.replace(network,network_w_state_data)
 	network_w_all_data = tntapi.network_get_config(network_w_state_data, conns, filter="")
 	networks.replace(network_w_state_data,network_w_all_data)
-	of.write(lxml.etree.tostring(tree, xml_declaration=True, encoding=tree.docinfo.encoding))
+	of.write(lxml.etree.tostring(tree, xml_declaration=True, encoding=tree.docinfo.encoding).decode("utf-8"))
 	of.close()
 	return 0
 
