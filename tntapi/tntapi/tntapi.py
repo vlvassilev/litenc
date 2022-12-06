@@ -249,7 +249,7 @@ def copy_config(conn, config):
   %(config)s
  </source>
 </copy-config>
-""" % {'config':config.decode('ascii')}
+""" % {'config':config.decode('utf-8')}
 	result=conn.rpc(rpc)
 	ok=result.xpath('nc:ok', namespaces=namespaces)
 	if(len(ok)!=1):

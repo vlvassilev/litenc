@@ -50,7 +50,7 @@ class tntapi_netconf_session_litenc_class:
 		(ret, reply_xml_str)=self.litenc_session.receive()
 		assert(ret==0)
 		print(reply_xml_str)
-		myetree = etree.fromstring(reply_xml_str.encode('ascii'))
+		myetree = etree.fromstring(reply_xml_str.encode('utf-8'))
 		#myetree = strip_namespaces(myetree)
 		return myetree
 

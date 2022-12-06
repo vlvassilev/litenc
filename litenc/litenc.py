@@ -21,7 +21,7 @@ class litenc:
             return -1
 
         #self.sock.settimeout(None)
-	#paramiko.util.log_to_file("filename.log")
+        #paramiko.util.log_to_file("filename.log")
         try:
             self.t = paramiko.Transport(self.sock)
             try:
@@ -66,7 +66,7 @@ class litenc:
             print('*** Caught exception: ' + str(e.__class__) + ': ' + str(e))
             traceback.print_exc()
             return -1
-	return 0
+        return 0
 
     def receive(self):
         while True:
@@ -82,7 +82,7 @@ class litenc:
             except socket.timeout:
                 return (1,[])
             if data:
-                self.receive_total_data = self.receive_total_data + data.decode('ascii')
+                self.receive_total_data = self.receive_total_data + data.decode('utf-8')
             else:
                 return (-1,[])
 
