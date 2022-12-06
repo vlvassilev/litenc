@@ -1,10 +1,10 @@
 from distutils.core import setup
 
 setup(name='litenc',
-      version='1.3',
+      version='1.7',
       description="Lite NETCONF session framer",
       author="Vladimir Vassilev",
-      author_email="vladimir@transpacket.com",
+      author_email="vladimir@lightside-instruments.com",
       url="https://github.com/vlvassilev/litenc",
       packages=["litenc", "litenc_lxml"],
       license="Apache License 2.0",

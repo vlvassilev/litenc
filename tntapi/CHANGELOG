@@ -1,3 +1,10 @@
+tntapi (1.7) stable; urgency=medium
+
+  * Transition to python3
+  * Added skip_unreachable parameter to tntapi.network_connect
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 06 Dec 2022 14:56:42 +0100
+
 python-tntapi (1.6) UNRELEASED; urgency=medium
 
   * Added flow visualization to traffic-graphic

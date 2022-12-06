@@ -1,18 +1,22 @@
-Source: python-tntapi
+Source: tntapi
 Section: python
 Priority: optional
-Maintainer: Vladimir Vassilev <vladimir@transpacket.com>
-Build-Depends: debhelper (>= 9),
-               python
-Standards-Version: 4.0.0
-
-Package: python-tntapi
+Maintainer: Vladimir Vassilev <vladimir@lightside-instruments.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-python,
+               python3-all,
+               python3-setuptools
+Standards-Version: 4.6.1
+Homepage: https://github.com/lightside-instruments/litenc/
+Package: python3-litenc
 Architecture: all
-Pre-Depends: dpkg (>= 1.15.6~)
-Depends: python-litenc, python-yuma (>=2.11),
-         ${misc:Depends},
-         ${python:Depends}
-Recommends: ${python:Recommends}
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         python3-libxml2,
+         python3-litenc,
+         python3-yuma (>=2.13)
+Provides: ${python3:Provides},
+Recommends: ${python3:Recommends}
 Description: Python library providing simple application programming
  interface for development of transactional network tools for
- management of NETCONF enabled elements.
+ management of elements with model defined NETCONF/YANG interfaces.

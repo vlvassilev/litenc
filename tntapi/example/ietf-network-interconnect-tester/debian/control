@@ -1,0 +1,22 @@
+Source: rfc2544-benchmark
+Section: python
+Priority: optional
+Maintainer: Vladimir Vassilev <vladimir@lightside-instruments.com>
+Build-Depends: debhelper (>= 7),
+               python3
+Standards-Version: 4.6.1
+Homepage: https://github.com/lightside-instruments/litenc/
+Package: rfc2544-benchmark
+Architecture: all
+Depends: ${misc:Depends},
+         python3,
+         python3-libxml2,
+         python3-lxml,
+         python3-litenc,
+         python3-tntapi,
+         python3-yuma (>=2.13)
+Provides: ${python3:Provides},
+Recommends: ${python3:Recommends}
+Description: RFC254 benchmark implemented as python script based on the IETF
+ BMWG draft draft-ietf-bmwg-network-tester-cfg YANG models and the tntapi
+ NETCONF/YANG test automation interface

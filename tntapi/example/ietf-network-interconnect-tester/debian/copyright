@@ -1,10 +1,10 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: litenc
+Upstream-Name: rfc2544-benchmark
 Source: https://sourceforge.net/projects/netconf-io
 
 Files: *
 License: BSD-3-clause
-Copyright: (c) 2012-2016, Vladimir Vassilev <vladimir@lightside-instruments.com>
+Copyright: (c) 2022, Vladimir Vassilev <vladimir@lightside-instruments.com>
 
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without

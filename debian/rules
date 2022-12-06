@@ -1,11 +1,7 @@
 #!/usr/bin/make -f
 
-%:
-	dh $@ --buildsystem=python_distutils --with python2
+export PYBUILD_NAME=litenc
+export LC_ALL=C.UTF-8
 
-PYTHONS:=$(shell pyversions -vr)
-override_dh_auto_install:
-	set -e && for pyvers in $(PYTHONS); do \
-                python$$pyvers setup.py install --install-layout=deb \
-                        --root $(CURDIR)/debian/python-litenc ; \
-        done
+%:
+	dh $@ --with python3 --buildsystem=pybuild
