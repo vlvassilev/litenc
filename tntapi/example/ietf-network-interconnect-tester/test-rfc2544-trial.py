@@ -55,7 +55,7 @@ def main():
 	assert(conns != None)
 	assert(yconns != None)
 
-	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=long(args.frame_size), interframe_gap=long(args.interframe_gap), interburst_gap=long(args.interburst_gap), frames_per_burst=long(args.frames_per_burst), src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
+	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.test_time), frame_size=int(args.frame_size), interframe_gap=int(args.interframe_gap), interburst_gap=int(args.interburst_gap), frames_per_burst=int(args.frames_per_burst), src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=args.frame_data, testframe_type=args.testframe_type)
 	print("Test time:                      %8u"%(int(args.test_time)))
 	print("Generated packets:              %8u"%(generated_pkts))
 	print("Received  packets:              %8u"%(rx_testframe_pkts))
