@@ -1,6 +1,6 @@
-tntapi (1.7-0) UNRELEASED; urgency=medium
+tntapi (1.7-0) stable; urgency=medium
 
   * Unofficial release
-  * 
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 06 Dec 2022 14:28:01 +0100
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Wed, 07 Dec 2022 16:08:08 +0100
+

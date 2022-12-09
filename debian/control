@@ -5,17 +5,18 @@ Maintainer: Vladimir Vassilev <vladimir@lightside-instruments.com>
 Build-Depends: debhelper-compat (= 13),
                dh-python,
                python3-all,
-               python3-libxml2,
                python3-paramiko,
+               python3-lxml,
                python3-setuptools
 Standards-Version: 4.6.1
 Homepage: https://github.com/lightside-instruments/litenc/
+
 Package: python3-litenc
 Architecture: all
 Depends: ${misc:Depends},
          ${python3:Depends},
-Provides: ${python3:Provides},
-Recommends: ${python3:Recommends}
+         python3-paramiko,
+         python3-lxml
 Description: Python library for NETCONF clients
  litenc is a Python library that facilitates client-side scripting
  and application development around the NETCONF protocol.
