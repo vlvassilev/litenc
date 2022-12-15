@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='tntapi',
-      version='1.7',
+      version='1.8',
       description="Transactional Network Tools API",
       author="Vladimir Vassilev",
       author_email="vladimir@lightside-instruments.com",

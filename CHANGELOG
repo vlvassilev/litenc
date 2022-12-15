@@ -1,3 +1,9 @@
+litenc (1.8) UNRELEASED; urgency=medium
+
+  * 
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Wed, 07 Dec 2022 16:08:08 +0100
+
 litenc (1.7) stable; urgency=medium
 
   * Transition to python3

@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='litenc',
-      version='1.7',
+      version='1.8',
       description="Lite NETCONF session framer",
       author="Vladimir Vassilev",
       author_email="vladimir@lightside-instruments.com",
