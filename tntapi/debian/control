@@ -7,7 +7,7 @@ Build-Depends: debhelper-compat (= 13),
                python3-all,
                python3-litenc,
                python3-lxml,
-               python3-yuma (>=2.13),
+               python3-yuma (>=2.14),
                python3-setuptools
 Standards-Version: 4.6.1
 Homepage: https://github.com/lightside-instruments/litenc/
@@ -18,7 +18,7 @@ Depends: ${misc:Depends},
          ${python3:Depends},
          python3-litenc,
          python3-lxml,
-         python3-yuma (>=2.13)
+         python3-yuma (>=2.14)
 Provides: ${python3:Provides},
 Recommends: ${python3:Recommends}
 Description: Python library providing simple application programming

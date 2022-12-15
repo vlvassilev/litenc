@@ -15,7 +15,8 @@ Depends: ${misc:Depends},
          python3-lxml,
          python3-litenc,
          python3-tntapi,
-         python3-yuma (>=2.13)
+         python3-yuma (>=2.14),
+         traffic-generator-make-testframe
 Provides: ${python3:Provides},
 Recommends: ${python3:Recommends}
 Description: RFC254 benchmark implemented as python script based on the IETF
