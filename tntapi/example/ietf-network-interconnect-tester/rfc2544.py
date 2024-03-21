@@ -8,7 +8,7 @@ import subprocess
 import argparse
 import tntapi
 import yangrpc
-from MLRsearch import MeasurementResult
+from MLRsearch import Config, MeasurementResult, MultipleLossRatioSearch, SearchGoal
 from yangcli.yangcli import yangcli
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
@@ -189,20 +189,10 @@ def test_throughput():
 	pps_bottom = 2.0
 
 	measurer = TrialMeasurer(pps_top, speed, network, conns, yconns, frame_size=frame_size, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
-
-	pps_high = pps_top
-	pps_low = pps_bottom
-	throughput = 0
-	for _ in range(32):
-		pps = (pps_low + pps_high) / 2
-		result = measurer.measure(intended_duration=int(args.trial_time))
-		ok = result.loss_ratio <= 0
-		if(ok):
-			pps_low = pps
-			throughput = pps
-			# TODO: End early if interframe gap does not change.
-		else:
-			pps_high = pps
+	goal = SearchGoal(loss_ratio=0.0, exceed_ratio=0.0, final_trial_duration=int(args.trial_time), duration_sum=int(args.trial_time))
+	config = Config(goals=[goal], min_load=pps_bottom, max_load=pps_top, warmup_duration=None)
+	result = MultipleLossRatioSearch(config=config).search(measurer=measurer)
+	throughput = result[goal].conditional_throughput
 
 	# TODO: Should the following be for last trial of sum across all trials?
 	#print("Test time:                      %8u"%(int(args.trial_time)))
