@@ -8,6 +8,7 @@ import subprocess
 import argparse
 import tntapi
 import yangrpc
+from MLRsearch import Config, MeasurementResult, MultipleLossRatioSearch, SearchGoal
 from yangcli.yangcli import yangcli
 
 namespaces={"nc":"urn:ietf:params:xml:ns:netconf:base:1.0",
@@ -36,6 +37,7 @@ def is_interface_test_enabled(node_id,tp_id):
 			match=True
 			break
 	return match
+
 def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface, before, after, delta, my_test_time, frame_size, interframe_gap, frames_per_burst, interburst_gap, total_frames):
 
 	global args
@@ -80,7 +82,6 @@ def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface
 		latency_max=None
 		latency_average=None
 
- 
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
 def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, src_node=[], src_node_interface=[], dst_node=[], dst_node_interface=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[]):
@@ -160,6 +161,19 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 
 	return 	(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
+class TrialMeasurer:
+	def __init__(self, pps_top, speed, network, conns, yconns, frame_size, src_node, src_node_interface, dst_node, dst_node_interface, src_mac_address, dst_mac_address, frame_data, testframe_type):
+		self.pps_top, self.speed, self.network, self.conns, self.yconns, self.frame_size, self.src_node, self.src_node_interface, self.dst_node, self.dst_node_interface, self.src_mac_address, self.dst_mac_address, self.frame_data, self.testframe_type = pps_top, speed, network, conns, yconns, frame_size, src_node, src_node_interface, dst_node, dst_node_interface, src_mac_address, dst_mac_address, frame_data, testframe_type
+		self.i = 0
+	def measure(intended_duration, intended_load):
+		self.i += 1
+		interframe_gap = ((speed/8) - frame_size*(intended_load))/(intended_load)
+		interframe_gap = math.ceil(interframe_gap)
+		print ("%d %f pps, %d octets interframe gap ... "%(self.i, intended_load, interframe_gap))
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(self.network, self.conns, self.yconns, test_time=intended_duration, frame_size=self.frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=self.src_node, src_node_interface=self.src_node_interface, dst_node=self.dst_node, dst_node_interface=self.dst_node_interface, src_mac_address=self.src_mac_address, dst_mac_address=self.dst_mac_address, frame_data=self.frame_data, testframe_type=self.testframe_type)
+		print ("#%d %f pps, %d octets interframe gap, %02.2f%% ... %d / %d"%(self.i, intended_load, interframe_gap, 100.0*intended_load/self.pps_top, rx_testframe_pkts, generated_pkts))
+		return MeasurementResult(intended_duration, intended_load, generated_pkts, None, rx_testframe_pkts)
+
 def test_throughput():
 
 	global args
@@ -168,64 +182,39 @@ def test_throughput():
 	global yconns
 	global frame_data
 
-
 	speed = int(args.speed)
 	frame_size = int(args.frame_size)
 	interframe_gap_min = int(args.interframe_gap_min)
-
 	pps_top = (float)(speed/8)/(interframe_gap_min+frame_size)
-	pps_bottom = 1.0
-	pps_high = pps_top
-	pps_low = pps_bottom
-	pps = pps_high
+	pps_bottom = 2.0
 
-	i=1
-	while(i<32):
-		interframe_gap = ((speed/8) - frame_size*(pps))/(pps)
-		interframe_gap = math.ceil(interframe_gap)
+	measurer = TrialMeasurer(pps_top, speed, network, conns, yconns, frame_size=frame_size, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+	goal = SearchGoal(loss_ratio=0.0, exceed_ratio=0.0, final_trial_duration=int(args.trial_time), duration_sum=int(args.trial_time))
+	config = Config(goals=[goal], min_load=pps_bottom, max_load=pps_top, warmup_duration=None)
+	result = MultipleLossRatioSearch(config=config).search(measurer=measurer)
+	throughput = result[goal].conditional_throughput
 
-		pps = (float)(speed/8) / (frame_size+interframe_gap)
-		print ("%d %f pps, %d octets interframe gap ... "%(i, pps, interframe_gap))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
-		if(rx_testframe_pkts == generated_pkts):
-			ok = True
-		else:
-			ok = False
+	# TODO: Should the following be for last trial of sum across all trials?
+	#print("Test time:                      %8u"%(int(args.trial_time)))
+	#print("Generated packets:              %8u"%(generated_pkts))
+	#print("Received  packets:              %8u"%(rx_testframe_pkts))
+	##print("Generated octets MB/s:          %8f"%(generated_pkts*float(args.frame_size)/(int(args.trial_time)*1024*1024))
+	#print("Lost packets:                   %8u"%(generated_pkts-rx_testframe_pkts))
+	#print("Lost packets percent:           %2.6f"%(100*float(generated_pkts-rx_testframe_pkts)/generated_pkts))
 
-		print ("#%d %f pps, %d octets interframe gap, %02.2f%% ... %d / %d"%(i, pps, interframe_gap, 100.0*pps/pps_top, rx_testframe_pkts, generated_pkts))
+	# TODO: Subclass MeasurementResult so the following can be returned:
+	#if(sequence_errors != None):
+	#	print("Sequence errors:                %8u"%(sequence_errors))
+	#	print("Sequence errors percent:        %2.6f"%(100*float(sequence_errors)/generated_pkts))
+	#if(latency_min != None and rx_testframe_pkts>0):
+	#	print("Latency Min[nanoseconds]:       %8u"%(latency_min))
+	#	print("Latency Max[nanoseconds]:       %8u"%(latency_max))
+	#else:
+	#	print("Latency Min[nanoseconds]:       NA")
+	#	print("Latency Max[nanoseconds]:       NA")
 
-		if(ok):
-			pps_low = pps
-			interframe_gap_high = ((speed/8) - frame_size*(pps_high))/(pps_high)
-			interframe_gap_high = math.ceil(interframe_gap_high)
-			if(abs(interframe_gap_high - interframe_gap)<=1):
-				break
-		else:
-			pps_high = pps
-
-		pps = pps_low + (pps_high-pps_low)/2
-
-		i = i + 1
-		
-
-	print("Test time:                      %8u"%(int(args.trial_time)))
-	print("Generated packets:              %8u"%(generated_pkts))
-	print("Received  packets:              %8u"%(rx_testframe_pkts))
-	#print("Generated octets MB/s:          %8f"%(generated_pkts*float(args.frame_size)/(int(args.trial_time)*1024*1024))
-	print("Lost packets:                   %8u"%(generated_pkts-rx_testframe_pkts))
-	print("Lost packets percent:           %2.6f"%(100*float(generated_pkts-rx_testframe_pkts)/generated_pkts))
-	if(sequence_errors != None):
-		print("Sequence errors:                %8u"%(sequence_errors))
-		print("Sequence errors percent:        %2.6f"%(100*float(sequence_errors)/generated_pkts))
-	if(latency_min != None and rx_testframe_pkts>0):
-		print("Latency Min[nanoseconds]:       %8u"%(latency_min))
-		print("Latency Max[nanoseconds]:       %8u"%(latency_max))
-	else:
-		print("Latency Min[nanoseconds]:       NA")
-		print("Latency Max[nanoseconds]:       NA")
-
-	print("#Result: %f pps"%(pps))
-	return pps
+	print("#Result: %f pps"%(throughput))
+	return throughput
 
 def test_latency(throughput_pps_max):
 	global args
