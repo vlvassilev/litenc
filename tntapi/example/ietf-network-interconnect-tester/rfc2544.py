@@ -52,9 +52,9 @@ def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface
 
 	#assert(generated_octets>0)
 	print("generated_octets="+str(generated_octets))
-	testframe_pkts_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(dst_node, dst_node_interface))
+	testframe_pkts_nodes = after.xpath("""node[node-id='%s']/data/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/pkts"""%(dst_node, dst_node_interface))
 	if(len(testframe_pkts_nodes) == 1):
-		rx_testframe_pkts=1.0*get_delta_counter(before,after,dst_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/testframe-pkts"""%(dst_node_interface))
+		rx_testframe_pkts=1.0*get_delta_counter(before,after,dst_node,"""/interfaces/interface[name='%s']/traffic-analyzer/state/testframe-stats/pkts"""%(dst_node_interface))
 #		assert(rx_testframe_pkts>0)
 	else:
 		rx_testframe_pkts=None
@@ -83,7 +83,7 @@ def get_traffic_stats(dst_node, dst_node_interface, src_node, src_node_interface
  
 	return (rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average)
 
-def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, src_node=[], src_node_interface=[], dst_node=[], dst_node_interface=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[]):
+def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=20, interburst_gap=0, frames_per_burst=0, src_node=[], src_node_interface=[], dst_node=[], dst_node_interface=[], src_mac_address=[], dst_mac_address=[], frame_data=[], testframe_type=[], speed=[]):
 	global args
 	filter ="" #"""<filter type="xpath" select="/*[local-name()='interfaces-state' or local-name()='interfaces']/interface/*[local-name()='traffic-analyzer' or local-name()='oper-status' or local-name()='statistics' or local-name()='speed']"/>"""
 
@@ -112,8 +112,10 @@ def trial(network, conns, yconns, test_time=60, frame_size=1500, interframe_gap=
 
 	state_before = tntapi.network_get_state(network, conns, filter=filter)
 	state_before_wo_ns=tntapi.strip_namespaces(state_before)
-	#speed=1000000000 # 1Gb
-	speed = int(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(src_node, src_node_interface))[0].text)
+
+	if(speed == []):
+		#speed=1000000000 # 1Gb
+		speed = int(state_before_wo_ns.xpath("node[node-id='%s']/data/interfaces-state/interface[name='%s']/speed"%(src_node, src_node_interface))[0].text)
 
 	if(frames_per_burst == 0):
 		total_frames = int(math.floor(test_time*speed/((interframe_gap+frame_size)*8)))
@@ -186,7 +188,7 @@ def test_throughput():
 
 		pps = (float)(speed/8) / (frame_size+interframe_gap)
 		print ("%d %f pps, %d octets interframe gap ... "%(i, pps, interframe_gap))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type, speed=int(args.speed))
 		if(rx_testframe_pkts == generated_pkts):
 			ok = True
 		else:
@@ -244,7 +246,7 @@ def test_latency(throughput_pps_max):
 	i=1
 	while(i<=20):
 		print ("%d, %f pps, %d octets interframe gap ... "%(i, throughput_pps_max, interframe_gap))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type, speed=int(args.speed))
 		if(rx_testframe_pkts == generated_pkts):
 			ok = True
 		else:
@@ -280,7 +282,7 @@ def test_frame_loss_rate():
 
 		actual_pps = (float)(speed/8) / (frame_size+interframe_gap)
 		print ("%d %f pps, %d octets interframe gap ... "%(i, pps, interframe_gap))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=frame_size, interframe_gap=interframe_gap, interburst_gap=0, frames_per_burst=0, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type, speed=int(args.speed))
 
 		print ("#%d %d%% rate, %d%% loss, (%f%% rate actual), %f pps (%f pps actual), %d octets interframe gap ... %d / %d"%(i+1, ratio*100, 100*(generated_pkts-rx_testframe_pkts)/generated_pkts, ratio*100*actual_pps/pps, pps, actual_pps, interframe_gap, rx_testframe_pkts, generated_pkts))
 		if(rx_testframe_pkts == generated_pkts):
@@ -315,7 +317,7 @@ def test_back_to_back_frames():
 
 		interburst_gap = math.ceil(2*speed/8 - frames_per_burst*(interframe_gap+frame_size))
 		print ("%d %f back-to-back frames ... "%(i, frames_per_burst))
-		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=int(args.frame_size), interframe_gap=interframe_gap, interburst_gap=interburst_gap, frames_per_burst=frames_per_burst, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type)
+		(rx_in_pkts, rx_testframe_pkts, generated_pkts, sequence_errors, latency_min, latency_max, latency_average) = trial(network, conns, yconns, test_time=int(args.trial_time), frame_size=int(args.frame_size), interframe_gap=interframe_gap, interburst_gap=interburst_gap, frames_per_burst=frames_per_burst, src_node=args.src_node, src_node_interface=args.src_node_interface, dst_node=args.dst_node, dst_node_interface=args.dst_node_interface, src_mac_address=args.src_mac_address, dst_mac_address=args.dst_mac_address, frame_data=frame_data, testframe_type=args.testframe_type, speed=int(args.speed))
 		if(rx_testframe_pkts == generated_pkts):
 			ok = True
 		else:
